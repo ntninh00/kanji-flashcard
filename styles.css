@@ -12,6 +12,7 @@ body {
     gap: 30px;
     padding-top: 50px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    text-transform: lowercase;
 }
 
 h1 {
@@ -27,12 +28,14 @@ h2 {
     font-size: 1.5rem;
     font-weight: 400;
     color: #000000;
+    text-transform: lowercase;
 }
 
 h3 {
     font-size: 1rem;
     font-weight: 400;
     color: #000000;
+    text-transform: uppercase;
 }
 
 .container {
@@ -50,7 +53,7 @@ h3 {
 }
 
 .kanji-card {
-    background-color: #f9f9f9;
+    background-color: #d8d8d8;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -67,6 +70,7 @@ h3 {
     color: #000000;
     font-size: 1rem;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-transform: lowercase;
 }
 
 #options button:hover {
@@ -94,6 +98,7 @@ h3 {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-transform: lowercase;
 }
 
 #next:hover {
@@ -118,6 +123,7 @@ h3 {
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     width: 100%;
     text-align: left;
+    text-transform: lowercase;
 }
 
 .spoiler-button:hover {
@@ -131,6 +137,10 @@ h3 {
     overflow: hidden;
     transition: max-height 0.5s ease-out;
     margin-top: 10px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
 }
 
 .spoiler.open .spoiler-content {
@@ -141,8 +151,11 @@ h3 {
     margin-top: 20px;
 }
 
-textarea, input[type="text"] {
-    width: 100%;
+/* Fix for input and textarea width */
+#custom-kanji-set input[type="text"],
+#custom-kanji-set textarea,
+#predefined-kanji-sets select {
+    width: calc(100% - 20px); /* Adjust for padding */
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 8px;
@@ -151,47 +164,64 @@ textarea, input[type="text"] {
     color: #000000;
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
+    text-transform: lowercase;
 }
 
-textarea:focus, input[type="text"]:focus {
+#custom-kanji-set textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Minimum height */
+}
+
+#custom-kanji-set input[type="text"]:focus,
+#custom-kanji-set textarea:focus,
+#predefined-kanji-sets select:focus {
     outline: none;
     border-color: #000000;
 }
 
-button {
-    padding: 10px 20px;
+/* Improved Dropdown Styling */
+#predefined-kanji-sets select {
+    appearance: none; /* Remove default arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px; /* Space for the arrow */
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#predefined-kanji-sets select:hover {
+    border-color: #555555;
+}
+
+#predefined-kanji-sets select:focus {
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved Button Styling */
+#submit-predefined, #submit-custom {
+    width: 100%;
+    margin-top: 10px;
     background-color: transparent;
     color: #000000;
     border: 2px solid #000000;
-    border-radius: 50px;
+    border-radius: 8px;
+    padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-transform: lowercase;
 }
 
-button:hover {
+#submit-predefined:hover, #submit-custom:hover {
     background-color: #000000;
     color: #ffffff;
     transform: translateY(-2px);
 }
 
-#saved-sets-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-#saved-sets-list li {
-    margin-bottom: 10px;
-    cursor: pointer;
-    color: #000000;
-    text-decoration: underline;
-}
-
-#saved-sets-list li:hover {
-    color: #555555;
-}
-
-/* Progress Bar */
+/* Old Progress Bar */
 .progress-bar-container {
     width: 100%;
     background-color: #e0e0e0;
@@ -239,12 +269,12 @@ button:hover {
 
 /* Dark Mode */
 body.dark-mode {
-    background-color: #000000;
+    background-color: #1e1e1e;
     color: #ffffff;
 }
 
 body.dark-mode .container {
-    background-color: #000000;
+    background-color: #2e2e2e;
     color: #ffffff;
 }
 
@@ -254,6 +284,7 @@ body.dark-mode h3,
 body.dark-mode #reading-meaning p,
 body.dark-mode #saved-sets-list li {
     color: #ffffff;
+    text-transform: uppercase;
 }
 
 body.dark-mode #options button,
@@ -261,9 +292,11 @@ body.dark-mode #next,
 body.dark-mode .spoiler-button,
 body.dark-mode button,
 body.dark-mode textarea,
-body.dark-mode input[type="text"] {
+body.dark-mode input[type="text"],
+body.dark-mode select {
     border-color: #ffffff;
     color: #ffffff;
+    text-transform: lowercase;
 }
 
 body.dark-mode #options button:hover,
@@ -275,12 +308,18 @@ body.dark-mode button:hover {
 }
 
 body.dark-mode textarea:focus,
-body.dark-mode input[type="text"]:focus {
+body.dark-mode input[type="text"]:focus,
+body.dark-mode select:focus {
     border-color: #ffffff;
 }
 
 body.dark-mode .kanji-card {
-    background-color: #1e1e1e;
+    background-color: #3c3c3c;
+}
+
+body.dark-mode .spoiler-content {
+    background-color: #3c3c3c;
+    border-color: #555555;
 }
 
 body.dark-mode .progress-bar-container {

@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rememberedCountDisplay.textContent = rememberedList.length;
     }
 
+    // Get the next Kanji to display
     function getNextKanji() {
         if (noIdeaList.length > 0) {
             currentKanji = noIdeaList.shift();
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return currentKanji;
     }
 
+    // Display the next Kanji
     function displayKanji() {
         const kanji = getNextKanji();
         if (kanji) {
@@ -81,115 +83,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Show the reading and meaning of the current Kanji
     function showReadingAndMeaning() {
         readingDisplay.textContent = currentKanji.reading;
         meaningDisplay.textContent = currentKanji.meaning;
         readingMeaningDiv.style.display = 'block';
     }
 
-    function loadSet(set) {
-        kanjiList = set.kanjiList;
-        noIdeaList = set.noIdeaList;
-        seenButNoIdeaList = set.seenButNoIdeaList;
-        rememberedList = set.rememberedList;
-        currentSetTitle = set.title;
-        setTitleDisplay.textContent = currentSetTitle;
-        saveData();
-        displayKanji();
+    // Save data to local storage
+    function saveData() {
+        localStorage.setItem('kanjiList', JSON.stringify(kanjiList));
+        localStorage.setItem('noIdeaList', JSON.stringify(noIdeaList));
+        localStorage.setItem('seenButNoIdeaList', JSON.stringify(seenButNoIdeaList));
+        localStorage.setItem('rememberedList', JSON.stringify(rememberedList));
+        localStorage.setItem('currentSetTitle', currentSetTitle);
+        localStorage.setItem('savedSets', JSON.stringify(savedSets));
+        updateProgress();
     }
 
-    function renderSavedSets() {
-        savedSetsList.innerHTML = '';
-        for (const [name, set] of Object.entries(savedSets)) {
-            const li = document.createElement('li');
-            li.textContent = name;
-            li.addEventListener('click', () => loadSet(set));
-            savedSetsList.appendChild(li);
-        }
-    }
-
-    // Spoiler functionality
-    spoilerButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const spoiler = button.parentElement;
-            spoiler.classList.toggle('open');
-        });
-    });
-
-    function getNextKanji() {
-        if (noIdeaList.length > 0) {
-            currentKanji = noIdeaList.shift();
-        } else if (seenButNoIdeaList.length > 0) {
-            currentKanji = seenButNoIdeaList.shift();
-        } else if (rememberedList.length > 0) {
-            currentKanji = rememberedList.shift();
-        } else {
-            currentKanji = null;
-        }
-        return currentKanji;
-    }
-
-    function displayKanji() {
-        const kanji = getNextKanji();
-        if (kanji) {
-            kanjiDisplay.textContent = kanji.kanji;
-            readingMeaningDiv.style.display = 'none';
-        } else {
-            kanjiDisplay.textContent = 'No more kanji to review!';
-            readingMeaningDiv.style.display = 'none';
-        }
-    }
-
-    function showReadingAndMeaning() {
-        readingDisplay.textContent = currentKanji.reading;
-        meaningDisplay.textContent = currentKanji.meaning;
-        readingMeaningDiv.style.display = 'block';
-    }
-
-    function loadSet(set) {
-        kanjiList = set.kanjiList;
-        noIdeaList = set.noIdeaList;
-        seenButNoIdeaList = set.seenButNoIdeaList;
-        rememberedList = set.rememberedList;
-        currentSetTitle = set.title;
-        setTitleDisplay.textContent = currentSetTitle;
-        saveData();
-        displayKanji();
-    }
-
-    function renderSavedSets() {
-        savedSetsList.innerHTML = '';
-        for (const [name, set] of Object.entries(savedSets)) {
-            const li = document.createElement('li');
-            li.textContent = name;
-            li.addEventListener('click', () => loadSet(set));
-            savedSetsList.appendChild(li);
-        }
-    }
-
+    // Handle "No Idea" button click
     noIdeaButton.addEventListener('click', () => {
         noIdeaList.push(currentKanji);
         showReadingAndMeaning();
         saveData();
     });
 
+    // Handle "Seen but No Idea" button click
     seenButNoIdeaButton.addEventListener('click', () => {
         seenButNoIdeaList.push(currentKanji);
         showReadingAndMeaning();
         saveData();
     });
 
+    // Handle "Remembered" button click
     rememberedButton.addEventListener('click', () => {
         rememberedList.push(currentKanji);
         showReadingAndMeaning();
         saveData();
     });
 
+    // Handle "Next" button click
     nextButton.addEventListener('click', () => {
         saveData();
         displayKanji();
     });
 
+    // Handle custom set submission
     submitCustomButton.addEventListener('click', () => {
         const setName = setTitleInput.value.trim();
         if (!setName) {
@@ -226,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSavedSets();
     });
 
+    // Handle pre-defined set submission
     submitPredefinedButton.addEventListener('click', () => {
         const selectedSet = kanjiSetSelect.value;
         if (selectedSet && predefinedSets[selectedSet]) {
@@ -248,6 +188,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
             loadSet(newSet);
         }
+    });
+
+    // Load a set into the system
+    function loadSet(set) {
+        kanjiList = set.kanjiList;
+        noIdeaList = set.noIdeaList || [...set.kanjiList]; // Default to all Kanji in "No Idea" if not set
+        seenButNoIdeaList = set.seenButNoIdeaList || [];
+        rememberedList = set.rememberedList || [];
+        currentSetTitle = set.title;
+        setTitleDisplay.textContent = currentSetTitle;
+        saveData();
+        displayKanji();
+    }
+
+    // Render saved sets
+    function renderSavedSets() {
+        savedSetsList.innerHTML = '';
+        for (const [name, set] of Object.entries(savedSets)) {
+            const li = document.createElement('li');
+            li.textContent = name;
+            li.addEventListener('click', () => {
+                // Save the current progress before loading the new set
+                savedSets[currentSetTitle] = {
+                    title: currentSetTitle,
+                    kanjiList: kanjiList,
+                    noIdeaList: noIdeaList,
+                    seenButNoIdeaList: seenButNoIdeaList,
+                    rememberedList: rememberedList
+                };
+                localStorage.setItem('savedSets', JSON.stringify(savedSets));
+                loadSet(set);
+            });
+            savedSetsList.appendChild(li);
+        }
+    }
+
+    // Spoiler functionality
+    spoilerButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const spoiler = button.parentElement;
+            spoiler.classList.toggle('open');
+        });
     });
 
     // Pre-defined Kanji sets
@@ -380,5 +362,3 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSavedSets();
     displayKanji();
 });
-
-
