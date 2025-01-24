@@ -30,20 +30,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSetTitle = 'None';
     let savedSets = {};
 
-    // Load data from local storage
-    if (localStorage.getItem('kanjiList')) {
-        kanjiList = JSON.parse(localStorage.getItem('kanjiList'));
-        noIdeaList = JSON.parse(localStorage.getItem('noIdeaList')) || [];
-        seenButNoIdeaList = JSON.parse(localStorage.getItem('seenButNoIdeaList')) || [];
-        rememberedList = JSON.parse(localStorage.getItem('rememberedList')) || [];
-        currentSetTitle = localStorage.getItem('currentSetTitle') || 'None';
-        savedSets = JSON.parse(localStorage.getItem('savedSets')) || {};
+    // Function to disable the buttons
+    function disableButtons() {
+        noIdeaButton.disabled = true;
+        seenButNoIdeaButton.disabled = true;
+        rememberedButton.disabled = true;
+        console.log('Buttons disabled'); // Debugging
     }
 
-    // Dark Mode Toggle
-    darkModeToggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode');
-    });
+    // Function to enable the buttons
+    function enableButtons() {
+        noIdeaButton.disabled = false;
+        seenButNoIdeaButton.disabled = false;
+        rememberedButton.disabled = false;
+        console.log('Buttons enabled'); // Debugging
+    }
+
+    // Show the reading and meaning of the current Kanji
+    function showReadingAndMeaning() {
+        if (!currentKanji) {
+            console.log('No current kanji to show details for.'); // Debugging
+            return;
+        }
+        readingDisplay.textContent = currentKanji.reading;
+        meaningDisplay.textContent = currentKanji.meaning;
+        readingMeaningDiv.style.display = 'block';
+    }
+
+    // Hide the reading and meaning
+    function hideReadingAndMeaning() {
+        readingMeaningDiv.style.display = 'none';
+    }
 
     // Update Progress Bar
     function updateProgress() {
@@ -76,10 +93,92 @@ document.addEventListener('DOMContentLoaded', () => {
         const kanji = getNextKanji();
         if (kanji) {
             kanjiDisplay.textContent = kanji.kanji;
-            readingMeaningDiv.style.display = 'none';
+            hideReadingAndMeaning(); // Hide details for the next Kanji
         } else {
             kanjiDisplay.textContent = 'No more kanji to review!';
-            readingMeaningDiv.style.display = 'none';
+            hideReadingAndMeaning();
+        }
+    }
+
+    // Save data to local storage
+    function saveData() {
+        localStorage.setItem('kanjiList', JSON.stringify(kanjiList));
+        localStorage.setItem('noIdeaList', JSON.stringify(noIdeaList));
+        localStorage.setItem('seenButNoIdeaList', JSON.stringify(seenButNoIdeaList));
+        localStorage.setItem('rememberedList', JSON.stringify(rememberedList));
+        localStorage.setItem('currentSetTitle', currentSetTitle);
+        localStorage.setItem('savedSets', JSON.stringify(savedSets));
+        updateProgress();
+    }
+
+    // Handle "No Idea" button click
+    noIdeaButton.addEventListener('click', () => {
+        if (!currentKanji) {
+            console.log('No current kanji to add to No Idea list.'); // Debugging
+            return;
+        }
+        noIdeaList.push(currentKanji);
+        disableButtons(); // Disable buttons immediately
+        showReadingAndMeaning();
+        saveData();
+    });
+
+    // Handle "Seen but No Idea" button click
+    seenButNoIdeaButton.addEventListener('click', () => {
+        if (!currentKanji) {
+            console.log('No current kanji to add to Seen but No Idea list.'); // Debugging
+            return;
+        }
+        seenButNoIdeaList.push(currentKanji);
+        disableButtons(); // Disable buttons immediately
+        showReadingAndMeaning();
+        saveData();
+    });
+
+    // Handle "Remembered" button click
+    rememberedButton.addEventListener('click', () => {
+        if (!currentKanji) {
+            console.log('No current kanji to add to Remembered list.'); // Debugging
+            return;
+        }
+        rememberedList.push(currentKanji);
+        disableButtons(); // Disable buttons immediately
+        showReadingAndMeaning();
+        saveData();
+    });
+
+    // Handle "Next" button click
+    nextButton.addEventListener('click', () => {
+        enableButtons(); // Enable buttons immediately
+        hideReadingAndMeaning();
+        saveData();
+        displayKanji();
+    });
+
+    // Load data from local storage
+    if (localStorage.getItem('kanjiList')) {
+        kanjiList = JSON.parse(localStorage.getItem('kanjiList'));
+        noIdeaList = JSON.parse(localStorage.getItem('noIdeaList')) || [];
+        seenButNoIdeaList = JSON.parse(localStorage.getItem('seenButNoIdeaList')) || [];
+        rememberedList = JSON.parse(localStorage.getItem('rememberedList')) || [];
+        currentSetTitle = localStorage.getItem('currentSetTitle') || 'None';
+        savedSets = JSON.parse(localStorage.getItem('savedSets')) || {};
+    }
+
+    // Dark Mode Toggle
+    darkModeToggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+
+    // Display the next Kanji
+    function displayKanji() {
+        const kanji = getNextKanji();
+        if (kanji) {
+            kanjiDisplay.textContent = kanji.kanji;
+            hideReadingAndMeaning(); // Ensure buttons are enabled for the next Kanji
+        } else {
+            kanjiDisplay.textContent = 'No more kanji to review!';
+            hideReadingAndMeaning();
         }
     }
 
@@ -255,107 +354,182 @@ document.addEventListener('DOMContentLoaded', () => {
             飼育, しいく, chăn nuôi
             自覚, じかく, tự giác
         `,
-        week8: `
-            志向, しこう, chí hướng
-            思考, しこう, suy nghĩ
-            施行, しこう・せこう, thực hiện, thi hành
-            試行, しこう, thử nghiệm
-            視察, しさつ, thị sát
-            辞退, じたい, từ chối, khước từ
-            指摘, してき, chỉ trích
-            自慢, じまん, tự mãn
-            謝罪, しゃざい, tạ tội
-            謝絶, しゃぜつ, cự tuyệt, từ chối
-            修行, しゅぎょう, tu nghiệp, tu hành
-            主張, しゅちょう, chủ trương
-            主導, しゅどう, chủ đạo
-            樹立, じゅりつ, thành lập
-            助言, じょげん, lời khuyên
-            処罰, しょばつ, xử phạt
-            署名, しょめい, chữ ký, đề tên
-            所有, しょゆう, sở hữu
-            是正, ぜせい, sửa cho đúng, làm cho ngay ngắn
-            訴訟, そしょう, kiện tụng, thưa kiện
-            打開, だかい, công phá, vượt qua
-            妥協, だきょう, thỏa hiệp
-            把握, はあく, nắm bắt
-            派遣, はけん, phái cử
-            避難, ひなん, lánh nạn, tị nạn
-            非難, ひなん, chỉ trích, phê bình
-            披露, ひろう, công khai, tuyên bố
-            疲労, ひろう, mệt mỏi
-            普及, ふきゅう, phổ biến, phổ cập
-            負傷, ふしょう, bị thương
-            侮辱, ぶじょく, lăng mạ, xỉ nhục
-            負担, ふたん, gánh vác
-            赴任, ふにん, nhận chức
-            腐敗, ふはい, hủ bại, mục nát
-            扶養, ふよう, cấp dưỡng
-            保管, ほかん, bảo quản
-            補充, ほじゅう, bổ sung
-            募集, ぼしゅう, chiêu mộ, tuyển mộ
-            保障, ほしょう, bảo đảm
-            補償, ほしょう, bồi thường
-            摩擦, まさつ, ma sát
-            矛盾, むじゅん, mâu thuẫn
-            模索, もさく, dò dẫm
-            移住, いじゅう, di trú
-            依存, いぞん, dựa vào, phụ thuộc
-            異動, いどう, dời chỗ, thay đổi, chuyển bộ phận
-            化合, かごう, hợp chất hóa học
-            加入, かにゅう, gia nhập
-            議決, ぎけつ, nghị quyết
-            記述, きじゅつ, viết mô tả
-            寄贈, きぞう, tặng, biếu
-            規定, きてい, quy định
-            居住, きょじゅう, cư trú, sinh sống
-            拒絶, きょぜつ, cự tuyệt
-            許容, きょよう, chấp nhận, cho phép
-            区画, くかく, khu đất, ngăn chia
-            護衛, ごえい, bảo vệ, hộ tống
-            死刑, しけい, tử hình
-            辞職, じしょく, từ chức
-            持続, じぞく, tiếp diễn, kéo dài
-            志望, しぼう, nguyện vọng
-            始末, しまつ, giải quyết, xử lý, tiết kiệm, kết cục
-            主催, しゅさい, tổ chức, chủ trì
-            取材, しゅざい, lấy tin tức
-            所属, しょぞく, thuộc về
-            除外, じょがい, ngoại trừ
-            徐行, じょこう, giảm tốc độ, hãm lại
-            処分, しょぶん, trừng phạt, xử lý, vứt
-            自立, じりつ, tự lập
-            指令, しれい, chỉ thị, mệnh lệnh
-            妥結, だけつ, thỏa thuận
+        week81: `
+            著書, ちょしょ, tác phẩm
+            独創的な・ユニークな, どくそうてき, tác phẩm độc đáo
+            原文のニュアンス, げんぶんのニュアンス, sắc thái của bản gốc
+            詩を朗読する, しをろうどく, ngâm thơ
+書評を読む, しょひょうをよむ, đọc bài bình phẩm về cuốn sách
+戯曲, ぎきょく, kịch
+文庫本, ぶんこぼん, thể loại sách nhỏ viết theo chiều dọc
+重厚な曲, じゅうこうなきょく, ca khúc trang nghiêm, hào hùng
+軽快な曲, けいかいなきょく, ca khúc vui nhộn, tươi vui
+音楽一筋に打ち込む, おんがくひとすじにうちこむ, tập trung toàn bộ sức lực cho âm nhạc
+美しい音色が響く, うつくしいねいろがひびく, âm sắc tuyệt hảo vang lên
+音が反響する, おとがはんきょうする, âm thanh vọng lại
+楽譜をめくる, がくふをめくる, lật trang nhạc phổ
+歌の一節を口ずさむ, うたのいっせつをくちずさむ, hát thầm một đoạn nhạc
+盛大な拍手が沸き起こる, せいだいなはくしゅがわきおこる, tràng vỗ tay rộn ràng, lớn vang lên
+繊細な作風, せんさいなさくふう, tác phong tinh tế
+大胆な作風, だいたんなさくふう, tác phong táo bạo
+丁寧な描写, ていねいなびょうしゃ, miêu tả một cách chỉnh chu
+壮大な建築物, そうだいなけんちくぶつ, công trình kiến trúc hùng vĩ
+画廊で個展を開く, がろうでこてんをひらく, mở triển lãm cá nhân tại khu triển lãm
+手芸, しゅげい, nghề thủ công
+織物, おりもの, vải dệt
+意図を読み取る, いとをよみとる, nắm bắt được ý đồ
+茶道を嗜む, さどうをたしなむ, hứng thú, yêu thích trà đạo
+オペラを鑑賞する, オペラをかんしょうする, thưởng thức opera
+客席ががらんとしていた, きゃくせきががらんとしていた, trống trải, rộng mênh mông
+試合を観戦する, しあいをかんせんする, quan sát trận đấu
+巧みな戦術, たくみなせんじゅつ, chiến thuật tinh vi
+作戦を制する, さくせんをせいする, kiểm soát kế hoạch tác chiến
+チームの結束・連帯, ちーむのけっそく・れんたい, mối liên kết giữa các thành viên trong đội
+成績が不振, せいせきがふしん, thành tích không tốt
+人材を育成する・養成する, じんざいをいくせいする・ようせいする, nuôi dưỡng nguồn nhân lực
+強豪を相手に健闘する・奮闘する, きょうごうをあいてにけんとうする・ふんとうする, lấy đội cực mạnh làm đối thủ để chiến đấu
+意気込む, いきごむ, hăng hái, hào hứng
+
         `,
-        week9: `
-            貯蓄, ちょちく, tiết kiệm (tiền)
-            治療, ちりょう, điều trị
-            破壊, はかい, phá hoại
-            破損, はそん, hư tổn
-            破裂, はれつ, phá vỡ
-            悲観, ひかん, bi quan
-            否決, ひけつ, phủ quyết
-            微笑, びしょう, mỉm cười
-            比例, ひれい, tỉ lệ
-            布告, ふこく, tuyên bố, bố cáo
-            武装, ぶそう, vũ trang
-            捕獲, ほかく, giành được, bắt được
-            補給, ほきゅう, cung cấp thêm
-            募金, ぼきん, tiền quyên góp
-            舗装, ほそう, lát đường
-            補足, ほそく, bổ sung
-            保養, ほよう, bảo dưỡng
-            模倣, もほう, mô phỏng, bắt chước
-            預金, よきん, tiền gửi ngân hàng
-            予言, よげん, nói trước, điềm báo trước
-            移植, いしょく, cấy ghép
-            遺伝, いでん, di truyền
-            会釈, えしゃく, cúi đầu, cúi chào
-            祈願, きがん, cầu khấn, nguyện cầu
+        week82: `
+            自己利益の追求, じこりえきのついきゅう, theo đuổi lợi ích cá nhân  
+衝き動く, つきうごく, kích thích, thúc giục  
+散々働く, さんざんはたらく, làm việc chăm chỉ  
+問い直す, といなおす, tự đặt câu hỏi và suy nghĩ, xem xét lại vấn đề  
+享受する, きょうじゅする, hưởng, thừa hưởng  
+確実, かくじつ, chắc chắn  
+幸運, こううん, may mắn  
+願望を実現する, がんぼうをじつげんする, thực hiện mong ước, nguyện vọng  
+不況, ふきょう, khủng hoảng kinh tế, tình hình kinh tế trì trệ  
+ボランタリーな活動, ボランタリーなかつどう, hoạt động tình nguyện  
+に向かう, にむかう, hướng đến, tiến đến  
+アクロポリス, アクロポリス, thành cổ Hy Lạp  
+柱, はしら, cột, cây cột  
+死海の水につける, しかいのみずにつける, ngâm (mình, chân..) vào trong biển chết  
+イスラエル, イスラエル, nước Israel  
+ピラミッド, ピラミッド, kim tự tháp  
+ガンジスを下る, ガンジスをくだる, sông Hằng ở Ấn Độ  
+きりがない, きりがない, vô tận, không kết thúc  
+表層的理由づけ, ひょうそうてきりゆうづけ, biện minh, lý do trên bề mặt  
+動機, どうき, lý do, động cơ (hành động), duyên cớ  
+存在理由, そんざいりゆう, lý do tồn tại  
+不快感を与える, ふかいかんをあたえる, mang đến cảm giác không thoải mái, khó chịu  
+束縛, そくばく, trói buộc, ràng buộc  
+せずにはいられない, せずにはいられない, không thể không, không khỏi cảm thấy  
+好意, こうい, lòng tốt, thiện chí  
+押し付け, おしつけ, áp đặt/đùn đẩy việc cho người khác  
+強制, きょうせい, cưỡng chế, bắt buộc  
+無理強い, むりじい, ép buộc  
+束縛, そくばく, trói buộc, ràng buộc  
+窮屈, きゅうくつ, cảm giác bó buộc, miễn cưỡng/cứng nhắc/tình trạng khốn khó  
+陶芸家, とうげいか, thợ gốm  
+命じる, めいじる, bắt, lệnh, ra lệnh, bổ nhiệm  
+あれこれ, あれこれ, cái này cái kia/tất cả  
+罵声を浴びせられる, ばせいをあびせられる, bị la ó, cười nhạo  
+充実感, じゅうじつかん, cảm giác đủ đầy, viên mãn, trọn vẹn  
+ひたすら, ひたすら, toàn tâm toàn ý, hết sức/khẩn khoản, tha thiết  
+図式, ずしき, sơ đồ  
+弟子入り, でしいり, bái sư  
+師匠, ししょう, sư phụ  
+宿命, しゅくめい, số mệnh  
+
         `
+
     };
 
+    let token = null;
+
+    // Login Function
+    document.getElementById('login-btn').addEventListener('click', async () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            token = data.token;
+            alert('Login successful');
+            loadProgress();
+        } else {
+            alert('Login failed');
+        }
+    });
+
+    // Register Function
+    document.getElementById('register-btn').addEventListener('click', async () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const response = await fetch('http://localhost:5000/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+        });
+        if (response.ok) {
+            alert('Registration successful');
+        } else {
+            alert('Registration failed');
+        }
+    });
+
+    // Save Progress Function
+    async function saveProgress() {
+        if (!token) return;
+        const progress = {
+            kanjiList,
+            noIdeaList,
+            seenButNoIdeaList,
+            rememberedList,
+            currentSetTitle,
+        };
+        await fetch('http://localhost:5000/save-progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, progress }),
+        });
+    }
+
+    // Load Progress Function
+    async function loadProgress() {
+        if (!token) return;
+        const response = await fetch('http://localhost:5000/load-progress', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            kanjiList = data.kanjiList || [];
+            noIdeaList = data.noIdeaList || [];
+            seenButNoIdeaList = data.seenButNoIdeaList || [];
+            rememberedList = data.rememberedList || [];
+            currentSetTitle = data.currentSetTitle || 'None';
+            updateProgress();
+            displayKanji();
+        }
+    }
+
+    // Call saveProgress whenever progress changes
+    // Example: After clicking "No Idea", "Seen but No Idea", or "Remembered"
+    noIdeaButton.addEventListener('click', () => {
+        noIdeaList.push(currentKanji);
+        showReadingAndMeaning();
+        saveProgress();
+    });
+
+    seenButNoIdeaButton.addEventListener('click', () => {
+        seenButNoIdeaList.push(currentKanji);
+        showReadingAndMeaning();
+        saveProgress();
+    });
+
+    rememberedButton.addEventListener('click', () => {
+        rememberedList.push(currentKanji);
+        showReadingAndMeaning();
+        saveProgress();
+    });
     // Initial setup
     setTitleDisplay.textContent = currentSetTitle;
     updateProgress();
