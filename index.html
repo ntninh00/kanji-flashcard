@@ -8,89 +8,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Dark Mode Toggle -->
-        <div class="dark-mode-toggle">
-            <label for="dark-mode">Dark Mode</label>
-            <input type="checkbox" id="dark-mode">
-        </div>
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle">
+        <label for="dark-mode">Dark Mode</label>
+        <input type="checkbox" id="dark-mode">
+    </div>
 
-        <h1>Kanji Memorization</h1>
+    <h1>Kanji Memorization</h1>
 
-        <!-- Currently Learning Set -->
-        <div id="current-set">
-            <h2>Currently Learning: <span id="current-set-title">None</span></h2>
-        </div>
+    <!-- Currently Learning Set -->
+    <div id="current-set">
+        <h2>Currently Learning: <span id="current-set-title">None</span></h2>
+    </div>
 
-        <!-- Progress Tracking -->
-        <div id="progress">
-            <h3>Progress</h3>
-            <div class="progress-bar-container">
-                <progress id="progress-bar" value="0" max="100"></progress>
-                <span id="progress-text">0%</span>
+    <!-- Progress Tracking -->
+<div id="progress">
+    <h3>Progress</h3>
+    <div class="progress-bar-container">
+        <progress id="progress-bar" value="0" max="100"></progress>
+        <span id="progress-text">0%</span>
+    </div>
+    <div class="progress-stats">
+        <p>No Idea: <span id="no-idea-count">0</span></p>
+        <p>Seen but No Idea: <span id="seen-but-no-idea-count">0</span></p>
+        <p>Remembered: <span id="remembered-count">0</span></p>
+    </div>
+</div>
+
+    <!-- Kanji Display Section -->
+    <div id="kanji-display">
+        <div class="kanji-card">
+            <h2 id="kanji"></h2>
+            <div id="options">
+                <button id="no-idea">No Idea</button>
+                <button id="seen-but-no-idea">Seen but No Idea</button>
+                <button id="remembered">Remembered</button>
             </div>
-            <div class="progress-stats">
-                <p>No Idea: <span id="no-idea-count">0</span></p>
-                <p>Seen but No Idea: <span id="seen-but-no-idea-count">0</span></p>
-                <p>Remembered: <span id="remembered-count">0</span></p>
-            </div>
-        </div>
-
-        <!-- Kanji Display Section -->
-        <div id="kanji-display">
-            <div class="kanji-card">
-                <h2 id="kanji"></h2>
-                <div id="options">
-                    <button id="no-idea">No Idea</button>
-                    <button id="seen-but-no-idea">Seen but No Idea</button>
-                    <button id="remembered">Remembered</button>
-                </div>
-                <div id="reading-meaning" style="display: none;">
-                    <p><strong>Reading:</strong> <span id="reading"></span></p>
-                    <p><strong>Meaning:</strong> <span id="meaning"></span></p>
-                    <button id="next">Next</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Custom Kanji Set Section -->
-        <div class="spoiler">
-            <button class="spoiler-button">Add Your Own Kanji Set</button>
-            <div class="spoiler-content">
-                <div id="custom-kanji-set">
-                    <input type="text" id="set-name" placeholder="Enter a name for your set">
-                    <textarea id="kanji-input" placeholder="Enter kanji, reading, meaning (one per line)"></textarea>
-                    <button id="submit-custom">Submit Custom Set</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pre-defined Kanji Sets Section -->
-        <div class="spoiler">
-            <button class="spoiler-button">Choose a Pre-defined Kanji Set</button>
-            <div class="spoiler-content">
-                <div id="predefined-kanji-sets">
-                    <select id="kanji-set-select">
-                        <option value="">Select a set</option>
-                        <option value="week7">Week 7</option>
-                        <option value="week8">Week 8</option>
-                        <option value="week9">Week 9 (Dokkai)</option>
-                    </select>
-                    <button id="submit-predefined">Load Selected Set</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Saved Custom Sets Section -->
-        <div class="spoiler">
-            <button class="spoiler-button">Your Saved Sets</button>
-            <div class="spoiler-content">
-                <div id="saved-sets">
-                    <ul id="saved-sets-list"></ul>
-                </div>
+            <div id="reading-meaning" style="display: none;">
+                <p><strong>Reading:</strong> <span id="reading"></span></p>
+                <p><strong>Meaning:</strong> <span id="meaning"></span></p>
+                <button id="next">Next</button>
             </div>
         </div>
     </div>
+
+    <!-- Custom Kanji Set Section -->
+    <div class="spoiler">
+        <button class="spoiler-button">Add Your Own Kanji Set</button>
+        <div class="spoiler-content">
+            <div id="custom-kanji-set">
+                <input type="text" id="set-name" placeholder="Enter a name for your set">
+                <textarea id="kanji-input" placeholder="Enter kanji, reading, meaning (one per line)"></textarea>
+                <button id="submit-custom">Submit Custom Set</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pre-defined Kanji Sets Section -->
+    <div class="spoiler">
+        <button class="spoiler-button">Choose a Pre-defined Kanji Set</button>
+        <div class="spoiler-content">
+            <div id="predefined-kanji-sets">
+                <select id="kanji-set-select">
+                    <option value="">Select a set</option>
+                    <option value="week7">Week 7</option>
+                    <option value="week8">Week 8</option>
+                    <option value="week9">Week 9 (Dokkai)</option>
+                </select>
+                <button id="submit-predefined">Load Selected Set</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Custom Sets Section -->
+    <div class="spoiler">
+        <button class="spoiler-button">Your Saved Sets</button>
+        <div class="spoiler-content">
+            <div id="saved-sets">
+                <ul id="saved-sets-list"></ul>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
