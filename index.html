@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanji Memorization</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Kanji Memorization</h1>
+        <div id="kanji-display">
+            <h2 id="kanji"></h2>
+            <div id="options">
+                <button id="no-idea">No Idea</button>
+                <button id="seen-but-no-idea">Seen but No Idea</button>
+                <button id="remembered">Remembered</button>
+            </div>
+            <div id="reading-meaning" style="display: none;">
+                <p><strong>Reading:</strong> <span id="reading"></span></p>
+                <p><strong>Meaning:</strong> <span id="meaning"></span></p>
+                <button id="next">Next</button>
+            </div>
+        </div>
+        <div id="data-entry">
+            <h2>Add New Kanji</h2>
+            <textarea id="kanji-input" placeholder="Enter kanji, reading, meaning (one per line)"></textarea>
+            <button id="submit">Submit</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
