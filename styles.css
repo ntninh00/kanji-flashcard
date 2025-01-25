@@ -25,6 +25,7 @@ h1 {
 }
 
 h2 {
+    text-align: center;
     font-size: 1.3rem; /* Slightly smaller */
     font-weight: 400;
     color: #000000;
@@ -470,4 +471,8 @@ body.dark-mode #prev-chunk:hover,
 body.dark-mode #next-chunk:hover {
     background-color: #ffffff;
     color: #000000;
+}
+/* Hide navigation buttons */
+.hidden {
+    display: none !important;
 }

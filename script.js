@@ -333,6 +333,19 @@ const chunkInfo = document.getElementById('chunk-info');
         }
     });
 
+    function toggleNavigationButtons(show) {
+        const prevChunkButton = document.getElementById('prev-chunk');
+        const nextChunkButton = document.getElementById('next-chunk');
+    
+        if (show) {
+            prevChunkButton.style.display = 'inline-block'; // Show the buttons
+            nextChunkButton.style.display = 'inline-block';
+        } else {
+            prevChunkButton.style.display = 'none'; // Hide the buttons
+            nextChunkButton.style.display = 'none';
+        }
+    }
+
     // Load a set into the system
     function loadSet(set) {
         const chunks = splitIntoChunks(set.kanjiList, 50); // Split into chunks of <= 50 kanji
@@ -347,10 +360,12 @@ const chunkInfo = document.getElementById('chunk-info');
             rememberedList: []
         };
     
+        // Show/hide navigation buttons based on the number of chunks
+        toggleNavigationButtons(chunks.length > 1);
+    
         // Load the first chunk
         loadChunk(set.title, 0);
-    }
-    
+    }    
 
     function loadChunk(setTitle, chunkIndex) {
         const set = savedSets[setTitle];
@@ -374,10 +389,11 @@ const chunkInfo = document.getElementById('chunk-info');
         updateProgress();
         displayKanji();
         updateChunkInfo();
+    
+        // Show/hide navigation buttons based on the number of chunks
+        toggleNavigationButtons(set.chunks.length > 1);
     }
     
-    
-
     // Render saved sets
     function renderSavedSets() {
         savedSetsList.innerHTML = '';
