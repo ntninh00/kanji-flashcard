@@ -439,7 +439,7 @@ const chunkInfo = document.getElementById('chunk-info');
         week51: `
         
         `,
-        week61: `
+        'n1 week 6-1': `
         木の葉, このは, lá cây  
 砂浜, すなはま, bãi cát  
 家中, いえじゅう, trong nhà  
@@ -510,7 +510,7 @@ const chunkInfo = document.getElementById('chunk-info');
 念願, ねんがん, tâm nguyện, điều mình ao ước  
 
         `,
-        week6dokkai: `
+        'n1 week 6 読解': `
         宝⽯箱, ほうせきばこ, hộp trang sức, đá quý  
 そうはいかない, điều đó sẽ không xảy ra  
 横わたる, よこわたる, nằm, trải dài  
@@ -546,7 +546,7 @@ const chunkInfo = document.getElementById('chunk-info');
 文壇, ぶんだん, giới văn học  
 
         `,
-        week62: `
+        'n1 week 6-2': `
         刈る, かる, cắt, gọt, tỉa  
 釣る, つる, câu cá  
 撮る, とる, chụp ảnh  
@@ -604,7 +604,7 @@ const chunkInfo = document.getElementById('chunk-info');
 揺れる, ゆれる, rung, lắc, lay động  
 
         `,
-        week71: `
+        'n1 week 7-1': `
         装飾, そうしょく, trang trí  
 名高い, なだかい, nổi tiếng  
 エリック・ギル, エリック・ギル, eric gill  
@@ -679,7 +679,7 @@ const chunkInfo = document.getElementById('chunk-info');
 頑丈そうな体つき, がんじょうそうなからだつき, cơ thể rắn chắc  
 
         `,
-        week72: `
+        'n1 week 7-2': `
             移行, いこう, di trú, chuyển tiếp
 委託, いたく, ủy thác
 違反, いはん, vi phạm
@@ -821,7 +821,7 @@ const chunkInfo = document.getElementById('chunk-info');
 癒着, ゆちゃく, dính chặt, liền lại
 由来, ゆらい, nguồn gốc, gốc gác
         `,
-        week81: `
+        'n1 week 8-1': `
             著書, ちょしょ, tác phẩm
             独創的な・ユニークな, どくそうてき, tác phẩm độc đáo
             原文のニュアンス, げんぶんのニュアンス, sắc thái của bản gốc
@@ -858,7 +858,7 @@ const chunkInfo = document.getElementById('chunk-info');
 意気込む, いきごむ, hăng hái, hào hứng
 
         `,
-        week82: `
+        'n1 week 8-2': `
             自己利益の追求, じこりえきのついきゅう, theo đuổi lợi ích cá nhân  
 衝き動く, つきうごく, kích thích, thúc giục  
 散々働く, さんざんはたらく, làm việc chăm chỉ  

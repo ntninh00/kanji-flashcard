@@ -31,6 +31,7 @@ h2 {
     color: #000000;
     margin-bottom: -20px; /* Reduced margin */
     text-transform: lowercase;
+    text-align: center;
 }
 
 h3 {
@@ -256,7 +257,7 @@ h4 {
 
 /* Progress Section */
 #progress {
-    width: 100%;
+    width: 80%;
     max-width: 700px;
     margin-top:20px;
     margin-bottom: 0px; /* Reduced margin */
