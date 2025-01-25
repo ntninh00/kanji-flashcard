@@ -16,12 +16,13 @@ body {
 }
 
 h1 {
-    font-size: 2.5rem; /* Slightly smaller */
+    font-size: clamp(2.5rem, 2.5vw, 2.5rem);
     font-weight: 5000;
     color: #000000;
     margin-bottom: -30px; /* Reduced margin */
     text-align: center;
     text-transform: uppercase;
+    flex:auto;
 }
 
 h2 {
@@ -68,6 +69,7 @@ h4 {
     justify-content: space-between; /* Space out the buttons evenly */
     gap: 10px; /* Add some space between the buttons */
     flex-wrap: nowrap; /* Prevent wrapping to the next line */
+    margin-top: 20px; 
 }
 
 #options button {
@@ -79,10 +81,12 @@ h4 {
     border: 2px solid #000000;
     border-radius: 8px;
     color: #000000;
-    font-size: 1rem;
+    font-size: clamp(0.2rem, 2.5vw, 1rem); 
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     text-transform: lowercase;
     flex: 1; 
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
 }
 #options button:active {
     transform: scale(0.95);
