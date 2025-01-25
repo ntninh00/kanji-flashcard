@@ -99,9 +99,30 @@ h4 {
     cursor: not-allowed; /* Change cursor to indicate disabled state */
 }
 
-#options button:hover {
+/* #options button:hover {
     background-color: #000000;
     color: #ffffff;
+    transform: translateY(-2px);
+} */
+
+/* Hover effect for "No Idea" button */
+#no-idea:hover {
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    transform: translateY(-2px);
+}
+
+/* Hover effect for "Seen but No Idea" button */
+#seen-but-no-idea:hover {
+    background-color: #ffd700; /* Yellow background */
+    color: #000000; /* Black text */
+    transform: translateY(-2px);
+}
+
+/* Hover effect for "Remembered" button */
+#remembered:hover {
+    background-color: #4caf50; /* Green background */
+    color: #ffffff; /* White text */
     transform: translateY(-2px);
 }
 
@@ -320,6 +341,7 @@ h4 {
 
 .progress-stats {
     width: 100%;
+    max-width: 700px;
     display: flex;
     justify-content: space-between;
     margin-top: 10px; /* Reduced margin */
@@ -409,11 +431,23 @@ body.dark-mode select {
 body.dark-mode #options button:hover,
 body.dark-mode #next:hover,
 body.dark-mode .spoiler-button:hover,
-body.dark-mode button:hover {
-    background-color: #ffffff;
-    color: #000000;
+body.dark-mode #options button {
+    border-color: #ffffff;
+}
+body.dark-mode #no-idea:hover {
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text */
 }
 
+body.dark-mode #seen-but-no-idea:hover {
+    background-color: #eed859; /* Yellow background */
+    color: #000000; /* Black text */
+}
+
+body.dark-mode #remembered:hover {
+    background-color: #42c574; /* Green background */
+    color: #ffffff; /* White text */
+}
 body.dark-mode textarea:focus,
 body.dark-mode input[type="text"]:focus,
 body.dark-mode select:focus {
