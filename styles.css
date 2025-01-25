@@ -350,6 +350,13 @@ h4 {
     transform: translateY(-2px);
 }
 
+#prev-chunk {
+    left: 0; /* Position at the top-left */
+}
+
+#next-chunk {
+    right: 0; /* Position at the top-right */
+}
 
 /* Dark Mode */
 body.dark-mode {
