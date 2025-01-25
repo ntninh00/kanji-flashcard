@@ -83,7 +83,7 @@ const chunkInfo = document.getElementById('chunk-info');
         seenButNoIdeaButton.disabled = false;
         rememberedButton.disabled = false;
         console.log('Buttons enabled');
-    }
+    }    
 
     // Show the reading and meaning of the current Kanji
     function showReadingAndMeaning() {
@@ -94,7 +94,9 @@ const chunkInfo = document.getElementById('chunk-info');
         readingDisplay.textContent = currentKanji.reading;
         meaningDisplay.textContent = currentKanji.meaning;
         readingMeaningDiv.style.display = 'block';
+        nextButton.style.display = 'block'; // Ensure the Next button is visible
     }
+    
 
     // Hide the reading and meaning
     function hideReadingAndMeaning() {
@@ -240,10 +242,14 @@ const chunkInfo = document.getElementById('chunk-info');
         seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
         rememberedList.push(currentKanji); // Add to remembered list
     
+        // Disable buttons and show reading/meaning
+        disableButtons();
+        showReadingAndMeaning();
+    
         // Save progress and display the next kanji
         saveData();
-        displayKanji();
     });
+    
 
     // Handle "Next" button click
     nextButton.addEventListener('click', () => {
@@ -255,11 +261,16 @@ const chunkInfo = document.getElementById('chunk-info');
                 seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
             }
     
+            // Enable buttons and hide reading/meaning
+            enableButtons();
+            hideReadingAndMeaning();
+    
             // Save progress and display the next kanji
             saveData();
             displayKanji();
         }
     });
+    
 
     // Handle custom set submission
     submitCustomButton.addEventListener('click', () => {
@@ -389,11 +400,10 @@ const chunkInfo = document.getElementById('chunk-info');
         updateProgress();
         displayKanji();
         updateChunkInfo();
-    
-        // Show/hide navigation buttons based on the number of chunks
-        toggleNavigationButtons(set.chunks.length > 1);
     }
     
+    
+
     // Render saved sets
     function renderSavedSets() {
         savedSetsList.innerHTML = '';
