@@ -16,12 +16,12 @@
         <input type="checkbox" id="dark-mode">
     </div>
 
-    
+
     <h1>kanji flashcard</h1>
 
     <!-- Currently Learning Set -->
     <div id="current-set">
-        <h2>Currently Learning: <span id="current-set-title">None</span></h2>
+        <h2>Currently Learning <span id="current-set-title">Nothing</span></h2>
     </div>
 
     <!-- Progress Tracking -->
@@ -46,6 +46,7 @@
                 <button id="no-idea">No Idea</button>
                 <button id="seen-but-no-idea">Seen but No Idea</button>
                 <button id="remembered">Remembered</button>
+                <button id="reset-progress">Reset</button>
             </div>
             <div id="reading-meaning" style="display: none;">
                 <p> <span id="reading"></span></p>
@@ -55,7 +56,7 @@
         </div>
     </div>
 
-    
+
     <!-- Pre-defined Kanji Sets Section -->
     <div class="spoiler">
         <button class="spoiler-button">Choose a Kanji Set</button>
@@ -63,7 +64,7 @@
             <div id="predefined-kanji-sets">
                 <select id="kanji-set-select">
                     <option value="">Select a set</option>
-                    <option value="week7">Week 7</option>
+                    <option value="week72">Week 7-2</option>
                     <option value="week81">Week 8-1</option>
                     <option value="week82">Week 8-2</option>
                 </select>
@@ -71,17 +72,17 @@
             </div>
         </div>
     </div>
-<!-- Custom Kanji Set Section -->
-<div class="spoiler">
-    <button class="spoiler-button">Add Your Own Kanji Set</button>
-    <div class="spoiler-content">
-        <div id="custom-kanji-set">
-            <input type="text" id="set-name" placeholder="Enter a name for your set">
-            <textarea id="kanji-input" placeholder="Enter kanji, reading, meaning (one per line)"></textarea>
-            <button id="submit-custom">Submit Custom Set</button>
+    <!-- Custom Kanji Set Section -->
+    <div class="spoiler">
+        <button class="spoiler-button">Add Your Own Kanji Set</button>
+        <div class="spoiler-content">
+            <div id="custom-kanji-set">
+                <input type="text" id="set-name" placeholder="Enter a name for your set">
+                <textarea id="kanji-input" placeholder="Enter kanji, reading, meaning (one per line)"></textarea>
+                <button id="submit-custom">Submit Custom Set</button>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Saved Custom Sets Section -->
     <div class="spoiler">

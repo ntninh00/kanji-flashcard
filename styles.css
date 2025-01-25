@@ -40,10 +40,11 @@ h3 {
     text-transform: uppercase;
 }
 h4 {
-    font-size: 2rem; /* Slightly smaller */
+    font-size: 2.5rem; /* Slightly smaller */
     font-weight: 400;
     color: #000000;
-    margin-bottom: 20px; /* Reduced margin */
+    margin-top: 10px;
+    margin-bottom: 10px; /* Reduced margin */
     text-transform: lowercase;
 }
 
@@ -325,6 +326,10 @@ body.dark-mode #reading-meaning p,
 body.dark-mode #saved-sets-list li {
     color: #ffffff;
     text-transform: uppercase;
+}
+body.dark-mode h4 {
+    color: #ffffff;
+    text-transform: lowercase; 
 }
 body.dark-mode h2 {
     color: #ffffff;
