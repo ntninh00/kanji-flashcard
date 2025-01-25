@@ -336,6 +336,249 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pre-defined Kanji sets
     const predefinedSets = {
+        week51: `
+        
+        `,
+        week61: `
+        木の葉, このは, lá cây  
+砂浜, すなはま, bãi cát  
+家中, いえじゅう, trong nhà  
+ひざ掛け, ひざがけ, chăn đắp vào chân (đùi) khi ngồi  
+防寒, ぼうかん, chống lạnh  
+与党＜＝＞野党, よとう＜＝＞やとう, đảng cầm quyền => đảng đối lập  
+盛り付ける, もりつける, bày biện, trang trí món ăn  
+研ぐ, とぐ, mài, giũa (dao), (vo gạo)  
+浸す, ひたす, nhúng vào (nước), đắm chìm trong (niềm vui...)  
+水気, みずけ, nước (nước bám trên các đồ vật)  
+拭き取る, ふきとる, lau  
+小麦粉, こむぎこ, bột mì  
+練る, ねる, nhào (trộn), trau dồi, hoạch định (chiến lược...)  
+染み込む, しみこむ, thấm vào, ngấm vào  
+添える, そえる, thêm vào  
+フィルターで濾す, フィルターでこす, lọc bằng màng lọc  
+⼿際, てぎわ, tay nghề  
+腕前, うでまえ, trình độ, kỹ năng, kỹ thuật  
+素材を吟味する, そざいをぎんみする, lựa chọn nguyên liệu kỹ càng  
+恵み, めぐみ, ân huệ, ưu ái  
+名産・特産, めいさん・とくさん, đặc sản  
+着⾊料, ちゃくしょくりょう, phẩm màu, màu thực phẩm  
+なめる・しゃぶる・くわえる, liếm/mút, hút/ngậm  
+かみ切る, かみきる, cắt, thái  
+飲み込む, のみこむ, nuốt/hiểu, khả năng tiếp thu nhanh  
+うどんをすする, うどんをすする, húp mì udon (có phát ra tiếng soàn soạt)  
+旬の食材, しゅんのしょくざい, nguyên liệu theo mùa  
+本場, ほんば, bản xứ/hương vị đích thực, đậm chất (nói về món ăn)  
+あっさり, vị thanh đạm  
+こってり, vị béo, đậm đà  
+甘口, あまくち, vị ngọt/lời nịnh hót, lời ngon ngọt  
+辛口, からくち, vị cay/lời khó nghe, gay gắt  
+甘酸っぱい, あまずっぱい, vị chua ngọt/buồn vui lẫn lộn, ngọt ngào cay đắng  
+生臭い, なまぐさい, mùi tanh  
+香ばしい, こうばしい, mùi thơm, thơm phức  
+焦げ臭い, こげくさい, mùi khét, cháy két  
+屋敷の外観, やしきのがいかん, nhìn từ bên ngoài của biệt phủ  
+照明に凝る, しょうめいにこる, tập trung vào ánh sáng  
+軋む, きしむ, tiếng cót két  
+家を新築する, いえをしんちくする, xây nhà mới  
+壊れた家を再建する, こわれたいえをさいけんする, xây dựng lại căn nhà bị hư hỏng  
+壊れた家を補強する, こわれたいえをほきょうする, tăng cường, gia cố căn nhà bị hư hỏng  
+改修する, かいしゅうする, cải tạo, sửa chữa (tòa nhà)  
+首都圏, しゅとけん, khu vực thủ đô  
+沿線, えんせん, dọc tuyến đường  
+徒歩, とほ, đi bộ  
+住居を構える, じゅうきょをかまえる, nơi ở/dựng, lập  
+⼾締り, とじまり, khóa cửa, chốt cửa  
+居住者, きょじゅうしゃ, người cư trú  
+結成する, けっせいする, thành lập (công đoàn)  
+待ち望む, まちのぞむ, kỳ vọng, mong chờ cái gì đó  
+⼦どもをしつける, こどもをしつける, dạy dỗ, giáo dục trẻ con  
+健やか, すこやか, khỏe mạnh, khỏe khoắn, lành mạnh  
+育ち盛り, そだちざかり, dậy thì, giai đoạn tăng trưởng của trẻ đang tuổi lớn  
+頭を悩ます, あたまになやます, lo lắng, đau đầu về vấn đề gì đó  
+吸い取る, すいとる, hút/hấp thu  
+香辛料, こうしんりょう, gia vị (dùng để tạo màu, vị cay, mùi cho thức ăn...)  
+調味料, ちょうみりょう, đồ gia vị  
+放り込む, ほうりこむ, nhét vào, ném vào, tống vào, đẩy vào  
+食べ盛り, たべざかり, ăn ngon miệng, ăn khỏe, đang tuổi ăn tuổi lớn  
+働き盛り, はたらきざかり, thời kỳ đỉnh cao của sự nghiệp, phong độ đỉnh cao, rực rỡ nhất  
+てきぱき, tháo vát, nhanh chóng  
+ずるずる, húp, uống soàn soạt/lê mề, trì trệ  
+保存料, ほぞんりょう, chất bảo quản  
+いっそ, thà rằng, đành rằng  
+手が出ない, てがでない, ngoài tầm với, không đủ khả năng, quá khả năng, không thể với tới  
+内装, ないそう, nội thất (nhà cửa)  
+念願, ねんがん, tâm nguyện, điều mình ao ước  
+
+        `,
+        week6dokkai: `
+        宝⽯箱, ほうせきばこ, hộp trang sức, đá quý  
+そうはいかない, điều đó sẽ không xảy ra  
+横わたる, よこわたる, nằm, trải dài  
+秘密めく, ひみつめく, có vẻ bí mật (có cảm giác, đầy mùi, sặc mùi..)  
+⼼打たれる, こころうたれる, rung động, xúc động  
+掠れ気味, かすれぎみ, có chút mơ hồ  
+盗み聞き, ぬすむぎき, nghe lén, nghe trộm  
+⽤⼼, ようじん, thận trọng, cẩn thận  
+裏庭, うらにわ, vườn sau nhà  
+⽚隅, かたすみ, góc, góc khuất  
+ひっそりと湧き出す, ひっそりとわきだす, trào dâng một cách lặng lẽ  
+泉の底に沈める, いずみのそこにしずめる, chìm sâu đáy của con suối  
+疲れ果てる, つかれはてる, mệt rã rời, phờ phạc, vô cùng mệt  
+ほとり, vùng  
+掬い上げる, すくいあげる, múc, vớt  
+掌, てのひら, lòng bàn tay  
+⼈間の営み, にんげんのいとなみ, hoạt động của con người  
+荒野, こうや, vùng hoang vu  
+誰かの温もり, だれかのぬくもり, hơi ấm của ai đó  
+画期, かっき, bước ngoặt  
+啓蒙的な知識人たち, けいもうてきなちしきじんたち, những nhà tri thức khai sáng (tư tưởng, kiến thức..)  
+社会的な覚醒, しゃかいてきなかくせい, thức tỉnh xã hội  
+地位向上, ちいこうじょう, nâng cao địa vị  
+自認する, じにんする, tự thừa nhận, tự chấp nhận  
+解明的な女性論, かいめいてきなじょせいろん, thuyết phụ nữ được làm sáng tỏ  
+社会進出, しゃかいしんしゅつ, tiến bộ xã hội  
+受け入れる, うけいれる, tiếp nhận, chấp nhận  
+精神的な土壌, せいしんてきなどじょう, nền tảng tinh thần  
+新しい層, あたらしいそう, tầng lớp mới  
+刊行する, かんこうする, phát hành  
+自身の内面的な覚醒, じしんのないめんてきなかくせい, thức tỉnh nội tâm bên trong bản thân  
+促す, うながす, thúc giục, thúc đẩy, khuyến khích  
+文壇, ぶんだん, giới văn học  
+
+        `,
+        week62: `
+        刈る, かる, cắt, gọt, tỉa  
+釣る, つる, câu cá  
+撮る, とる, chụp ảnh  
+振る, ふる, vẫy, rắc, chỉ định (công việc)  
+彫る, ほる, khắc, chạm, tạc  
+盛る, もる, làm đầy, đổ đầy, phục vụ  
+⾄る, いたる, đạt đến, đạt tới, tới nơi  
+劣る, おとる, kém, yếu thế, thấp kém  
+飾る, かざる, trang trí, tô điểm, trang hoàng  
+腐る, くさる, thiu, hỏng (đồ ăn)  
+削る, けずる, gọt, bào, cắt  
+茂る, しげる, rậm rạp, um tùm, xanh tốt  
+縛る, しばる, buộc, trói, ràng buộc  
+絞る, しぼる, vắt (chanh, giẻ lau), giới hạn (phạm vi, mục tiêu)  
+滑る, すべる, trơn, trượt (tuyết)  
+迫る, せまる, cưỡng bức, tiến sát, gấp gáp  
+黙る, だまる, im lặng, làm thinh  
+殴る, なぐる, đánh  
+握る, にぎる, nắm (tay)  
+濁る, にごる, đục (nước)  
+巡る, めぐる, dạo quanh, đi quanh  
+潜る, もぐる, nhảy lao đầu xuống, lặn, trải qua  
+譲る, ゆずる, nhường  
+謝る, あやまる, tạ lỗi  
+偏る, かたよる, thiên lệch, mất cân bằng  
+透き通る, すきとおる, trong suốt, trong vắt  
+煮る, にる, nấu  
+診る, みる, chẩn đoán, khám bệnh  
+飽きる, あきる, chán, ngán  
+飢える, うえる, thèm, khát, đói  
+殖える, ふえる, tăng, nhân lên  
+訴える, うったえる, kiện tụng  
+蓄える, たくわえる, tích trữ  
+掛ける, かける, treo  
+避ける, さける, tránh, lảng tránh  
+漬ける, つける, ngâm, tẩm, ướp, muối dưa  
+怠ける, なまける, lười biếng  
+揚げる, あげる, thả, kéo (cờ), rán (tempura)  
+焦げる, こげる, cháy, khê  
+妨げる, さまたげる, gây trở ngại, cản trở  
+載せる, のせる, chất (lên xe), đăng tải (báo)  
+慌てる, あわてる, hoảng, bối rối, luống cuống  
+隔てる, へだてる, phân chia, ngăn cách, cách biệt  
+企てる, くわだてる, dự tính, lên kế hoạch  
+兼ねる, かねる, kiêm nhiệm, kết hợp  
+跳ねる, はねる, bắn lên, nhảy, kết thúc  
+尋ねる, たずねる, hỏi, thăm hỏi  
+締める, しめる, thắt, vặn chặt  
+攻める, せめる, tấn công  
+褒める, ほめる, khen ngợi, tán dương  
+納める, おさめる, nộp, thu, cất giữ, tiếp thu  
+勧める, すすめる, gợi ý, khuyên, khuyến khích  
+眺める, ながめる, nhìn, ngắm  
+慰める, なぐさめる, an ủi, động viên  
+揺れる, ゆれる, rung, lắc, lay động  
+
+        `,
+        week71: `
+        装飾, そうしょく, trang trí  
+名高い, なだかい, nổi tiếng  
+エリック・ギル, エリック・ギル, eric gill  
+種族, しゅぞく, bộ lạc, loài, chủng tộc  
+人間が人間たる所以, にんげんがにんげんたるゆえん, bởi vì nếu đã là con người  
+気の向くままに, きのむくままに, theo hứng, tùy theo cảm xúc  
+パラドックス＝逆説, ぎゃくせつ, nghịch lý  
+連想, れんそう, liên tưởng  
+果たして, はたして, quả thật là, liệu rằng  
+解放する, かいほうする, giải phóng, tháo gỡ  
+及ぶ, およぶ, ảnh hưởng/không bằng/lan ra  
+間食, かんしょく, ăn vặt, ăn giữa buổi (sáng~trưa/tối~khuya)  
+我ながら焦ったい, わながらじれったい, tự cảm thấy bản thân rất vội vàng, thiếu kiên nhẫn  
+引っ込み思案, ひっこみじあん, e dè, rụt rè, thụ động  
+気が小さい, きがちいさい, nhút nhát/nhỏ mọn, hẹp hòi  
+度胸, どきょう, can đảm, dũng cảm  
+循環論, じゅんかんろん, thuyết tuần hoàn  
+反語, はんご, từ trái nghĩa  
+皮膚, ひふ, da, lớp da  
+個体意識, こたいいしき, ý thức cá nhân  
+錯覚, さっかく, nhầm tưởng, ảo tưởng  
+近所付き合い, きんじょづきあい, quan hệ hàng xóm láng giềng  
+引きこもり, ひきこもり, tự kỷ, tự nhốt mình trong phòng, không giao thiệp với xã hội  
+欠如する, けつじょする, thiếu  
+災害弱者, さいがいじゃくしゃ, người dễ tổn thương/yếu đuối do thiên tai  
+施行, しこうする・せこう, thi hành, tiến hành, thực hiện  
+実情, じつじょう, tình hình thực tế, thực trạng/thực tâm, thật lòng  
+レム睡眠, レムすいみん, giấc ngủ nông, không sâu  
+瞼がピクピクする, まぶたがピクピクする, mí mắt co giật  
+自然忘却, しぜんぼうきゃく, lãng quên tự nhiên, quên lãng  
+気分爽快, きぶんそうかい, cảm giác/tinh thần sảng khoái  
+広々として, ひろびろとして, rộng rãi, nhiều không gian trống  
+妨げる, さまたげる, gây trở ngại, ảnh hưởng  
+寝覚が悪く、頭が重い, ねざめがわるく、あたまがおもい, trằn trọc khó ngủ, nên đầu nặng trĩu  
+病気に⽴ち向かう, びょうきにたちむかう, chống chọi với bệnh tật  
+病気の兆候に気づく, びょうきのちょうこうにきづく, chú ý đến triệu chứng của bệnh  
+持病がある, じびょうがある, bệnh mãn tính  
+体の不調を訴える, からだのふちょうをうったえる, chịu đựng, cảm nhận được sự bất ổn của cơ thể  
+栄養失調になる, えいようしっちょうになる, bị suy dinh dưỡng  
+先天的な病気, せんてんてきなびょうき, bệnh bẩm sinh  
+慢性の病気, まんせいのびょうき, bệnh mãn tính  
+急性の病気, きゅうせいのびょうき, bệnh cấp tính  
+関節が外れる, かんせつがはずれる, trật khớp  
+まぶたが腫れる, まぶたがはれる, mí mắt bị sưng  
+微熱が出る, びねつがでる, bị sốt nhẹ  
+便秘気味になる, べんぴぎみになる, bị táo bón  
+自覚症状, じかくしょうじょう, triệu chứng bệnh tình do chính người bệnh cảm nhận như mệt mỏi, chán ăn,…  
+腹痛が起こる, ふくつうがおこる, lên cơn đau bụng  
+けいれんが起こる, けいれんがおこる, lên cơn co giật  
+発作が起こる, ほっさがおこる, bệnh phát ra  
+往診に来てもらう, おうしんにきてもらう, đến khám tại nhà  
+聴診器で胸の音を聞く, ちょうしんきでむねのおとをきく, nghe âm thanh từ ngực bằng ống nghe  
+点滴, てんてき, truyền dịch, truyền nước biển  
+応急処置をする, おうきゅうしょちをする, xử lý khẩn cấp (người bệnh), cấp cứu  
+適切な処置を取る, てきせつなしょちをとる, xử lý thích hợp  
+病人を介抱する, びょうにんをかいほうする, chăm sóc người bệnh  
+痛いところをさする, いたいところをさする, massage, xoa bóp chỗ đau  
+痛みを和らげる, いたみをやわらげる, làm dịu chỗ đau  
+面会謝絶になる, めんかいしゃぜつになる, từ chối người đến gặp, thăm  
+安静を保つ, あんせいをたもつ, giữ yên tĩnh  
+胃腸薬を処⽅する, いちょうやくをしょほうする, kê đơn thuốc đau dạ dày  
+患部に薬を塗る, かんぶにくすりをぬる, bôi thuốc vào chỗ bị nhiễm bệnh  
+薬の効き⽬が切れる, くすりのききめがきれる, hiệu quả của thuốc hết hiệu lực  
+早寝早起きを⼼掛ける, はやねはやおきをこころがける, cố gắng ngủ sớm dậy sớm  
+⽔分の補給を⼼掛ける, すいぶんのほきゅうをこころがける, cố gắng cung cấp đủ nước  
+バランスの取れた⾷⽣活, しょくせいかつ, sinh hoạt ăn uống cân bằng  
+健康を維持する, けんこうをいじする, duy trì sức khỏe  
+健康を害する・損なう, けんこうをがいする・そこなう, gây tổn hại đến sức khỏe  
+健康を増進する, けんこうをぞうしんする, nâng cao sức khỏe  
+健康を取り戻す, けんこうをとりもどす, lấy lại, khôi phục sức khỏe  
+不摂⽣な⽣活は禁物だ, ふせっせいなせいかつはきんもつだ, tránh sinh hoạt không điều độ  
+頑丈そうな体つき, がんじょうそうなからだつき, cơ thể rắn chắc  
+
+        `,
         week72: `
             移行, いこう, di trú, chuyển tiếp
 委託, いたく, ủy thác
