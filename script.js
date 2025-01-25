@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextChunkButton = document.getElementById('next-chunk');
     const chunkInfo = document.getElementById('chunk-info');
 
-    
+
     let kanjiList = [];
     let currentKanji = null;
     let noIdeaList = [];
@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSetTitle = 'None';
     let savedSets = {};
     let predefinedSets = {};
+
+    
+    
     if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
         submitPredefinedButtons.forEach((button, index) => {
             button.addEventListener('click', () => {
@@ -49,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add similar checks for other elements
-    
+
 
 
     // Event listeners for navigation buttons
@@ -68,12 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    function updateChunkInfo() {
+function updateChunkInfo() {
+    const chunkInfo = document.getElementById('chunk-info'); // Ensure this element exists
+    if (chunkInfo) {
         const set = savedSets[currentSetTitle.split(' (Part')[0]];
         if (set) {
             chunkInfo.textContent = `Part ${set.currentChunkIndex + 1} of ${set.chunks.length}`;
         }
+    } else {
+        console.error('chunkInfo element not found');
     }
+}
     // Load Dark Mode Preference on Page Load
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     if (savedDarkMode) {
@@ -331,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSavedSets();
     });
 
-    
+
 
     function toggleNavigationButtons(show) {
         const prevChunkButton = document.getElementById('prev-chunk');
@@ -389,8 +397,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgress();
         displayKanji();
         updateChunkInfo();
-    }
 
+        // Enable the buttons when loading a new set
+        enableButtons(); // Ensure this is called
+        console.log('New set loaded, buttons should be enabled'); // Debug: Confirm this is being called
+
+    }
 
 
     // Render saved sets
@@ -490,63 +502,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return groupedSets;
     }
+
+    // Function to add event listeners to dynamically created elements
+function addEventListenersToButtons() {
+    const kanjiSetSelects = document.querySelectorAll('.kanji-set-select');
+    const submitPredefinedButtons = document.querySelectorAll('.submit-predefined');
+
+    if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
+        submitPredefinedButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const selectedSet = kanjiSetSelects[index].value;
+                if (selectedSet && predefinedSets[selectedSet]) {
+                    loadPredefinedSet(selectedSet);
+                }
+            });
+        });
+    } else {
+        console.error('One or more elements not found:', { kanjiSetSelects, submitPredefinedButtons });
+    }
+}
+
+
+
     // Function to generate dropdowns based on grouped sets
-function generateDropdowns(groupedSets) {
-    const predefinedSetsContainer = document.getElementById('predefined-kanji-sets');
-    predefinedSetsContainer.innerHTML = ''; // Clear existing content
+    function generateDropdowns(groupedSets) {
+        const predefinedSetsContainer = document.getElementById('predefined-kanji-sets');
+        predefinedSetsContainer.innerHTML = ''; // Clear existing content
 
-    Object.keys(groupedSets).forEach((prefix, index) => {
-        // Create a container for the set group
-        const setGroup = document.createElement('div');
-        setGroup.className = 'set-group';
+        Object.keys(groupedSets).forEach((prefix, index) => {
+            // Create a container for the set group
+            const setGroup = document.createElement('div');
+            setGroup.className = 'set-group';
 
-        // Add the set title (prefix)
-        const setTitle = document.createElement('div');
-        setTitle.className = 'set-title';
-        setTitle.textContent = prefix.toUpperCase(); // Display prefix as title
-        setGroup.appendChild(setTitle);
+            // Add the set title (prefix)
+            const setTitle = document.createElement('div');
+            setTitle.className = 'set-title';
+            setTitle.textContent = prefix.toUpperCase(); // Display prefix as title
+            setGroup.appendChild(setTitle);
 
-        // Create the dropdown container
-        const dropdownContainer = document.createElement('div');
-        dropdownContainer.className = 'dropdown-container';
+            // Create the dropdown container
+            const dropdownContainer = document.createElement('div');
+            dropdownContainer.className = 'dropdown-container';
 
-        // Create the dropdown
-        const select = document.createElement('select');
-        select.className = 'kanji-set-select';
+            // Create the dropdown
+            const select = document.createElement('select');
+            select.className = 'kanji-set-select';
 
-        // Add a default "Select a set" option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = 'Select a set';
-        select.appendChild(defaultOption);
+            // Add a default "Select a set" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select a set';
+            select.appendChild(defaultOption);
 
-        // Add options for each set in the group
-        groupedSets[prefix].forEach((setKey) => {
-            const option = document.createElement('option');
-            option.value = setKey;
-            option.textContent = setKey.replace(/([A-Z])/g, ' $1').trim(); // Format the set key
-            select.appendChild(option);
+            // Add options for each set in the group
+            groupedSets[prefix].forEach((setKey) => {
+                const option = document.createElement('option');
+                option.value = setKey;
+                option.textContent = setKey.replace(/([A-Z])/g, ' $1').trim(); // Format the set key
+                select.appendChild(option);
+            });
+
+            dropdownContainer.appendChild(select);
+
+            // Add a "Load Selected Set" button for each dropdown
+            const loadButton = document.createElement('button');
+            loadButton.className = 'submit-predefined'; // Ensure this class is applied
+            loadButton.textContent = 'Load';
+            dropdownContainer.appendChild(loadButton);
+
+            // Add the dropdown container to the set group
+            setGroup.appendChild(dropdownContainer);
+
+            // Add the set group to the predefined sets container
+            predefinedSetsContainer.appendChild(setGroup);
         });
 
-        dropdownContainer.appendChild(select);
+        // Call this function after dynamically adding the elements
+addEventListenersToButtons();
 
-        // Add a "Load Selected Set" button for each dropdown
-        const loadButton = document.createElement('button');
-        loadButton.className = 'submit-predefined'; // Ensure this class is applied
-        loadButton.textContent = 'Load';
-        dropdownContainer.appendChild(loadButton);
+        // Reattach spoiler event listeners after updating content
+        toggleSpoilers();
+    }
 
-        // Add the dropdown container to the set group
-        setGroup.appendChild(dropdownContainer);
-
-        // Add the set group to the predefined sets container
-        predefinedSetsContainer.appendChild(setGroup);
-    });
-
-    // Reattach spoiler event listeners after updating content
-    toggleSpoilers();
-}
-    
 
     // Function to load a predefined set
     function loadPredefinedSet(setKey) {
@@ -601,7 +638,7 @@ function generateDropdowns(groupedSets) {
 
 
     let token = null;
-    
+
     // Save Progress Function
     async function saveProgress() {
         if (!token) return;
@@ -651,7 +688,6 @@ function generateDropdowns(groupedSets) {
         showReadingAndMeaning();
         saveProgress();
     });
-
     // Initial setup
     loadData(); // Load saved progress on page load
     fetchPredefinedSets(); // Fetch predefined sets and generate dropdowns

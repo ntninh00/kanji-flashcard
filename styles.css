@@ -27,6 +27,7 @@ h1 {
 
 h2 {
     font-size: 1.3rem; /* Slightly smaller */
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     font-weight: 400;
     color: #000000;
     margin-bottom: -20px; /* Reduced margin */
