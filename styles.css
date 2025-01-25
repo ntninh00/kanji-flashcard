@@ -254,22 +254,29 @@ h4 {
 #progress {
     width: 100%;
     max-width: 700px;
-    margin-bottom: 20px; /* Reduced margin */
+    margin-top:20px;
+    margin-bottom: 0px; /* Reduced margin */
+    display: flex;
+    align-items: center; /* Vertically center align items */
+    gap: 10px; /* Add some space between the text and the progress bar */
 }
 
 #progress h3 {
     font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 10px; /* Reduced margin */
-    text-align: center;
+    margin: 0; /* Remove margin to align properly */
+    text-align: left; /* Align text to the left */
     text-transform: uppercase;
+}
+
+.progress-container {
+    flex: 1; /* Allow the progress bar to take up remaining space */
 }
 
 .progress-bar-container {
     width: 100%;
     background-color: #e0e0e0;
     border-radius: 8px;
-    margin-bottom: 15px; /* Reduced margin */
     position: relative;
     height: 20px; /* Slightly shorter progress bar */
 }
@@ -307,6 +314,7 @@ h4 {
 }
 
 .progress-stats {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 10px; /* Reduced margin */
