@@ -485,6 +485,7 @@ body.dark-mode .kanji-card {
     text-transform: lowercase;
 }
 body.dark-mode .kanji-card #reading,
+body.dark-mode .kanji-card #example,
 body.dark-mode .kanji-card #meaning {
     text-transform: lowercase; /* Ensure text is lowercase */
 }
