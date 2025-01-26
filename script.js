@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Save progress and display the next kanji
             //saveData();
-            //displayKanji();
+            displayKanji();
         }
     });
 
