@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="\site\favicon.ico">
+    <link rel="icon" href="\favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kanji flashcard</title>
@@ -37,6 +37,22 @@
         <p>Seen but No Idea: <span id="seen-but-no-idea-count">0</span></p>
         <p>Learnt: <span id="remembered-count">0</span></p>
     </div>
+
+    <!-- Add this below your existing HTML-->
+<div class="kanji-lists">
+    <div class="kanji-list">
+        <h3>No Idea</h3>
+        <ul id="no-idea-list"></ul>
+    </div>
+    <div class="kanji-list">
+        <h3>Seen but No Idea</h3>
+        <ul id="seen-but-no-idea-list"></ul>
+    </div>
+    <div class="kanji-list">
+        <h3>Learnt</h3>
+        <ul id="remembered-list"></ul>
+    </div>
+</div> 
 
     <!-- Kanji Display Section -->
     <div id="kanji-display">

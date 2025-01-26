@@ -481,7 +481,7 @@ body.dark-mode select:focus {
 }
 
 body.dark-mode .kanji-card {
-    background-color: #3c3c3c;
+    background-color: #272727;
     text-transform: lowercase;
 }
 body.dark-mode .kanji-card #reading,
@@ -489,8 +489,8 @@ body.dark-mode .kanji-card #meaning {
     text-transform: lowercase; /* Ensure text is lowercase */
 }
 body.dark-mode .spoiler-content {
-    background-color: #3c3c3c;
-    border-color: #555555;
+    background-color: #272727;
+    border-color: #272727;
 }
 
 body.dark-mode .progress-bar-container {
@@ -507,10 +507,6 @@ body.dark-mode #progress-bar::-webkit-progress-value {
 
 body.dark-mode #progress-text {
     color: #ffffff;
-}
-body.dark-mode .spoiler-content {
-    background-color: #3c3c3c;
-    border-color: #555555;
 }
 
 body.dark-mode #progress h3 {
@@ -610,4 +606,39 @@ body.dark-mode .submit-predefined {
 body.dark-mode .submit-predefined:hover {
     background-color: #ffffff; /* White background on hover */
     color: #000000; /* Black text on hover */
+}
+
+
+.kanji-lists {
+    display: none;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.kanji-list {
+    display: none;
+    width: 30%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.kanji-list h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.kanji-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.kanji-list ul li {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.kanji-list ul li:last-child {
+    border-bottom: none;
 }

@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let savedSets = {};
     let predefinedSets = {};
 
-    
-    
+
+
     if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
         submitPredefinedButtons.forEach((button, index) => {
             button.addEventListener('click', () => {
@@ -71,17 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-function updateChunkInfo() {
-    const chunkInfo = document.getElementById('chunk-info'); // Ensure this element exists
-    if (chunkInfo) {
-        const set = savedSets[currentSetTitle.split(' (Part')[0]];
-        if (set) {
-            chunkInfo.textContent = `Part ${set.currentChunkIndex + 1} of ${set.chunks.length}`;
+    function updateChunkInfo() {
+        const chunkInfo = document.getElementById('chunk-info'); // Ensure this element exists
+        if (chunkInfo) {
+            const set = savedSets[currentSetTitle.split(' (Part')[0]];
+            if (set) {
+                chunkInfo.textContent = `Part ${set.currentChunkIndex + 1} of ${set.chunks.length}`;
+            }
+        } else {
+            console.error('chunkInfo element not found');
         }
-    } else {
-        console.error('chunkInfo element not found');
     }
-}
     // Load Dark Mode Preference on Page Load
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     if (savedDarkMode) {
@@ -148,22 +148,27 @@ function updateChunkInfo() {
     // Get the next Kanji to display
     function getNextKanji() {
         if (noIdeaList.length > 0) {
-            currentKanji = noIdeaList[0]; // Show the first kanji in the list
-            return currentKanji;
+            console.log('Next kanji from noIdeaList:', noIdeaList[0].kanji);
+            return noIdeaList[0]; // Show the first kanji in the noIdeaList
         } else if (seenButNoIdeaList.length > 0) {
-            currentKanji = seenButNoIdeaList[0]; // Show the first kanji in the list
-            return currentKanji;
+            console.log('Next kanji from seenButNoIdeaList:', seenButNoIdeaList[0].kanji);
+            return seenButNoIdeaList[0]; // Show the first kanji in the seenButNoIdeaList
+        } else if (rememberedList.length > 0) {
+            console.log('Next kanji from rememberedList:', rememberedList[0].kanji);
+            return rememberedList[0]; // Show the first kanji in the rememberedList
         } else {
-            currentKanji = null; // No more kanji to review
-            return null;
+            console.log('No more kanji to review.');
+            return null; // No more kanji to review
         }
     }
 
     // Display the next Kanji
     function displayKanji() {
-        const kanji = getNextKanji();
-        if (kanji) {
-            kanjiDisplay.textContent = kanji.kanji;
+
+    
+        currentKanji = getNextKanji(); // Update currentKanji to the next kanji
+        if (currentKanji) {
+            kanjiDisplay.textContent = currentKanji.kanji;
             hideReadingAndMeaning();
         } else {
             // No more kanji to review
@@ -211,6 +216,7 @@ function updateChunkInfo() {
             updateProgress(); // Update the progress bar and stats
             displayKanji(); // Display the next kanji
             renderSavedSets(); // Render the saved sets list
+            renderKanjiLists();
         } else {
             console.log('No saved progress found');
         }
@@ -228,7 +234,61 @@ function updateChunkInfo() {
         updateProgress();
         displayKanji();
         renderSavedSets();
+        renderKanjiLists();
         console.log('Progress reset');
+    }
+    function renderKanjiLists() {
+        console.log('Rendering kanji lists...');
+        console.log('noIdeaList:', noIdeaList.map(k => k.kanji));
+        console.log('seenButNoIdeaList:', seenButNoIdeaList.map(k => k.kanji));
+        console.log('rememberedList:', rememberedList.map(k => k.kanji));
+
+        // Render noIdeaList
+        const noIdeaListElement = document.getElementById('no-idea-list');
+        noIdeaListElement.innerHTML = noIdeaList.map(k => `<li>${k.kanji}</li>`).join('');
+
+        // Render seenButNoIdeaList
+        const seenButNoIdeaListElement = document.getElementById('seen-but-no-idea-list');
+        seenButNoIdeaListElement.innerHTML = seenButNoIdeaList.map(k => `<li>${k.kanji}</li>`).join('');
+
+        // Render rememberedList
+        const rememberedListElement = document.getElementById('remembered-list');
+        rememberedListElement.innerHTML = rememberedList.map(k => `<li>${k.kanji}</li>`).join('');
+    }
+    // Function to move a kanji to a specific list
+    function moveKanjiToList(kanji, targetList) {
+        console.log('Moving kanji:', kanji.kanji);
+        console.log('Target List:', targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList');
+
+        // Define all lists for easy access
+        const allLists = {
+            noIdea: noIdeaList,
+            seenButNoIdea: seenButNoIdeaList,
+            remembered: rememberedList,
+        };
+
+        // Determine which lists are source lists (i.e., not the target list)
+        const sourceLists = Object.values(allLists).filter(list => list !== targetList);
+        console.log('Source Lists:', sourceLists.map(list => list === noIdeaList ? 'noIdeaList' : list === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'));
+
+        // Check if the kanji is already in the target list
+        if (!targetList.includes(kanji)) {
+            // Remove the kanji from all source lists
+            sourceLists.forEach(list => {
+                const index = list.findIndex(k => k.kanji === kanji.kanji);
+                if (index !== -1) {
+                    console.log(`Removing kanji ${kanji.kanji} from ${list === noIdeaList ? 'noIdeaList' : list === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
+                    list.splice(index, 1); // Remove the kanji from the source list
+                }
+            });
+
+            // Add the kanji to the target list
+            console.log(`Adding kanji ${kanji.kanji} to ${targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
+            targetList.push(kanji); // Append to the target list
+        }
+
+        // Render the updated lists
+        renderKanjiLists();
     }
 
     // Handle "No Idea" button click
@@ -237,10 +297,12 @@ function updateChunkInfo() {
             console.log('No current kanji to add to No Idea list.');
             return;
         }
-        noIdeaList.push(currentKanji);
+        //noIdeaList.push(currentKanji);
+        moveKanjiToList(currentKanji, noIdeaList);
         disableButtons();
         showReadingAndMeaning();
         saveData();
+        displayKanji();
     });
 
     // Handle "Seen but No Idea" button click
@@ -249,10 +311,13 @@ function updateChunkInfo() {
             console.log('No current kanji to add to Seen but No Idea list.');
             return;
         }
-        seenButNoIdeaList.push(currentKanji);
+        //noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
+        //seenButNoIdeaList.push(currentKanji);
+        moveKanjiToList(currentKanji, seenButNoIdeaList);
         disableButtons();
         showReadingAndMeaning();
         saveData();
+        displayKanji();
     });
 
     // Handle "Remembered" button click
@@ -263,16 +328,18 @@ function updateChunkInfo() {
         }
 
         // Remove the current kanji from all active lists
-        noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-        seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-        rememberedList.push(currentKanji); // Add to remembered list
-
+        //noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
+        //seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
+        //rememberedList.push(currentKanji); // Add to remembered list
+        moveKanjiToList(currentKanji, rememberedList);
         // Disable buttons and show reading/meaning
         disableButtons();
-        showReadingAndMeaning();
 
         // Save progress and display the next kanji
         saveData();
+        displayKanji();
+
+        showReadingAndMeaning();
     });
 
 
@@ -291,8 +358,8 @@ function updateChunkInfo() {
             hideReadingAndMeaning();
 
             // Save progress and display the next kanji
-            saveData();
-            displayKanji();
+            //saveData();
+            //displayKanji();
         }
     });
 
@@ -373,6 +440,8 @@ function updateChunkInfo() {
 
         // Load the first chunk
         loadChunk(set.title, 0);
+        renderKanjiLists();
+
     }
 
     function loadChunk(setTitle, chunkIndex) {
@@ -456,13 +525,20 @@ function updateChunkInfo() {
 
     // Function to toggle spoilers using event delegation
     function toggleSpoilers() {
-        document.body.addEventListener('click', (event) => {
-            if (event.target.classList.contains('spoiler-button')) {
-                const spoiler = event.target.parentElement;
+        const spoilerButtons = document.querySelectorAll('.spoiler-button');
+        console.log('Found spoiler buttons:', spoilerButtons.length);
+
+        spoilerButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default behavior
+                event.stopPropagation(); // Stop event propagation
+                const spoiler = button.parentElement;
                 spoiler.classList.toggle('open');
-            }
+                console.log('Spoiler toggled:', spoiler.classList.contains('open'));
+            });
         });
     }
+
 
     // Function to handle predefined set submission
     function handlePredefinedSetSubmission() {
@@ -504,25 +580,25 @@ function updateChunkInfo() {
     }
 
     // Function to add event listeners to dynamically created elements
-function addEventListenersToButtons() {
-    const kanjiSetSelects = document.querySelectorAll('.kanji-set-select');
-    const submitPredefinedButtons = document.querySelectorAll('.submit-predefined');
+    function addEventListenersToButtons() {
+        const kanjiSetSelects = document.querySelectorAll('.kanji-set-select');
+        const submitPredefinedButtons = document.querySelectorAll('.submit-predefined');
 
-    if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
-        submitPredefinedButtons.forEach((button, index) => {
-            button.addEventListener('click', () => {
-                const selectedSet = kanjiSetSelects[index].value;
-                if (selectedSet && predefinedSets[selectedSet]) {
-                    loadPredefinedSet(selectedSet);
-                }
+        if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
+            submitPredefinedButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    const selectedSet = kanjiSetSelects[index].value;
+                    if (selectedSet && predefinedSets[selectedSet]) {
+                        loadPredefinedSet(selectedSet);
+                    }
+                });
             });
-        });
-    } else {
-        console.error('One or more elements not found:', { kanjiSetSelects, submitPredefinedButtons });
+        } else {
+            console.error('One or more elements not found:', { kanjiSetSelects, submitPredefinedButtons });
+        }
     }
-}
 
-
+    toggleSpoilers();
 
     // Function to generate dropdowns based on grouped sets
     function generateDropdowns(groupedSets) {
@@ -578,7 +654,7 @@ function addEventListenersToButtons() {
         });
 
         // Call this function after dynamically adding the elements
-addEventListenersToButtons();
+        addEventListenersToButtons();
 
         // Reattach spoiler event listeners after updating content
         toggleSpoilers();
@@ -695,6 +771,6 @@ addEventListenersToButtons();
     updateProgress();
     renderSavedSets();
     displayKanji();
-    toggleSpoilers(); // Ensure spoilers work on initial load
+    //toggleSpoilers(); // Ensure spoilers work on initial load
     handlePredefinedSetSubmission(); // Attach event listeners for predefined set submission
 });
