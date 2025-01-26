@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSetTitle = 'None';
     let savedSets = {};
     let predefinedSets = {};
-
+    let currentReviewKanji = null
 
 
     if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
@@ -148,16 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get the next Kanji to display
     function getNextKanji() {
         if (noIdeaList.length > 0) {
-            console.log('Next kanji from noIdeaList:', noIdeaList[0].kanji);
             return noIdeaList[0]; // Show the first kanji in the noIdeaList
         } else if (seenButNoIdeaList.length > 0) {
-            console.log('Next kanji from seenButNoIdeaList:', seenButNoIdeaList[0].kanji);
             return seenButNoIdeaList[0]; // Show the first kanji in the seenButNoIdeaList
         } else if (rememberedList.length > 0) {
-            console.log('Next kanji from rememberedList:', rememberedList[0].kanji);
             return rememberedList[0]; // Show the first kanji in the rememberedList
         } else {
-            console.log('No more kanji to review.');
             return null; // No more kanji to review
         }
     }
@@ -168,8 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
         currentKanji = getNextKanji(); // Update currentKanji to the next kanji
         if (currentKanji) {
-            kanjiDisplay.textContent = currentKanji.kanji;
-            hideReadingAndMeaning();
+            kanjiDisplay.textContent = currentKanji.kanji; // Display the kanji
+            hideReadingAndMeaning(); // Hide reading and meaning for the new kanji
         } else {
             // No more kanji to review
             kanjiDisplay.textContent = 'Nothing to review!';
@@ -257,37 +253,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Function to move a kanji to a specific list
     function moveKanjiToList(kanji, targetList) {
+        
         console.log('Moving kanji:', kanji.kanji);
         console.log('Target List:', targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList');
-
-        // Define all lists for easy access
+    
+        // Step 1: Remove the kanji from all lists except the target list
         const allLists = {
             noIdea: noIdeaList,
             seenButNoIdea: seenButNoIdeaList,
             remembered: rememberedList,
         };
-
-        // Determine which lists are source lists (i.e., not the target list)
-        const sourceLists = Object.values(allLists).filter(list => list !== targetList);
-        console.log('Source Lists:', sourceLists.map(list => list === noIdeaList ? 'noIdeaList' : list === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'));
-
-        // Check if the kanji is already in the target list
-        if (!targetList.includes(kanji)) {
-            // Remove the kanji from all source lists
-            sourceLists.forEach(list => {
-                const index = list.findIndex(k => k.kanji === kanji.kanji);
-                if (index !== -1) {
-                    console.log(`Removing kanji ${kanji.kanji} from ${list === noIdeaList ? 'noIdeaList' : list === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
-                    list.splice(index, 1); // Remove the kanji from the source list
-                }
-            });
-
-            // Add the kanji to the target list
-            console.log(`Adding kanji ${kanji.kanji} to ${targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
-            targetList.push(kanji); // Append to the target list
+    
+        Object.keys(allLists).forEach(listKey => {
+            if (allLists[listKey] !== targetList) {
+                allLists[listKey] = allLists[listKey].filter(k => k.kanji !== kanji.kanji); // Remove the kanji from the source list
+                console.log(`Removed kanji ${kanji.kanji} from ${listKey}`);
+            }
+        });
+    
+        // Step 2: Add the kanji to the target list if it doesn't already exist
+        const isDuplicate = targetList.some(k => k.kanji === kanji.kanji);
+        if (!isDuplicate) {
+            targetList.push(kanji); // Add the kanji to the target list
+            console.log(`Added kanji ${kanji.kanji} to ${targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
+        } else {
+            console.log(`Kanji ${kanji.kanji} is already in the target list.`);
         }
-
-        // Render the updated lists
+    
+        // Step 3: Update the global lists
+        noIdeaList = allLists.noIdea;
+        seenButNoIdeaList = allLists.seenButNoIdea;
+        rememberedList = allLists.remembered;
+    
+        // Step 4: Render the updated lists
         renderKanjiLists();
     }
 
@@ -297,12 +295,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('No current kanji to add to No Idea list.');
             return;
         }
-        //noIdeaList.push(currentKanji);
+        noIdeaList.push(currentKanji);
         moveKanjiToList(currentKanji, noIdeaList);
+        currentReviewKanji = currentKanji; // Track the kanji being reviewed
         disableButtons();
-        showReadingAndMeaning();
+        
         saveData();
         displayKanji();
+        showReadingAndMeaning();
     });
 
     // Handle "Seen but No Idea" button click
@@ -311,13 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('No current kanji to add to Seen but No Idea list.');
             return;
         }
-        //noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-        //seenButNoIdeaList.push(currentKanji);
-        moveKanjiToList(currentKanji, seenButNoIdeaList);
-        disableButtons();
-        showReadingAndMeaning();
-        saveData();
+        seenButNoIdeaList.push(currentKanji); // Move the kanji to the appropriate list
+        console.log('Updated seenButNoIdeaList:', 
+        seenButNoIdeaList.map(k => k.kanji));
+        currentReviewKanji = currentKanji;
+        disableButtons(); // Disable buttons to prevent multiple clicks
+        // Show the reading and meaning of the current kanji
+        saveData(); // Save progress
         displayKanji();
+        showReadingAndMeaning(); 
     });
 
     // Handle "Remembered" button click
@@ -332,36 +334,36 @@ document.addEventListener('DOMContentLoaded', () => {
         //seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
         //rememberedList.push(currentKanji); // Add to remembered list
         moveKanjiToList(currentKanji, rememberedList);
+        currentReviewKanji = currentKanji; // Track the kanji being reviewed
         // Disable buttons and show reading/meaning
+        console.log('Set currentReviewKanji:', currentReviewKanji.kanji);
         disableButtons();
 
+        
         // Save progress and display the next kanji
         saveData();
         displayKanji();
-
         showReadingAndMeaning();
     });
 
 
-    // Handle "Next" button click
-    nextButton.addEventListener('click', () => {
-        if (currentKanji) {
-            // Remove the current kanji from the active list
-            if (noIdeaList.includes(currentKanji)) {
-                noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-            } else if (seenButNoIdeaList.includes(currentKanji)) {
-                seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-            }
-
-            // Enable buttons and hide reading/meaning
-            enableButtons();
-            hideReadingAndMeaning();
-
-            // Save progress and display the next kanji
-            //saveData();
-            displayKanji();
+// Handle "Next" button click
+nextButton.addEventListener('click', () => {
+    if (currentKanji) {
+        // Remove the current kanji from the noIdeaList (if it exists there)
+        if (noIdeaList.includes(currentKanji)) {
+            noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
+            console.log('Removed kanji from noIdeaList:', currentKanji.kanji);
         }
-    });
+
+        // Enable buttons and hide reading/meaning
+        enableButtons();
+        hideReadingAndMeaning();
+
+        // Display the next kanji
+        displayKanji();
+    }
+});
 
 
     // Handle custom set submission
@@ -753,7 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call saveProgress whenever progress changes
     // Example: After clicking "No Idea", "Seen but No Idea", or "Remembered"
-    noIdeaButton.addEventListener('click', () => {
+/*     noIdeaButton.addEventListener('click', () => {
         noIdeaList.push(currentKanji);
         showReadingAndMeaning();
         saveProgress();
@@ -763,7 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
         seenButNoIdeaList.push(currentKanji);
         showReadingAndMeaning();
         saveProgress();
-    });
+    }); */
     // Initial setup
     loadData(); // Load saved progress on page load
     fetchPredefinedSets(); // Fetch predefined sets and generate dropdowns
