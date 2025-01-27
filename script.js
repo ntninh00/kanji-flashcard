@@ -142,8 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return noIdeaList[0]; // Show the first kanji in the noIdeaList
         } else if (seenButNoIdeaList.length > 0) {
             return seenButNoIdeaList[0]; // Show the first kanji in the seenButNoIdeaList
-        } else if (rememberedList.length > 0) {
-            return rememberedList[0]; // Show the first kanji in the rememberedList
         } else {
             return null; // No more kanji to review
         }
