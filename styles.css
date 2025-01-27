@@ -72,6 +72,7 @@ h4 {
     gap: 10px; /* Add some space between the buttons */
     flex-wrap: nowrap; /* Prevent wrapping to the next line */
     margin-top: 20px; 
+    padding-inline: 150px;
 }
 
 #options button {
@@ -90,7 +91,6 @@ h4 {
     align-items: center;
     justify-content: center;
     height: 40px; /* Fixed height for consistency */
-    width: 40px;
 }
 #options button:active {
     transform: scale(0.95);
