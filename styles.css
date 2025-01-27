@@ -72,7 +72,7 @@ h4 {
     gap: 10px; /* Add some space between the buttons */
     flex-wrap: nowrap; /* Prevent wrapping to the next line */
     margin-top: 20px; 
-    padding-inline: 150px;
+    padding-inline: 10%;
 }
 
 #options button {
