@@ -39,23 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentReviewKanji = null
 
 
-    if (kanjiSetSelects.length > 0 && submitPredefinedButtons.length > 0) {
-        submitPredefinedButtons.forEach((button, index) => {
-            button.addEventListener('click', () => {
-                const selectedSet = kanjiSetSelects[index].value;
-                if (selectedSet && predefinedSets[selectedSet]) {
-                    loadPredefinedSet(selectedSet);
-                }
-            });
-        });
-    } else {
-        console.error('One or more elements not found:', { kanjiSetSelects, submitPredefinedButtons });
-    }
-
-    // Add similar checks for other elements
-
-
-
     // Event listeners for navigation buttons
     prevChunkButton.addEventListener('click', () => {
         const set = savedSets[currentSetTitle.split(' (Part')[0]];
