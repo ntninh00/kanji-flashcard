@@ -77,18 +77,21 @@ h4 {
 #options button {
     font-family: 'Montserrat', sans-serif;
     margin: 5px;
-    padding: 8px 16px; 
-    cursor: pointer;
     background-color: transparent;
     border: 2px solid #000000;
     border-radius: 8px;
     color: #000000;
-    font-size: clamp(0.2rem, 2.5vw, 1rem); 
+    font-size: clamp(0.2rem, 2.5vw, 1rem);
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     text-transform: lowercase;
-    flex: 1; 
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow text */
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* Fixed height for consistency */
+    width: 40px;
 }
 #options button:active {
     transform: scale(0.95);
@@ -99,7 +102,21 @@ h4 {
     opacity: 0.5; /* Make buttons look faded when disabled */
     cursor: not-allowed; /* Change cursor to indicate disabled state */
 }
+/* Specific styles for each button */
+#no-idea {
+    font-size: 1.5rem; /* Larger font size for symbols */
+    content: "✕"; /* Cross symbol */
+}
 
+#seen-but-no-idea {
+    font-size: 1.8rem; /* Larger font size for symbols */
+    content: "△"; /* Triangle symbol */
+}
+
+#remembered {
+    font-size: 1.5rem; /* Larger font size for symbols */
+    content: "◯"; /* Circle symbol */
+}
 /* #options button:hover {
     background-color: #000000;
     color: #ffffff;

@@ -265,18 +265,15 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Target List:', targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList');
 
         // Step 1: Remove the kanji from all lists except the target list
-        const allLists = {
-            noIdea: noIdeaList,
-            seenButNoIdea: seenButNoIdeaList,
-            remembered: rememberedList,
-        };
-
-        Object.keys(allLists).forEach(listKey => {
-            if (allLists[listKey] !== targetList) {
-                allLists[listKey] = allLists[listKey].filter(k => k.kanji !== kanji.kanji); // Remove the kanji from the source list
-                console.log(`Removed kanji ${kanji.kanji} from ${listKey}`);
-            }
-        });
+        if (targetList !== noIdeaList) {
+            noIdeaList = noIdeaList.filter(k => k.kanji !== kanji.kanji);
+        }
+        if (targetList !== seenButNoIdeaList) {
+            seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== kanji.kanji);
+        }
+        if (targetList !== rememberedList) {
+            rememberedList = rememberedList.filter(k => k.kanji !== kanji.kanji);
+        }
 
         // Step 2: Add the kanji to the target list if it doesn't already exist
         const isDuplicate = targetList.some(k => k.kanji === kanji.kanji);
@@ -287,13 +284,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Kanji ${kanji.kanji} is already in the target list.`);
         }
 
-        // Step 3: Update the global lists
-        noIdeaList = allLists.noIdea;
-        seenButNoIdeaList = allLists.seenButNoIdea;
-        rememberedList = allLists.remembered;
+            // Shuffle the target list after adding the kanji
+        if (targetList === noIdeaList || targetList === seenButNoIdeaList) {
+            shuffleArray(targetList);
+        }
 
-        // Step 4: Render the updated lists
+        // Step 3: Render the updated lists
         renderKanjiLists();
+
     }
 
     // Handle "No Idea" button click
@@ -302,13 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('No current kanji to add to No Idea list.');
             return;
         }
-        noIdeaList.push(currentKanji);
+        //noIdeaList.push(currentKanji);
         moveKanjiToList(currentKanji, noIdeaList);
         currentReviewKanji = currentKanji; // Track the kanji being reviewed
         disableButtons();
-
         saveData();
-        displayKanji();
+        //displayKanji();
         showReadingAndMeaning();
     });
 
@@ -318,14 +315,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('No current kanji to add to Seen but No Idea list.');
             return;
         }
-        seenButNoIdeaList.push(currentKanji); // Move the kanji to the appropriate list
-        console.log('Updated seenButNoIdeaList:',
-            seenButNoIdeaList.map(k => k.kanji));
+        //seenButNoIdeaList.push(currentKanji); // Move the kanji to the appropriate list
+        console.log('Updated seenButNoIdeaList:', seenButNoIdeaList.map(k => k.kanji));
+        moveKanjiToList(currentKanji, seenButNoIdeaList); 
         currentReviewKanji = currentKanji;
         disableButtons(); // Disable buttons to prevent multiple clicks
         // Show the reading and meaning of the current kanji
         saveData(); // Save progress
-        displayKanji();
+        //displayKanji();
         showReadingAndMeaning();
     });
 
@@ -357,10 +354,10 @@ document.addEventListener('DOMContentLoaded', () => {
     nextButton.addEventListener('click', () => {
         if (currentKanji) {
             // Remove the current kanji from the noIdeaList (if it exists there)
-            if (noIdeaList.includes(currentKanji)) {
+/*             if (noIdeaList.includes(currentKanji)) {
                 noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
                 console.log('Removed kanji from noIdeaList:', currentKanji.kanji);
-            }
+            } */
 
             // Enable buttons and hide reading/meaning
             enableButtons();
@@ -429,6 +426,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+        return array;
+    }
+    
+
     // Load a set into the system
     function loadSet(set) {
         const chunks = splitIntoChunks(set.kanjiList, 50); // Split into chunks of <= 50 kanji
@@ -436,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Store all chunks and track the current chunk
         savedSets[set.title] = {
             title: set.title,
-            chunks: chunks,
+            chunks: chunks.map(chunk => shuffleArray(chunk)),
             currentChunkIndex: 0, // Start with the first chunk
             noIdeaList: [],
             seenButNoIdeaList: [],
@@ -458,27 +464,26 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Invalid chunk index or set not found.');
             return;
         }
-
+    
         // Update the current chunk index
         set.currentChunkIndex = chunkIndex;
-
+    
         // Load the kanji from the current chunk
-        kanjiList = set.chunks[chunkIndex];
+        kanjiList = shuffleArray(set.chunks[chunkIndex]); // Shuffle the kanjis in the chunk
         noIdeaList = [...kanjiList]; // Reset progress for the new chunk
         seenButNoIdeaList = [];
         rememberedList = [];
         currentSetTitle = `${set.title} (Part ${chunkIndex + 1})`;
-
+    
         // Update the UI
         setTitleDisplay.textContent = currentSetTitle;
         updateProgress();
         displayKanji();
         updateChunkInfo();
-
+    
         // Enable the buttons when loading a new set
         enableButtons(); // Ensure this is called
         console.log('New set loaded, buttons should be enabled'); // Debug: Confirm this is being called
-
     }
 
 
@@ -782,4 +787,4 @@ document.addEventListener('DOMContentLoaded', () => {
     displayKanji();
     //toggleSpoilers(); // Ensure spoilers work on initial load
     handlePredefinedSetSubmission(); // Attach event listeners for predefined set submission
-});  
+});
