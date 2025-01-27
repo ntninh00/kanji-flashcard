@@ -108,7 +108,7 @@ h4 {
 }
 
 #seen-but-no-idea {
-    font-size: 1.4rem; /* Larger font size for symbols */
+    font-size: 1.3rem; /* Larger font size for symbols */
     content: "△"; /* Triangle symbol */
 }
 
