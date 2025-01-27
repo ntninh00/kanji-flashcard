@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentKanji.examples && currentKanji.examples.length > 0) {
             exampleDisplay.innerHTML = currentKanji.examples.join('<br>'); // Use <br> for line breaks
         } else {
-            exampleDisplay.innerHTML = 'No example sentence available.'; // Default message
+            exampleDisplay.innerHTML = ''; // Default message
         }
     
         readingMeaningDiv.style.display = 'block'; // Show the reading, meaning, and examples
@@ -168,9 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Display the next Kanji
     function displayKanji() {
-
+    
         currentKanji = getNextKanji(); // Update currentKanji to the next kanji
-    if (currentKanji) {
+        if (currentKanji) {
             kanjiDisplay.textContent = currentKanji.kanji; // Display the kanji
             hideReadingAndMeaning(); // Hide reading, meaning, and examples for the new kanji
         } else {
