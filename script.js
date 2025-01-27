@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let noIdeaList = [];
     let seenButNoIdeaList = [];
     let rememberedList = [];
-    let currentSetTitle = 'None';
+    let currentSetTitle = 'please choose a kanji set below or add your own to start studying';
     let savedSets = {};
     let predefinedSets = {};
     let currentReviewKanji = null
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         noIdeaList = [];
         seenButNoIdeaList = [];
         rememberedList = [];
-        currentSetTitle = 'None';
+        currentSetTitle = 'please choose a kanji set below or add your own to start studying';
         savedSets = {};
         localStorage.removeItem('userProgress');
         updateProgress();
@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noIdeaList = data.noIdeaList || [];
             seenButNoIdeaList = data.seenButNoIdeaList || [];
             rememberedList = data.rememberedList || [];
-            currentSetTitle = data.currentSetTitle || 'None';
+            currentSetTitle = data.currentSetTitle || 'please choose a kanji set below or add your own to start studying';
             updateProgress();
             displayKanji();
         }
