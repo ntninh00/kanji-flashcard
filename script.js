@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noIdeaList = progressData.noIdeaList || [];
             seenButNoIdeaList = progressData.seenButNoIdeaList || [];
             rememberedList = progressData.rememberedList || [];
-            currentSetTitle = progressData.currentSetTitle || 'None';
+            currentSetTitle = progressData.currentSetTitle || 'please choose a kanji set below or add your own to start studying';
             savedSets = progressData.savedSets || {};
 
             console.log('Progress loaded from localStorage');
