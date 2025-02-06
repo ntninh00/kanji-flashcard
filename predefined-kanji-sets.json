@@ -1,5 +1,6 @@
 {
-    "slide week 6-1": [
+
+    "slide 6-1": [
         "木の葉, このは, lá cây",
         "砂浜, すなはま, bãi cát",
         "家中, いえじゅう, trong nhà",
@@ -69,7 +70,7 @@
         "内装, ないそう, nội thất (nhà cửa)",
         "念願, ねんがん, tâm nguyện, điều mình ao ước"
     ],
-    "slide week 6 読解": [
+    "slide 6 読解": [
         "宝⽯箱, ほうせきばこ, hộp trang sức, đá quý",
         "そうはいかない, điều đó sẽ không xảy ra",
         "横わたる, よこわたる, nằm, trải dài",
@@ -104,7 +105,7 @@
         "促す, うながす, thúc giục, thúc đẩy, khuyến khích",
         "文壇, ぶんだん, giới văn học"
     ],
-    "slide week 6-2": [
+    "slide 6-2": [
         "刈る, かる, cắt, gọt, tỉa",
         "釣る, つる, câu cá",
         "撮る, とる, chụp ảnh",
@@ -161,7 +162,7 @@
         "慰める, なぐさめる, an ủi, động viên",
         "揺れる, ゆれる, rung, lắc, lay động"
     ],
-    "slide week 7-1": [
+    "slide 7-1": [
         "装飾, そうしょく, trang trí",
         "名高い, なだかい, nổi tiếng",
         "エリック・ギル, エリック・ギル, eric gill",
@@ -235,7 +236,7 @@
         "不摂⽣な⽣活は禁物だ, ふせっせいなせいかつはきんもつだ, tránh sinh hoạt không điều độ",
         "頑丈そうな体つき, がんじょうそうなからだつき, cơ thể rắn chắc"
     ],
-    "slide week 7-2": [
+    "slide 7-2": [
         "移行, いこう, di trú, chuyển tiếp",
         "委託, いたく, ủy thác",
         "違反, いはん, vi phạm",
@@ -377,7 +378,7 @@
         "癒着, ゆちゃく, dính chặt, liền lại",
         "由来, ゆらい, nguồn gốc, gốc gác"
     ],
-    "slide week 8-1": [
+    "slide 8-1": [
         "著書, ちょしょ, tác phẩm",
         "独創的な・ユニークな, どくそうてき, tác phẩm độc đáo",
         "原文のニュアンス, げんぶんのニュアンス, sắc thái của bản gốc",
@@ -413,7 +414,7 @@
         "強豪を相手に健闘する・奮闘する, きょうごうをあいてにけんとうする・ふんとうする, lấy đội cực mạnh làm đối thủ để chiến đấu",
         "意気込む, いきごむ, hăng hái, hào hứng"
     ],
-    "slide week 8-2": [
+    "slide 8-2": [
         "自己利益の追求, じこりえきのついきゅう, theo đuổi lợi ích cá nhân",
         "衝き動く, つきうごく, kích thích, thúc giục",
         "散々働く, さんざんはたらく, làm việc chăm chỉ",
@@ -501,7 +502,7 @@
         "抽象的な面, ちゅうしょうてきなめん, mặt trừu tượng",
         "比喩, ひゆ, ẩn dụ"
     ],
-    "slide week 8-3": [
+    "slide 8-3": [
         "負う, おう, mang, vác, khuân, chịu trách nhiệm#負う責任を果たす。hoàn thành trách nhiệm đã gánh vác",
         "舞う, まう, cuộn, nhảy múa, xao xuyến#桜の花びらが風に舞う。những cánh hoa anh đào bay trong gió",
         "競う, きそう, tranh giành nhau, ganh đua#選手たちが記録を競う。các tuyển thủ tranh giành kỷ lục",
@@ -513,7 +514,7 @@
         "背く, そむく, phản bội, lìa bỏ, quay lưng#親の教えに背く。trái lời dạy của bố mẹ",
         "導く, みちびく, hướng dẫn, dẫn dắt#成功へ導く。dẫn đến thành công",
         "接ぐ, つぐ, ghép, nối#折れた骨を接ぐ。nối xương gãy",
-        "研ぐ, とぐ, mài, rũa#包丁を研ぐ。mài dao",
+        "研ぐ, とぐ, mài, giũa#包丁を研ぐ。mài dao",
         "担ぐ, かつぐ, khiêng, vác, lừa bịp, mê tín#荷物を担ぐ。khiêng hành lý",
         "召す, めす, bị, ăn uống, mời, triệu, gọi#お茶を召し上がる。dùng trà",
         "記す, しるす, đánh dấu#名前を記す。ghi lại tên",
@@ -577,6 +578,49 @@
         "乱れる, みだれる, bị xáo trộn, rối bời, lúng túng#電車の運行が乱れる。\nLịch trình tàu bị xáo trộn.",
         "訪れる, おとずれる, ghé thăm, ghé chơi#彼は友人を訪れるために京都へ行った。\nAnh ấy đã đi Kyoto để thăm bạn.",
         "値する, あたいする, xứng đáng (尊敬に～）#彼の努力は尊敬に値する。\nNỗ lực của anh ấy xứng đáng được tôn trọng."
+    ],
+    "slide 9-1":[
+        "中高一貫の学校, ちゅうこういっかんのがっこう, trường kết hợp trung học cơ sở và trung học phổ thông#この学校は中高一貫教育を提供している。Ngôi trường này cung cấp giáo dục kết hợp trung học cơ sở và trung học phổ thông.\n中高一貫の学校では、長期的な学習計画を立てやすい。Ở trường kết hợp trung học, dễ dàng lập kế hoạch học tập dài hạn.",
+        "四年制大学, よんねんせいだいがく, đại học 4 năm#彼は四年制大学を卒業した。Anh ấy đã tốt nghiệp đại học 4 năm.\n四年制大学では、専門知識だけでなく一般教養も学ぶ。Tại đại học 4 năm, không chỉ học kiến thức chuyên ngành mà còn học kiến thức đại cương.",
+        "短大, たんだい, cao đẳng#短大を卒業してすぐに就職した。Tôi đã tìm được việc làm ngay sau khi tốt nghiệp cao đẳng.\n短大は四年制大学よりも学習期間が短い。Cao đẳng có thời gian học ngắn hơn đại học 4 năm.",
+        "大学院, だいがくいん, trường đào tạo sau đại học#彼は大学院で研究を続ける予定だ。Anh ấy dự định tiếp tục nghiên cứu tại trường sau đại học.\n大学院に進学するには、入試に合格しなければならない。Để vào trường sau đại học, phải đậu kỳ thi đầu vào.",
+        "予備校, よびこう, lò luyện thi#彼は志望大学に合格するために予備校に通っている。Anh ấy đang theo học lò luyện thi để đỗ vào trường đại học mong muốn.\n予備校の授業はとても厳しいが、効果的だ。Các lớp học ở lò luyện thi rất nghiêm khắc nhưng hiệu quả.",
+        "校風, こうふう, truyền thống, phong cách của nhà trường#この学校の校風は自由でのびのびしている。Truyền thống của trường này rất tự do và thoải mái.\n厳しい校風の学校では規律が重視される。Ở các trường có phong cách nghiêm khắc, kỷ luật được coi trọng.",
+        "厳格な校風, げんかくなこうふう, phong cách trường khắc khe, nghiêm khắc#この学校は厳格な校風で知られている。Trường này nổi tiếng với phong cách nghiêm khắc.\n厳格な校風のため、学生は規則を守ることが求められる。Do phong cách nghiêm khắc, học sinh phải tuân thủ các quy tắc.",
+        "リベラルな校風, こうふう, phong cách trường thoải mái#リベラルな校風の学校では生徒の自主性が尊重される。Ở các trường có phong cách thoải mái, tính tự chủ của học sinh được tôn trọng.\n自由な雰囲気の中で学ぶことで、創造力が育まれる。Học tập trong môi trường tự do giúp phát triển khả năng sáng tạo.",
+        "講義を受講する, こうぎをじゅこうする, tiếp thu bài giảng#学生たちは熱心に講義を受講している。Sinh viên chăm chỉ tiếp thu bài giảng.\nオンラインで講義を受講することも可能だ。Cũng có thể tiếp thu bài giảng trực tuyến.",
+        "ゼミを聴講する, ちょうこうする, lắng nghe bài học (trình bày về một đề tài nghiên cứu ở đại học)#大学生はゼミを聴講して研究を深める。Sinh viên đại học lắng nghe bài giảng để nghiên cứu sâu hơn.\n聴講生としてゼミに参加することもできる。Cũng có thể tham gia lớp học với tư cách là thính giả.",
+        "必修科目を取る, ひっしゅうかもくをとる, học những môn bắt buộc#大学では必修科目を取らなければならない。Ở đại học, phải học các môn bắt buộc.\nこの必修科目は卒業に必要だ。Môn học bắt buộc này cần thiết để tốt nghiệp.",
+        "選択科目を取る, せんたくかもくをとる, học những môn tự chọn#自分の興味に合った選択科目を取ることができる。Có thể chọn môn học phù hợp với sở thích của bản thân.\n選択科目の中には実践的な授業もある。Trong số các môn tự chọn, có cả những lớp học mang tính thực tiễn.",
+        "文献を購読する, ぶんけんをこうどくする, mua đọc các tài liệu#研究のために専門の文献を購読する。Tôi mua tài liệu chuyên ngành để nghiên cứu.\n図書館で文献を購読することができる。Có thể đọc tài liệu trong thư viện.",
+        "質疑応答を行う, しつぎおうとうをおこなう, tiến hành ứng đáp các câu hỏi#授業の最後に質疑応答を行う。Giáo viên tiến hành phần hỏi đáp vào cuối buổi học.\n質疑応答の時間に積極的に質問した。Tôi đã đặt câu hỏi tích cực trong phần hỏi đáp.",
+        "学士課程, がくしかてい, khóa học cử nhân#彼は学士課程を修了した。Anh ấy đã hoàn thành khóa học cử nhân.\n学士課程では基礎知識をしっかり学ぶ。Trong khóa học cử nhân, học vững kiến thức cơ bản.",
+        "修士課程, しゅうしかてい, khóa học thạc sĩ#修士課程に進学する予定だ。Tôi dự định học lên thạc sĩ.\n修士課程ではより専門的な研究を行う。Trong khóa học thạc sĩ, nghiên cứu chuyên sâu hơn.",
+        "博士課程, はくし/はかせ, khóa học tiến sĩ#彼は博士課程で新しい理論を研究している。Anh ấy đang nghiên cứu lý thuyết mới trong khóa học tiến sĩ.\n博士課程を修了するのは大変なことだ。Hoàn thành khóa học tiến sĩ là một việc khó khăn.",
+        "筆記試験, ひっきしけん, thi viết#大学の入学試験には筆記試験が含まれる。Kỳ thi đầu vào đại học có cả thi viết.\n筆記試験では論理的な文章を書く力が求められる。Trong kỳ thi viết, yêu cầu có kỹ năng viết luận hợp lý.",
+        "口述試験, こうじゅつしけん, thi vấn đáp#卒業試験の一部として口述試験が行われる。Kỳ thi vấn đáp được tổ chức như một phần của kỳ thi tốt nghiệp.\n口述試験では的確に答えることが重要だ。Trong kỳ thi vấn đáp, việc trả lời chính xác là rất quan trọng.",
+        "実技試験, じつぎしけん, thi thực hành#芸術大学では実技試験が重視される。Ở trường đại học nghệ thuật, kỳ thi thực hành rất quan trọng.\n実技試験では技術だけでなく創造力も試される。Trong kỳ thi thực hành, không chỉ kỹ năng mà cả sự sáng tạo cũng được kiểm tra.",
+        "学問を志す, がくもんをこころざす, mong muốn học hành#彼は学問を志して大学に入った。Anh ấy vào đại học với mong muốn học hành.\n学問を志す若者が減っていると言われている。Người ta nói rằng ngày càng ít thanh niên có mong muốn học hành.",
+        "奨学金を授与される, しょうがくきんをじゅよされる, nhận được học bổng#彼は優秀な成績で奨学金を授与された。Anh ấy nhận được học bổng nhờ thành tích xuất sắc.\n奨学金を授与されるには、申請書が必要だ。Để nhận học bổng, cần phải nộp đơn đăng ký.",
+        "入学金を免除される, にゅうがくきんをめんじょされる, miễn phí nhập học#経済的な理由で入学金を免除された。Tôi được miễn phí nhập học vì lý do tài chính.\n成績優秀者には入学金の免除制度がある。Có chính sách miễn phí nhập học cho những sinh viên có thành tích xuất sắc.",
+        "学費を振り込む, がくひをふりこむ, đóng tiền học#毎年、学費を銀行に振り込む。Mỗi năm, tôi chuyển khoản học phí vào ngân hàng.\n学費の振込期限を忘れないように注意する。Hãy chú ý để không quên hạn nộp học phí.",
+        "非行に走る, ひこうにはしる, có hành vi không tốt, sai trái (đi vào con đường xấu)#彼は非行に走り、家族を心配させた。Anh ấy sa vào con đường xấu, khiến gia đình lo lắng.\n非行に走らないように、周囲の支えが必要だ。Để không sa vào con đường xấu, cần có sự hỗ trợ từ xung quanh.",
+        "専門用語を定義する, せんもんようごをていぎする, định nghĩa từ vựng chuyên ngành#専門用語を正しく定義することが重要だ。Việc định nghĩa đúng từ vựng chuyên ngành là rất quan trọng.\n専門用語を定義することで、理解が深まる。Định nghĩa từ chuyên ngành giúp hiểu sâu hơn.",
+        "類推する, るいすいする, suy đoán (đưa ra suy đoán chủ quan dựa vào kiến thức của bản thân)#彼の話から結論を類推した。Tôi suy đoán kết luận từ câu chuyện của anh ấy.\n未知の単語の意味を類推することは大切だ。Việc suy đoán ý nghĩa của từ chưa biết là rất quan trọng.",
+        "権威がある学説, けんいがあるがくせつ, học thuyết có quyền uy, có tầm ảnh hưởng lớn#この学説は多くの研究者に認められている。Học thuyết này được nhiều nhà nghiên cứu công nhận.\n権威がある学説に基づいて研究を進める。Tiến hành nghiên cứu dựa trên học thuyết có tầm ảnh hưởng lớn.",
+        "箇条書き, かじょうがき, gạch từng gạch đầu dòng#レポートを箇条書きで整理する。Tôi sắp xếp báo cáo dưới dạng gạch đầu dòng.\n箇条書きにすると、分かりやすくなる。Viết theo dạng gạch đầu dòng sẽ dễ hiểu hơn.",
+        "まごつく, まごつく, bối rối, lúng túng#初めての仕事でまごついてしまった。Tôi đã bối rối trong công việc đầu tiên.\n道に迷ってまごついた。Tôi lúng túng khi bị lạc đường.",
+        "修学旅行, しゅうがくりょこう, học dã ngoại, du lịch để học tập#高校生は修学旅行で京都を訪れた。Học sinh trung học đã đến Kyoto trong chuyến du lịch học tập.\n修学旅行の準備が大変だった。Việc chuẩn bị cho chuyến du lịch học tập rất vất vả。",
+        "級友, きゅうゆう, bạn cùng lớp#級友と一緒に勉強するのは楽しい。Học cùng bạn cùng lớp rất vui.\n級友とは卒業後も連絡を取り合っている。Tôi vẫn giữ liên lạc với bạn cùng lớp sau khi tốt nghiệp.",
+        "いざ, いざ, nào, bắt đầu gì đấy (vào đề) / khi cần thiết#いざ発表の時になると緊張してしまう。Khi đến lúc thuyết trình, tôi lại căng thẳng.\nいざという時のために準備しておく。Chuẩn bị sẵn sàng cho những lúc cần thiết.",
+        "てっきり〜と思う, てっきり〜とおもう, cứ ngỡ là~#てっきり彼は来ると思っていた。Tôi cứ ngỡ anh ấy sẽ đến.\n彼女は学生だと思っていたが、てっきり先生だった。Tôi cứ ngỡ cô ấy là sinh viên, hóa ra lại là giáo viên.",
+        "つくづく, つくづく, thấm thía, sâu sắc#失敗して初めて努力の大切さをつくづく感じた。Sau khi thất bại, tôi mới thấm thía tầm quan trọng của nỗ lực.\nつくづく人生について考える。Suy ngẫm sâu sắc về cuộc sống.",
+        "延々と, えんえんと, dài nhằng nhẵng#彼は会議で延々と話し続けた。Anh ấy cứ nói mãi trong cuộc họp.\n延々と続くトンネルを通る。Đi qua một đường hầm kéo dài mãi không dứt.",
+        "簡潔にまとめる, かんけつにまとめる, tóm tắt dễ hiểu#レポートは簡潔にまとめることが大切だ。Việc tóm tắt báo cáo một cách dễ hiểu là rất quan trọng.\n簡潔にまとめることで、伝わりやすくなる。Tóm tắt ngắn gọn giúp dễ truyền đạt hơn.",
+        "有益な指摘を受ける, ゆうえきなしてきをうける, nhận được chỉ trích hữu ích#先生から有益な指摘を受けた。Tôi đã nhận được những lời chỉ trích hữu ích từ giáo viên.\n有益な指摘を受けることで成長できる。Nhận những góp ý hữu ích giúp ta trưởng thành hơn.",
+        "会員制, かいいんせい, chế độ thành viên; chế độ hội viên#このジムは会員制なので、登録が必要だ。Phòng tập này theo chế độ thành viên nên cần đăng ký.\n会員制のサービスは特典が多い。Dịch vụ theo chế độ thành viên có nhiều ưu đãi.",
+        "予約制, よやくせい, chế độ hẹn trước#このレストランは予約制だ。Nhà hàng này hoạt động theo chế độ đặt chỗ trước.\n予約制の病院なら待ち時間が少ない。Ở bệnh viện theo chế độ hẹn trước thì thời gian chờ ít hơn.",
+        "前書き, まえがき, lời nói đầu; đoạn mở đầu#本の前書きを読んでから本文に入る。Đọc lời nói đầu trước khi vào phần chính của cuốn sách.\nこの論文の前書きはとても興味深い。Lời nói đầu của bài luận này rất thú vị。"
     ],
     "徹底１〜１５ set 1": [
         "維持, いじ, duy trì",
