@@ -52,15 +52,51 @@ h4 {
     text-transform: lowercase;
 }
 
+h5 {
+    font-size:0.8;
+    font-weight: 400;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    color:black;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 300px;
+    position: relative;
+    border-radius: 20px;
+    text-align: center;
+    animation: popIn 0.3s;
+}
+@keyframes popIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
 #kanji-display {
-    margin-bottom: 15px; /* Reduced margin */
+    margin-bottom: 15px; 
     width: 100%;
     max-width: 700px;
 }
 
 .kanji-card {
     background-color: #d8d8d8;
-    padding: 15px; /* Reduced padding */
+    padding: 15px; 
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -406,6 +442,7 @@ h4 {
     font-size: 1rem;
 }
 /* Light Mode Styles (Default) */
+#chunk-size-btn,
 #prev-chunk,
 #next-chunk {
     font-family: 'Montserrat', sans-serif;
@@ -420,7 +457,7 @@ h4 {
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     text-transform: lowercase;
 }
-
+#chunk-size-btn:hover,
 #prev-chunk:hover,
 #next-chunk:hover {
     background-color: #000000;
@@ -442,6 +479,9 @@ body.dark-mode {
     color: #ffffff;
 }
 
+body.dark-mode #save-chunk-size{
+    color: black;
+}
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
@@ -561,11 +601,13 @@ body.dark-mode #predefined-kanji-sets select {
     appearance: none; /* Remove default arrow */
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
 }
+body.dark-mode #chunk-size-btn,
 body.dark-mode #prev-chunk,
 body.dark-mode #next-chunk {
     border-color: #ffffff;
     color: #ffffff;
 }
+body.dark-mode #chunk-size-btn:hover,
 body.dark-mode #prev-chunk:hover,
 body.dark-mode #next-chunk:hover {
     background-color: #ffffff;

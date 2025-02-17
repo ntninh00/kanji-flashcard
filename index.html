@@ -58,8 +58,19 @@
     <div id="kanji-display">
         <div class="kanji-card">
             <div id="chunk-navigation">
-                <button id="prev-chunk">Previous part</button>
-                <button id="next-chunk">Next part</button>
+                <button id="prev-chunk">◄</button>
+                <button id="chunk-size-btn">customize</button>
+                <button id="next-chunk">►</button>
+            </div>
+            
+            <div id="chunk-size-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close close-chunk-size"></span>
+                    <label for="chunk-size-input">kanji per set:</label>
+                    <input type="number" id="chunk-size-input" min="1" max="100" value="30">
+                    <button id="save-chunk-size">save</button>
+                    <h5>load another set to apply changes</h5>
+                </div>
             </div>
             <h4 id="kanji"></h4>
             <div id="options">

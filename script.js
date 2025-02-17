@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevChunkButton = document.getElementById('prev-chunk');
     const nextChunkButton = document.getElementById('next-chunk');
     const chunkInfo = document.getElementById('chunk-info');
+    const chunkSizeBtn = document.getElementById('chunk-size-btn');
+    const chunkSizeModal = document.getElementById('chunk-size-modal');
+    const saveChunkSizeBtn = document.getElementById('save-chunk-size');
+    const chunkSizeInput = document.getElementById('chunk-size-input');
+    const closeChunkSizeModal = document.querySelector('.close-chunk-size');
 
 
     let kanjiList = [];
@@ -37,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let savedSets = {};
     let predefinedSets = {};
     let currentReviewKanji = null
-
 
     // Event listeners for navigation buttons
     prevChunkButton.addEventListener('click', () => {
@@ -414,12 +418,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return array;
     }
+
+    // Chunk Size Adjustment
+    chunkSizeBtn.addEventListener('click', () => {
+        chunkSizeModal.style.display = 'block';
+    });
+
+    closeChunkSizeModal.addEventListener('click', () => {
+        chunkSizeModal.style.display = 'none';
+    });
+
+    saveChunkSizeBtn.addEventListener('click', () => {
+        const newSize = parseInt(chunkSizeInput.value);
+        if (!isNaN(newSize) && newSize > 0) {
+            localStorage.setItem('chunkSize', newSize);
+            chunkSizeModal.style.display = 'none';
+            
+            // Update current set with new chunk size
+            const currentSetTitle = document.getElementById('current-set-title').textContent;
+            const baseSetTitle = currentSetTitle.split(' (Part')[0];
+            const currentSet = savedSets[baseSetTitle];
+            
+            if (currentSet) {
+                // Save current progress before re-chunking
+                currentSet.noIdeaList = noIdeaList;
+                currentSet.seenButNoIdeaList = seenButNoIdeaList;
+                currentSet.rememberedList = rememberedList;
+                
+                // Re-chunk the set
+                const newChunks = splitIntoChunks(currentSet.kanjiList, newSize);
+                currentSet.chunks = newChunks;
+                
+                // Reload current chunk
+                const currentChunkIndex = currentSet.currentChunkIndex;
+                loadChunk(baseSetTitle, currentChunkIndex);
+            }
+        }
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === chunkSizeModal) {
+            chunkSizeModal.style.display = 'none';
+        }
+    });
+
+    // Initialize chunk size input
+    chunkSizeInput.value = localStorage.getItem('chunkSize') || 30;
     
 
     // Load a set into the system
     function loadSet(set) {
-        const chunks = splitIntoChunks(set.kanjiList, 30); // Split into chunks of <= 50 kanji
-
+        const chunkSize = parseInt(localStorage.getItem('chunkSize')) || 30;
+        const chunks = splitIntoChunks(set.kanjiList, chunkSize);
+        
         // Store all chunks and track the current chunk
         savedSets[set.title] = {
             title: set.title,
