@@ -361,26 +361,32 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please enter a name for your set.');
             return;
         }
-
+    
         const lines = kanjiInput.value.split('\n');
         const newKanjiList = [];
         lines.forEach(line => {
-            const parts = line.split(',');
+            const [kanjiData, examples] = line.split('#'); // Split into kanji data and examples
+            const parts = kanjiData.split(','); // Split kanji data by commas
             if (parts.length >= 3) {
                 const kanji = parts[0].trim();
                 const reading = parts[1].trim();
-                const meaning = parts.slice(2).join(',').trim(); // Everything after the second comma
+                const meaning = parts.slice(2).join(',').trim(); // Capture everything after the second comma
                 if (kanji && reading && meaning) {
-                    newKanjiList.push({ kanji, reading, meaning });
+                    newKanjiList.push({
+                        kanji,
+                        reading,
+                        meaning,
+                        examples: examples ? examples.split('\n') : [] // Split examples into an array
+                    });
                 }
             }
         });
-
+    
         if (newKanjiList.length === 0) {
             alert('Please enter valid Kanji data.');
             return;
         }
-
+    
         const newSet = {
             title: setName,
             kanjiList: newKanjiList,
@@ -388,13 +394,14 @@ document.addEventListener('DOMContentLoaded', () => {
             seenButNoIdeaList: [],
             rememberedList: []
         };
-
+    
         savedSets[setName] = newSet;
         loadSet(newSet);
         setTitleInput.value = '';
         kanjiInput.value = '';
         renderSavedSets();
     });
+    
 
 
 
@@ -712,14 +719,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const newKanjiList = [];
         lines.forEach(line => {
             const [kanjiData, examples] = line.split('#'); // Split into kanji data and examples
-            const [kanji, reading, meaning] = kanjiData.split(',').map(item => item.trim()); // Split kanji data
-            if (kanji && reading && meaning) {
-                newKanjiList.push({
-                    kanji,
-                    reading,
-                    meaning,
-                    examples: examples ? examples.split('\n') : [] // Split examples into an array
-                });
+            const parts = kanjiData.split(','); // Split kanji data by commas
+            if (parts.length >= 3) {
+                const kanji = parts[0].trim();
+                const reading = parts[1].trim();
+                const meaning = parts.slice(2).join(',').trim(); // Capture everything after the second comma
+                if (kanji && reading && meaning) {
+                    newKanjiList.push({
+                        kanji,
+                        reading,
+                        meaning,
+                        examples: examples ? examples.split('\n') : [] // Split examples into an array
+                    });
+                }
             }
         });
     
@@ -737,6 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         loadSet(newSet);
     }
+    
 
 
     function splitIntoChunks(kanjiList, maxChunkSize = 50) {
