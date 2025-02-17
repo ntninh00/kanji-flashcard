@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load a set into the system
     function loadSet(set) {
-        const chunks = splitIntoChunks(set.kanjiList, 50); // Split into chunks of <= 50 kanji
+        const chunks = splitIntoChunks(set.kanjiList, 30); // Split into chunks of <= 50 kanji
 
         // Store all chunks and track the current chunk
         savedSets[set.title] = {
