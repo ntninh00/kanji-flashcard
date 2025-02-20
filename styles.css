@@ -16,13 +16,14 @@ body {
 }
 
 h1 {
-    font-size: clamp(2.5rem, 2.5vw, 2.5rem);
+    font-size: clamp(2rem, 3.5vw, 4rem);
     font-weight: 5000;
     color: #000000;
+    margin-top: -10px;
     margin-bottom: -30px; /* Reduced margin */
     text-align: center;
     text-transform: uppercase;
-    flex:auto;
+    flex-wrap: nowrap;
 }
 
 h2 {
@@ -159,7 +160,8 @@ h5 {
 
 /* Hover effect for "No Idea" button */
 #no-idea:hover {
-    background-color: #000000; 
+    background-color: #e25f5f; 
+    border-color: #e25f5f; 
     color: #ffffff;
     transform: translateY(-2px);
 }
@@ -168,7 +170,7 @@ h5 {
 #seen-but-no-idea:hover {
     background-color: #ffd700; 
     border-color: #ffd700;
-    color: #000000;
+    color: #ffffff;
     transform: translateY(-2px);
 }
 
@@ -190,11 +192,10 @@ h5 {
     margin: 8px 0; /* Reduced margin */
 }
 #example {
-    font-size: 0.9rem; /* Slightly smaller font for examples to distinguish from reading/meaning */
-    margin: 100px 0; /* Slightly more margin above/below example for separation */
-    padding: 5px 15; /* Add minimal vertical padding and slight horizontal padding for refinement */
+    font-size: 0.9rem; 
+    margin: 100px 0;
+    padding: 5px 15; 
     max-width: 50%;
-    
 }
 
 #next {
@@ -249,9 +250,9 @@ h5 {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out;
-    margin-top: 10px; /* Reduced margin */
+    margin-top: 10px; 
     background-color: #f9f9f9;
-    padding: 10px; /* Reduced padding */
+    padding: 10px;
     border-radius: 8px;
     border: 2px solid #e0e0e0;
 }
@@ -366,7 +367,7 @@ h5 {
 #progress {
     width: 80%;
     max-width: 700px;
-    margin-top:20px;
+    margin-top:0px;
     margin-bottom: 0px; /* Reduced margin */
     display: flex;
     align-items: center; /* Vertically center align items */
@@ -529,7 +530,8 @@ body.dark-mode #options button {
     border-color: #ffffff;
 }
 body.dark-mode #no-idea:hover {
-    background-color: #ffffff; /* White background */
+    background-color: #e25f5f; 
+    border-color: #e25f5f; 
     color: #000000; /* Black text */
 }
 

@@ -730,8 +730,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSet(newSet);
     }
     
-
-
     function splitIntoChunks(kanjiList, maxChunkSize = 50) {
         const totalKanji = kanjiList.length;
         const numberOfChunks = Math.ceil(totalKanji / maxChunkSize); // Number of chunks needed
@@ -750,7 +748,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return chunks;
     }
-
 
     // Initial setup
     loadData(); // Load saved progress on page load
