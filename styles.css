@@ -90,49 +90,112 @@ h5 {
 }
 
 #kanji-display {
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
     width: 100%;
     max-width: 700px;
+    position: relative; 
+    transition: opacity 0.3s ease; 
+    justify-content: center;
+    align-items: center;
 }
 
 .kanji-card {
-    background-color: #d8d8d8; 
+    background-color: #d8d8d8;
     padding: 20px;
-    border-radius: 15px; 
+    border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 80%;
-    max-width: 500px; 
-    margin: 0 auto; 
+    margin: 0 auto;
     position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease; /* Simplified to just flip, reduced timing */
+    min-height: 20px;
+    display: block; 
+    flex-direction: column;
 }
+
+.kanji-card.flip {
+    transform: rotateY(180deg);
+}
+
+/* Show back when flipped */
+.kanji-card.flip .card-front {
+    display: none;
+}
+
+.kanji-card.flip .card-back {
+    display: flex;
+    transform: rotateY(180deg);
+}
+
+/* Front and Back faces of the card */
+.card-front, .card-back {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    padding: 0;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    transform-origin: center;
+
+}
+
+.card-front {
+    display: flex;
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+
+/* Slide Animation for Next Card */
+@keyframes slideFadeOut {
+    /* Removed */
+}
+
+@keyframes slideFadeIn {
+    /* Removed */
+}
+
+
 
 /* Container for the buttons */
 #options {
     display: flex;
-    justify-content: space-between; /* Space out the buttons evenly */
-    gap: 10px; /* Add some space between the buttons */
-    flex-wrap: nowrap; /* Prevent wrapping to the next line */
-    margin-top: 20px; 
+    justify-content: center; /* Center buttons horizontally */
+    gap: 15px; /* Increased gap for better spacing */
+    flex-wrap: nowrap;
+    margin-top: 15px;
     padding-inline: 10%;
+    width: 100%;
+
 }
 
 #options button {
     font-family: 'Montserrat', sans-serif;
-    margin: 5px;
+    margin: 0; /* Remove individual margins */
     background-color: transparent;
     border: 2px solid #000000;
-    border-radius: 10px;
+    border-radius: 30px;
     color: #000000;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     text-transform: lowercase;
-    flex: 1;
+    flex: 0 0 auto; /* Prevent stretching, maintain natural size */
     white-space: nowrap;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px; /* Fixed height for consistency */
+    height: 50px; /* Consistent height */
+    width: 50px; /* Fixed width for square ratio */
+    padding: 0; /* Remove padding to fit icons */
+
 }
 #options button svg{
     width:16px;
@@ -143,9 +206,7 @@ h5 {
     transition: transform 0.1s ease;
 }
 
-#options button:disabled {
-    display:none;
-}
+
 
 /* Hover effect for "No Idea" button */
 #no-idea:hover {
@@ -171,14 +232,29 @@ h5 {
     transform: translateY(-2px);
 }
 
+#kanji-back {
+    font-family: "MS Mincho", "Yu Mincho", "Hiragino Mincho Pro", serif;
+    font-size: clamp(2.3rem, 3.5vw, 4rem);
+    font-weight: 400;
+    color: #000000;
+    margin: 0 0 10px 0; /* Space below Kanji */
+}
+
 #reading-meaning {
-    margin-top: -20px; /* Reduced margin */
+    margin-top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; 
 }
 
 #reading-meaning p {
-    font-size: 1rem; /* Slightly smaller */
+    font-size: 1rem;
     color: #000000;
-    margin: 8px 0; /* Reduced margin */
+    margin: 8px 0;
+    word-break: break-word;
+    max-width: 100%;  /* Reduced margin */
 }
 #example {
     font-size: 0.9rem; 
@@ -188,9 +264,8 @@ h5 {
 }
 
 #next {
-    display: none; /* Initially hidden */
-    margin: 10px auto;
-    margin-top: 10px;
+    display: none;
+    margin: 10px auto 0 auto; 
     background-color: transparent;
     color: #000000;
     border: 2px solid #000000;
@@ -200,6 +275,10 @@ h5 {
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     text-transform: lowercase;
+    width: auto; /* Ensure natural width */
+    max-width: 100%; /* Prevent overflow */
+    text-align: center; /* Ensure text inside is centered */
+    position: relative;
 }
 
 #next:hover {
@@ -487,6 +566,7 @@ body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
 body.dark-mode h4,
+body.dark-mode #kanji-back,
 body.dark-mode #reading-meaning p,
 body.dark-mode #saved-sets-list li {
     color: #ffffff;
@@ -548,6 +628,7 @@ body.dark-mode select:focus {
 body.dark-mode .kanji-card {
     background-color: #272727;
     text-transform: lowercase;
+    align-items: center; 
 }
 body.dark-mode .kanji-card #reading,
 body.dark-mode .kanji-card #example,
@@ -745,3 +826,4 @@ body.dark-mode #reset-progress:hover {
 body.dark-mode #options button svg {
     fill: white;
 }
+

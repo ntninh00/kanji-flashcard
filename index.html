@@ -74,18 +74,22 @@
     <!-- Kanji Display Section -->
     <div id="kanji-display">
         <div class="kanji-card">
-            
-            <h4 id="kanji"></h4>
-            <div id="options">
+            <div class="card-front">
+                <h4 id="kanji"></h4>
+                <div id="options">
                 <button id="no-idea"><?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="52px" id="Capa_1" style="enable-background:new 0 0 47 52;" version="1.1" viewBox="0 0 47 52" width="47px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M45.243,41.757L31.455,26l13.788-15.758c2.343-2.344,2.343-6.143,0-8.486c-2.345-2.343-6.144-2.342-8.486,0.001   L23.5,16.909L10.243,1.757C7.9-0.585,4.102-0.586,1.757,1.756c-2.343,2.344-2.343,6.143,0,8.486L15.545,26L1.757,41.757   c-2.343,2.343-2.343,6.142-0.001,8.485c2.344,2.344,6.143,2.344,8.487,0L23.5,35.09l13.257,15.152c2.345,2.344,6.144,2.344,8.487,0   C47.586,47.899,47.586,44.1,45.243,41.757z"/></g><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/></svg></button>
                 <button id="seen-but-no-idea"><?xml version="1.0" ?><svg class="bi bi-triangle-fill"  height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767L7.022 1.566z" fill-rule="evenodd"/></svg></button>
                 <button id="remembered"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/></svg></button>
+                </div>
             </div>
-            <div id="reading-meaning" style="display: none;">
-                <p><span id="reading"></span></p>
-                <p><span id="meaning"></span></p>
-                <p><span id="example"></span></p>
-                <button id="next">Next</button>
+            <div class="card-back">
+                <h4 id="kanji-back"></h4>
+                <div id="reading-meaning" style="display: block;">                    
+                    <p><span id="reading"></span></p>
+                    <p><span id="meaning"></span></p>
+                    <p><span id="example"></span></p>
+                    <button id="next">Next</button>
+                </div>
             </div>
         </div>
     </div>

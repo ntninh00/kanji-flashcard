@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveChunkSizeBtn = document.getElementById('save-chunk-size');
     const chunkSizeInput = document.getElementById('chunk-size-input');
     const closeChunkSizeModal = document.querySelector('.close-chunk-size');
+    const kanjiBackDisplay = document.getElementById('kanji-back'); 
+    const kanjiCard = document.querySelector('.kanji-card');
 
 
     let kanjiList = [];
@@ -98,30 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Buttons enabled');
     }
 
-    // Show the reading and meaning of the current Kanji
-    function showReadingAndMeaning() {
-        if (!currentKanji) {
-            console.log('No current kanji to show details for.');
-            return;
-        }
-        readingDisplay.textContent = currentKanji.reading; // Show reading
-        meaningDisplay.textContent = currentKanji.meaning; // Show meaning
-    
-        // Show example sentences (if available)
-        if (currentKanji.examples && currentKanji.examples.length > 0) {
-            exampleDisplay.innerHTML = currentKanji.examples.join('<br>'); // Use <br> for line breaks
-        } else {
-            exampleDisplay.innerHTML = ''; // Default message
-        }
-    
-        readingMeaningDiv.style.display = 'block'; // Show the reading, meaning, and examples
-        nextButton.style.display = 'block'; // Ensure the Next button is visible
-    }
 
     // Hide the reading and meaning
     function hideReadingAndMeaning() {
-        readingMeaningDiv.style.display = 'none';
+        kanjiCard.classList.remove('flip');
     }
+
 
     // Update Progress Bar
     function updateProgress() {
@@ -151,21 +135,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function syncCardHeight() {
+        const card = document.querySelector('.kanji-card');
+        const front = document.querySelector('.card-front');
+        const back = document.querySelector('.card-back');
+        
+        // Reset height to auto to measure natural height
+        card.style.height = 'auto';
+        front.style.height = 'auto';
+        back.style.height = 'auto';
+        
+        // Get the tallest height
+        const frontHeight = front.offsetHeight;
+        const backHeight = back.offsetHeight;
+        const maxHeight = Math.max(frontHeight, backHeight);
+        
+        // Set all to the tallest height
+        card.style.height = `${maxHeight}px`;
+        front.style.height = `${maxHeight}px`;
+        back.style.height = `${maxHeight}px`;
+    }
+    
+
     // Display the next Kanji
     function displayKanji() {
+        currentKanji = getNextKanji();
     
-        currentKanji = getNextKanji(); // Update currentKanji to the next kanji
         if (currentKanji) {
-            kanjiDisplay.textContent = currentKanji.kanji; // Display the kanji
-            hideReadingAndMeaning(); // Hide reading, meaning, and examples for the new kanji
-        } else {
-            // No more kanji to review
-            kanjiDisplay.textContent = 'Nothing to review!';
+            kanjiCard.classList.remove('flip');
+            kanjiDisplay.textContent = currentKanji.kanji;
+            kanjiBackDisplay.textContent = currentKanji.kanji;
             readingDisplay.textContent = '';
             meaningDisplay.textContent = '';
-            exampleDisplay.textContent = ''; // Clear examples when no kanji is available
+            exampleDisplay.textContent = '';
+            nextButton.style.display = 'none';
+            syncCardHeight(); // Sync height after updating content
+        } else {
+            kanjiCard.classList.remove('flip');
+            kanjiDisplay.textContent = 'Nothing to review!';
+            kanjiBackDisplay.textContent = '';
+            readingDisplay.textContent = '';
+            meaningDisplay.textContent = '';
+            exampleDisplay.textContent = '';
+            nextButton.style.display = 'none';
+            syncCardHeight(); // Sync height for empty state
         }
     }
+
+    // Show the reading and meaning of the current Kanji
+    function showReadingAndMeaning() {
+        if (!currentKanji) {
+            console.log('No current kanji to show details for.');
+            return;
+        }
+        
+        readingDisplay.textContent = currentKanji.reading;
+        meaningDisplay.textContent = currentKanji.meaning;
+        if (currentKanji.examples && currentKanji.examples.length > 0) {
+            exampleDisplay.innerHTML = currentKanji.examples.join('<br>');
+        } else {
+            exampleDisplay.innerHTML = '';
+        }
+        
+        kanjiBackDisplay.textContent = currentKanji.kanji;
+        kanjiCard.classList.add('flip');
+        nextButton.style.display = 'block';
+        syncCardHeight(); // Sync height after flipping
+    }
+        
 
     // Save data to local storage
     function saveData() {
@@ -264,57 +301,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // Handle "No Idea" button click
     noIdeaButton.addEventListener('click', () => {
-        if (!currentKanji) {
-            console.log('No current kanji to add to No Idea list.');
-            return;
-        }
-        //noIdeaList.push(currentKanji);
+        if (!currentKanji) return;
         moveKanjiToList(currentKanji, noIdeaList);
-        currentReviewKanji = currentKanji; // Track the kanji being reviewed
+        currentReviewKanji = currentKanji;
         disableButtons();
         saveData();
-        //displayKanji();
         showReadingAndMeaning();
     });
 
-    // Handle "Seen but No Idea" button click
     seenButNoIdeaButton.addEventListener('click', () => {
-        if (!currentKanji) {
-            console.log('No current kanji to add to Seen but No Idea list.');
-            return;
-        }
-        //seenButNoIdeaList.push(currentKanji); // Move the kanji to the appropriate list
-        console.log('Updated seenButNoIdeaList:', seenButNoIdeaList.map(k => k.kanji));
-        moveKanjiToList(currentKanji, seenButNoIdeaList); 
+        if (!currentKanji) return;
+        moveKanjiToList(currentKanji, seenButNoIdeaList);
         currentReviewKanji = currentKanji;
-        disableButtons(); // Disable buttons to prevent multiple clicks
-        // Show the reading and meaning of the current kanji
-        saveData(); // Save progress
-        //displayKanji();
+        disableButtons();
+        saveData();
         showReadingAndMeaning();
     });
 
-    // Handle "Remembered" button click
     rememberedButton.addEventListener('click', () => {
-        if (!currentKanji) {
-            console.log('No current kanji to add to Remembered list.');
-            return;
-        }
-
-        // Remove the current kanji from all active lists
-        //noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-        //seenButNoIdeaList = seenButNoIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-        //rememberedList.push(currentKanji); // Add to remembered list
+        if (!currentKanji) return;
         moveKanjiToList(currentKanji, rememberedList);
-        currentReviewKanji = currentKanji; // Track the kanji being reviewed
-        // Disable buttons and show reading/meaning
-        console.log('Set currentReviewKanji:', currentReviewKanji.kanji);
+        currentReviewKanji = currentKanji;
         disableButtons();
-
-
-        // Save progress and display the next kanji
         saveData();
         showReadingAndMeaning();
     });
@@ -323,15 +332,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle "Next" button click
     nextButton.addEventListener('click', () => {
         if (currentKanji) {
-
-            // Enable buttons and hide reading/meaning
             enableButtons();
             hideReadingAndMeaning();
-
-            // Display the next kanji
             displayKanji();
         }
     });
+
 
 
     // Handle custom set submission
