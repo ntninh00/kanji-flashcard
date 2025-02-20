@@ -420,7 +420,7 @@ h5 {
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Vertically center the icon */
     justify-content: center; /* Horizontally center the icon */
-    width: 10%;
+    width: 15%;
     font-size: clamp(0.2rem, 2.5vw, 1rem);
 }
 
