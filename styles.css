@@ -95,11 +95,15 @@ h5 {
 }
 
 .kanji-card {
-    background-color: #d8d8d8;
-    padding: 15px; 
-    border-radius: 10px;
+    background-color: #d8d8d8; 
+    padding: 20px;
+    border-radius: 15px; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 100%;
+    max-width: 500px; 
+    margin: 0 auto; 
+    position: relative;
 }
 
 /* Container for the buttons */
@@ -135,6 +139,7 @@ h5 {
 }
 
 #options button:disabled {
+    display:none;
     opacity: 0.5; /* Make buttons look faded when disabled */
     cursor: not-allowed; /* Change cursor to indicate disabled state */
 }
@@ -183,13 +188,20 @@ h5 {
 }
 
 #reading-meaning {
-    margin-top: 15px; /* Reduced margin */
+    margin-top: -20px; /* Reduced margin */
 }
 
 #reading-meaning p {
     font-size: 1rem; /* Slightly smaller */
     color: #000000;
     margin: 8px 0; /* Reduced margin */
+}
+#example {
+    font-size: 0.9rem; /* Slightly smaller font for examples to distinguish from reading/meaning */
+    margin: 100px 0; /* Slightly more margin above/below example for separation */
+    padding: 5px 15; /* Add minimal vertical padding and slight horizontal padding for refinement */
+    max-width: 50%;
+    
 }
 
 #next {
@@ -501,8 +513,9 @@ body.dark-mode h2 {
     color: #ffffff;
     text-transform: lowercase; 
 }
-body.dark-mode #options button,
+
 body.dark-mode #next,
+body.dark-mode #options button,
 body.dark-mode .spoiler-button,
 body.dark-mode button,
 body.dark-mode textarea,
@@ -514,7 +527,10 @@ body.dark-mode select {
 }
 
 
-body.dark-mode #next:hover,
+body.dark-mode #next:hover{
+    background-color: #ffffff;
+    color:#000000;
+}
 body.dark-mode .spoiler-button:hover,
 body.dark-mode #options button {
     border-color: #ffffff;

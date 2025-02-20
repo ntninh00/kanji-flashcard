@@ -24,6 +24,13 @@
         <h2><span id="current-set-title"></span></h2>
     </div>
     <div id="chunk-info"></div>
+    <div id="chunk-navigation">
+        <button id="prev-chunk">◄</button>
+        <button id="chunk-size-btn">customize</button>
+        <button id="next-chunk">►</button>
+    </div>
+    
+
     <!-- Progress Tracking -->
     <div id="progress">
         <h3>Progress</h3>
@@ -37,7 +44,15 @@
         <p>Seen: <span id="seen-but-no-idea-count">0</span></p>
         <p>Learnt: <span id="remembered-count">0</span></p>
     </div>
-
+    <div id="chunk-size-modal" class="modal">
+        <div class="modal-content">
+            <span class="close close-chunk-size"></span>
+            <label for="chunk-size-input">kanji per set:</label>
+            <input type="number" id="chunk-size-input" min="1" max="100" value="30">
+            <button id="save-chunk-size">save</button>
+            <h5>load another set to apply changes</h5>
+        </div>
+    </div>
     <!-- Kanji Lists -->
     <div class="kanji-lists">
         <div class="kanji-list">
@@ -57,21 +72,7 @@
     <!-- Kanji Display Section -->
     <div id="kanji-display">
         <div class="kanji-card">
-            <div id="chunk-navigation">
-                <button id="prev-chunk">◄</button>
-                <button id="chunk-size-btn">customize</button>
-                <button id="next-chunk">►</button>
-            </div>
             
-            <div id="chunk-size-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close close-chunk-size"></span>
-                    <label for="chunk-size-input">kanji per set:</label>
-                    <input type="number" id="chunk-size-input" min="1" max="100" value="30">
-                    <button id="save-chunk-size">save</button>
-                    <h5>load another set to apply changes</h5>
-                </div>
-            </div>
             <h4 id="kanji"></h4>
             <div id="options">
                 <button id="no-idea">✕</button>
