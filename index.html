@@ -38,21 +38,21 @@
         <p>Learnt: <span id="remembered-count">0</span></p>
     </div>
 
-    <!-- Add this below your existing HTML-->
-<div class="kanji-lists">
-    <div class="kanji-list">
-        <h3>No Idea</h3>
-        <ul id="no-idea-list"></ul>
-    </div>
-    <div class="kanji-list">
-        <h3>Seen but No Idea</h3>
-        <ul id="seen-but-no-idea-list"></ul>
-    </div>
-    <div class="kanji-list">
-        <h3>Learnt</h3>
-        <ul id="remembered-list"></ul>
-    </div>
-</div> 
+    <!-- Kanji Lists -->
+    <div class="kanji-lists">
+        <div class="kanji-list">
+            <h3>No Idea</h3>
+            <ul id="no-idea-list"></ul>
+        </div>
+        <div class="kanji-list">
+            <h3>Seen but No Idea</h3>
+            <ul id="seen-but-no-idea-list"></ul>
+        </div>
+        <div class="kanji-list">
+            <h3>Learnt</h3>
+            <ul id="remembered-list"></ul>
+        </div>
+    </div> 
 
     <!-- Kanji Display Section -->
     <div id="kanji-display">
@@ -77,25 +77,21 @@
                 <button id="no-idea">✕</button>
                 <button id="seen-but-no-idea">△</button>
                 <button id="remembered">◯</button>
-                <!-- <button id="reset-progress">Reset</button> -->
             </div>
             <div id="reading-meaning" style="display: none;">
-                <p> <span id="reading"></span></p>
-                <p> <span id="meaning"></span></p>
-                <p> <span id="example"></span></p>
+                <p><span id="reading"></span></p>
+                <p><span id="meaning"></span></p>
+                <p><span id="example"></span></p>
                 <button id="next">Next</button>
             </div>
         </div>
     </div>
 
-
     <!-- Pre-defined Kanji Sets Section -->
     <div class="spoiler">
         <button class="spoiler-button">Choose a Kanji Set</button>
         <div class="spoiler-content">
-            <div id="predefined-kanji-sets">
-
-            </div>
+            <div id="predefined-kanji-sets"></div>
         </div>
     </div>
     <!-- Custom Kanji Set Section -->
@@ -121,15 +117,6 @@
     </div>
 
     <script src="script.js"></script>
-
-    <!-- Login/Register Form -->
-    <!--     <div id="auth-form">
-        <h2>Login or Register</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button id="login-btn">Login</button>
-        <button id="register-btn">Register</button>
-    </div> -->
 </body>
 
 </html>

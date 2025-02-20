@@ -706,3 +706,32 @@ body.dark-mode .submit-predefined:hover {
 .kanji-list ul li:last-child {
     border-bottom: none;
 }
+#reset-progress {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-transform: lowercase;
+    margin-left: 10px;
+}
+
+#reset-progress:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+body.dark-mode #reset-progress {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+body.dark-mode #reset-progress:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
