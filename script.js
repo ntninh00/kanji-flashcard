@@ -210,21 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Reset progress
-    function resetProgress() {
-        kanjiList = [];
-        noIdeaList = [];
-        seenButNoIdeaList = [];
-        rememberedList = [];
-        currentSetTitle = 'please choose a kanji set below or add your own to start studying';
-        savedSets = {};
-        localStorage.removeItem('userProgress');
-        updateProgress();
-        displayKanji();
-        renderSavedSets();
-        renderKanjiLists();
-        console.log('Progress reset');
-    }
     function renderKanjiLists() {
         console.log('Rendering kanji lists...');
         console.log('noIdeaList:', noIdeaList.map(k => k.kanji));
@@ -338,11 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle "Next" button click
     nextButton.addEventListener('click', () => {
         if (currentKanji) {
-            // Remove the current kanji from the noIdeaList (if it exists there)
-/*             if (noIdeaList.includes(currentKanji)) {
-                noIdeaList = noIdeaList.filter(k => k.kanji !== currentKanji.kanji);
-                console.log('Removed kanji from noIdeaList:', currentKanji.kanji);
-            } */
 
             // Enable buttons and hide reading/meaning
             enableButtons();
@@ -772,57 +752,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    let token = null;
-
-    // Save Progress Function
-    async function saveProgress() {
-        if (!token) return;
-        const progress = {
-            kanjiList,
-            noIdeaList,
-            seenButNoIdeaList,
-            rememberedList,
-            currentSetTitle,
-        };
-        await fetch('http://localhost:5000/save-progress', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token, progress }),
-        });
-    }
-    // Load Progress Function
-    async function loadProgress() {
-        if (!token) return;
-        const response = await fetch('http://localhost:5000/load-progress', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-            kanjiList = data.kanjiList || [];
-            noIdeaList = data.noIdeaList || [];
-            seenButNoIdeaList = data.seenButNoIdeaList || [];
-            rememberedList = data.rememberedList || [];
-            currentSetTitle = data.currentSetTitle || 'please choose a kanji set below or add your own to start studying';
-            updateProgress();
-            displayKanji();
-        }
-    }
-
-    // Call saveProgress whenever progress changes
-    // Example: After clicking "No Idea", "Seen but No Idea", or "Remembered"
-    /* noIdeaButton.addEventListener('click', () => {
-    noIdeaList.push(currentKanji);
-    showReadingAndMeaning();
-    saveProgress();
-    });
-    
-    seenButNoIdeaButton.addEventListener('click', () => {
-    seenButNoIdeaList.push(currentKanji);
-    showReadingAndMeaning();
-    saveProgress();
-    }); */
     // Initial setup
     loadData(); // Load saved progress on page load
     fetchPredefinedSets(); // Fetch predefined sets and generate dropdowns
@@ -830,6 +759,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProgress();
     renderSavedSets();
     displayKanji();
-    //toggleSpoilers(); // Ensure spoilers work on initial load
     handlePredefinedSetSubmission(); // Attach event listeners for predefined set submission
 });

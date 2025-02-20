@@ -140,50 +140,43 @@ h5 {
 
 #options button:disabled {
     display:none;
-    opacity: 0.5; /* Make buttons look faded when disabled */
-    cursor: not-allowed; /* Change cursor to indicate disabled state */
 }
 /* Specific styles for each button */
 #no-idea {
-    font-size: 1.2rem; /* Larger font size for symbols */
-    content: "✕"; /* Cross symbol */
+    font-size: 1.2rem; 
+    content: "✕"; 
 }
 
 #seen-but-no-idea {
-    font-size: 1.3rem; /* Larger font size for symbols */
-    content: "△"; /* Triangle symbol */
+    font-size: 1.3rem; 
+    content: "△"; 
 }
 
 #remembered {
-    font-size: 1.2rem; /* Larger font size for symbols */
-    content: "◯"; /* Circle symbol */
+    font-size: 1.2rem; 
+    content: "◯"; 
 }
-/* #options button:hover {
-    background-color: #000000;
-    color: #ffffff;
-    transform: translateY(-2px);
-} */
 
 /* Hover effect for "No Idea" button */
 #no-idea:hover {
-    background-color: #000000; /* Black background */
-    color: #ffffff; /* White text */
+    background-color: #000000; 
+    color: #ffffff;
     transform: translateY(-2px);
 }
 
 /* Hover effect for "Seen but No Idea" button */
 #seen-but-no-idea:hover {
-    background-color: #ffd700; /* Yellow background */
+    background-color: #ffd700; 
     border-color: #ffd700;
-    color: #000000; /* Black text */
+    color: #000000;
     transform: translateY(-2px);
 }
 
 /* Hover effect for "Remembered" button */
 #remembered:hover {
     border-color:#4caf50;
-    background-color: #4caf50; /* Green background */
-    color: #ffffff; /* White text */
+    background-color: #4caf50; 
+    color: #ffffff; 
     transform: translateY(-2px);
 }
 
