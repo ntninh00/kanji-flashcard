@@ -276,7 +276,7 @@ body.dark-mode .auth-modal a:hover {
     position: relative;
     perspective: 1000px;
     transform-style: preserve-3d;
-    transition: transform 0.4s ease-in-out; /* Simplified to just flip, reduced timing */
+    transition: transform 0.4s ease-in-out;
     min-height: 20px;
     display: block; 
     flex-direction: column;
@@ -316,10 +316,12 @@ body.dark-mode .auth-modal a:hover {
     animation: fadeSlideIn 0.4s ease forwards;
 }
 
+
+
 @keyframes fadeSlideOut {
     from {
         transform: translateX(0);
-        opacity: 1;
+        opacity: 0.05;
     }
     to {
         transform: translateX(-10%);
@@ -353,7 +355,7 @@ body.dark-mode .auth-modal a:hover {
 #options {
     display: flex;
     justify-content: center; /* Center buttons horizontally */
-    gap: 15px; /* Increased gap for better spacing */
+    gap: 30px; /* Increased gap for better spacing */
     flex-wrap: nowrap;
     margin-top: 15px;
     padding-inline: 10%;
@@ -364,7 +366,6 @@ body.dark-mode .auth-modal a:hover {
     font-family: 'Montserrat', sans-serif;
     margin: 0; /* Remove individual margins */
     background-color: transparent;
-    border: 2px solid #000000;
     border-radius: 30px;
     color: #000000;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;

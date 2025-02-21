@@ -417,7 +417,17 @@ document.addEventListener('DOMContentLoaded', () => {
         noIdeaCountDisplay.textContent = noIdeaList.length;
         seenButNoIdeaCountDisplay.textContent = seenButNoIdeaList.length;
         rememberedCountDisplay.textContent = rememberedList.length;
+
+        // Trigger confetti when progress reaches 100%
+        if (progress === 100) {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 } // Center vertically on the page
+            });
+        }
     }
+
 
     // Get the next Kanji to display
     function getNextKanji() {
