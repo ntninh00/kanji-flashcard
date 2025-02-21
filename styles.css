@@ -110,9 +110,7 @@ h5 {
     background-color: #fefefe;
     margin: 10% auto; /* Slightly adjust vertical positioning */
     padding: 25px; /* Increased padding for better spacing */
-    border: 2px solid #000000; /* Match app’s border style */
     width: 90%;
-    max-width: 350px; /* Slightly wider for better readability */
     position: relative;
     border-radius: 20px;
     text-align: center;
@@ -211,7 +209,6 @@ h5 {
 body.dark-mode .auth-modal .modal-content {
     background-color: #272727;
     color: #ffffff;
-    border-color: #ffffff;
 }
 
 body.dark-mode .auth-modal h2 {
@@ -1007,7 +1004,7 @@ body.dark-mode #options button svg {
 body.dark-mode .auth-modal .modal-content {
     background-color: #272727;
     color: #ffffff;
-    border-color: #ffffff;
+    border-color: #1f1f1f;
 }
 
 body.dark-mode .auth-modal .close {

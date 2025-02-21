@@ -1,8 +1,8 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
 import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
-
-const firebaseConfig = {
+// ignore this LMAO
+export const firebaseConfig = {
     apiKey: "AIzaSyAotuyVf5GV2f-w2_9nR3VsJ_LHbtX4xsM",
     authDomain: "kanji-flashcard.firebaseapp.com",
     projectId: "kanji-flashcard",
@@ -12,7 +12,6 @@ const firebaseConfig = {
     measurementId: "G-MRE2WC4Y7Q",
     databaseURL: "https://kanji-flashcard-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -143,7 +142,43 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('login-error').textContent = errorMessage;
         }
     });
+    // Forgot Password Logic
+    const forgotPasswordLink = document.getElementById('forgot-password');
+    forgotPasswordLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
 
+        if (!email) {
+            document.getElementById('login-error').textContent = 'Please enter your email address first.';
+            return;
+        }
+
+        try {
+            await sendPasswordResetEmail(auth, email);
+            document.getElementById('login-error').textContent = 'Password reset email sent! Check your inbox.';
+            document.getElementById('login-error').style.color = 'green';
+            setTimeout(() => {
+                document.getElementById('login-error').textContent = '';
+                document.getElementById('login-error').style.color = 'red';
+            }, 5000); // Clear message after 5 seconds
+        } catch (error) {
+            let errorMessage = 'Failed to send reset email.';
+            switch (error.code) {
+                case 'auth/invalid-email':
+                    errorMessage = 'Invalid email format. Please enter a valid email.';
+                    break;
+                case 'auth/user-not-found':
+                    errorMessage = 'No user found with this email.';
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage = 'Too many requests. Please try again later.';
+                    break;
+                default:
+                    errorMessage = `Error: ${error.message}`;
+            }
+            document.getElementById('login-error').textContent = errorMessage;
+        }
+    });
     // Signup Form Submission
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
