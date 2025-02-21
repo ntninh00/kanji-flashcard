@@ -611,22 +611,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle "Next" button click
     nextButton.addEventListener('click', () => {
+        
         if (markedKanji && markedKanji.kanji) {
             moveKanjiToList(markedKanji.kanji, markedKanji.targetList);
-            markedKanji = null; // Clear after moving
+            markedKanji = null;
         } else {
             console.warn('No marked kanji to move.');
         }
         enableButtons();
-        hideReadingAndMeaning();
-        const nextKanji = getNextKanji();
-        if (nextKanji) {
-            displayKanji(nextKanji);
-        } else {
-            displayKanji(); // Show "Nothing to review!" if no kanji left
-        }
-        saveData(); // Save progress after each action
+    
+        // Add slide-out class to animate the card out
+        kanjiCard.classList.add('slide-out');
+    
+        // After animation completes, reset and slide in the next card
+        setTimeout(() => {
+            kanjiCard.classList.remove('slide-out'); // Remove slide-out class
+            hideReadingAndMeaning(); // Reset card content
+            const nextKanji = getNextKanji();
+            if (nextKanji) {
+                displayKanji(nextKanji); // Load next kanji
+                kanjiCard.classList.add('slide-in'); // Trigger slide-in animation
+                setTimeout(() => {
+                    kanjiCard.classList.remove('slide-in'); // Clean up after animation
+                }, 500); // Match CSS transition duration
+            } else {
+                displayKanji(); // Show "Nothing to review!"
+            }
+            saveData();
+        }, 100); // Match CSS transition duration
     });
+    
 
     // Hide the reading and meaning
     function hideReadingAndMeaning() {

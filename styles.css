@@ -276,7 +276,7 @@ body.dark-mode .auth-modal a:hover {
     position: relative;
     perspective: 1000px;
     transform-style: preserve-3d;
-    transition: transform 0.4s ease; /* Simplified to just flip, reduced timing */
+    transition: transform 0.4s ease-in-out; /* Simplified to just flip, reduced timing */
     min-height: 20px;
     display: block; 
     flex-direction: column;
@@ -309,6 +309,35 @@ body.dark-mode .auth-modal a:hover {
     transform-origin: center;
 }
 
+.slide-out {
+    animation: fadeSlideOut 0.4s ease forwards;
+}
+.slide-in {
+    animation: fadeSlideIn 0.4s ease forwards;
+}
+
+@keyframes fadeSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-10%);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        transform: translateX(10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 .card-front {
     display: flex;
     transform: rotateY(0deg);
@@ -319,14 +348,6 @@ body.dark-mode .auth-modal a:hover {
     z-index: 1;
 }
 
-/* Slide Animation for Next Card */
-@keyframes slideFadeOut {
-    /* Removed */
-}
-
-@keyframes slideFadeIn {
-    /* Removed */
-}
 
 /* Container for the buttons */
 #options {
