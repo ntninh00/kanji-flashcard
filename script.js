@@ -1,49 +1,291 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
+import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
+import { firebaseConfig } from './firebase-config.js'; 
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+let kanjiList = [];
+let currentKanji = null;
+let noIdeaList = [];
+let seenButNoIdeaList = [];
+let rememberedList = [];
+let currentSetTitle = 'please choose a kanji set below or add your own to start studying';
+let savedSets = {};
+let predefinedSets = {};
+let currentReviewKanji = null; // Track the Kanji being reviewed
+let markedKanji = null;
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+const loginModal = document.getElementById('login-modal');
+const signupModal = document.getElementById('signup-modal');
+const closeLogin = document.getElementById('close-login');
+const closeSignup = document.getElementById('close-signup');
+const showSignup = document.getElementById('show-signup');
+const showLogin = document.getElementById('show-login');
+const authTrigger = document.getElementById('auth-trigger');
+const userArea = document.getElementById('user-area'); // Ensure this is correctly defined
+const userGreeting = document.getElementById('user-greeting');
+const logoutBtn = document.getElementById('logout-btn');
+const kanjiDisplay = document.getElementById('kanji');
+const readingDisplay = document.getElementById('reading');
+const meaningDisplay = document.getElementById('meaning');
+const exampleDisplay = document.getElementById('example');
+const noIdeaButton = document.getElementById('no-idea');
+const seenButNoIdeaButton = document.getElementById('seen-but-no-idea');
+const rememberedButton = document.getElementById('remembered');
+const nextButton = document.getElementById('next');
+const kanjiInput = document.getElementById('kanji-input');
+const setTitleDisplay = document.getElementById('current-set-title');
+const setTitleInput = document.getElementById('set-name');
+const submitCustomButton = document.getElementById('submit-custom');
+const kanjiSetSelects = document.querySelectorAll('.kanji-set-select');
+const submitPredefinedButtons = document.querySelectorAll('.submit-predefined');
+const savedSetsList = document.getElementById('saved-sets-list');
+const readingMeaningDiv = document.getElementById('reading-meaning');
+const noIdeaCountDisplay = document.getElementById('no-idea-count');
+const seenButNoIdeaCountDisplay = document.getElementById('seen-but-no-idea-count');
+const rememberedCountDisplay = document.getElementById('remembered-count');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
+const spoilerButtons = document.querySelectorAll('.spoiler-button');
+const darkModeToggle = document.getElementById('dark-mode');
+const resetProgressButton = document.getElementById('reset-progress');
+const prevChunkButton = document.getElementById('prev-chunk');
+const nextChunkButton = document.getElementById('next-chunk');
+const chunkInfo = document.getElementById('chunk-info');
+const chunkSizeBtn = document.getElementById('chunk-size-btn');
+const chunkSizeModal = document.getElementById('chunk-size-modal');
+const saveChunkSizeBtn = document.getElementById('save-chunk-size');
+const chunkSizeInput = document.getElementById('chunk-size-input');
+const closeChunkSizeModal = document.querySelector('.close-chunk-size');
+const kanjiBackDisplay = document.getElementById('kanji-back');
+const kanjiCard = document.querySelector('.kanji-card');
+// Show/Hide Modals
+function showLoginModal() {
+    loginModal.style.display = 'block';
+    signupModal.style.display = 'none';
+}
+function showSignupModal() {
+    signupModal.style.display = 'block';
+    loginModal.style.display = 'none';
+}
 document.addEventListener('DOMContentLoaded', () => {
-    const kanjiDisplay = document.getElementById('kanji');
-    const readingDisplay = document.getElementById('reading');
-    const meaningDisplay = document.getElementById('meaning');
-    const exampleDisplay = document.getElementById('example'); 
-    const noIdeaButton = document.getElementById('no-idea');
-    const seenButNoIdeaButton = document.getElementById('seen-but-no-idea');
-    const rememberedButton = document.getElementById('remembered');
-    const nextButton = document.getElementById('next');
-    const kanjiInput = document.getElementById('kanji-input');
-    const setTitleDisplay = document.getElementById('current-set-title');
-    const setTitleInput = document.getElementById('set-name');
-    const submitCustomButton = document.getElementById('submit-custom');
-    const kanjiSetSelects = document.querySelectorAll('.kanji-set-select');
-    const submitPredefinedButtons = document.querySelectorAll('.submit-predefined');
-    const savedSetsList = document.getElementById('saved-sets-list');
-    const readingMeaningDiv = document.getElementById('reading-meaning');
-    const noIdeaCountDisplay = document.getElementById('no-idea-count');
-    const seenButNoIdeaCountDisplay = document.getElementById('seen-but-no-idea-count');
-    const rememberedCountDisplay = document.getElementById('remembered-count');
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('progress-text');
-    const spoilerButtons = document.querySelectorAll('.spoiler-button');
-    const darkModeToggle = document.getElementById('dark-mode');
-    const resetProgressButton = document.getElementById('reset-progress');
-    const prevChunkButton = document.getElementById('prev-chunk');
-    const nextChunkButton = document.getElementById('next-chunk');
-    const chunkInfo = document.getElementById('chunk-info');
-    const chunkSizeBtn = document.getElementById('chunk-size-btn');
-    const chunkSizeModal = document.getElementById('chunk-size-modal');
-    const saveChunkSizeBtn = document.getElementById('save-chunk-size');
-    const chunkSizeInput = document.getElementById('chunk-size-input');
-    const closeChunkSizeModal = document.querySelector('.close-chunk-size');
-    const kanjiBackDisplay = document.getElementById('kanji-back'); 
-    const kanjiCard = document.querySelector('.kanji-card');
+    // Modal Triggers
+    authTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        showLoginModal();
+    });
+    showSignup.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSignupModal();
+    });
 
+    showLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        showLoginModal();
+    });
 
-    let kanjiList = [];
-    let currentKanji = null;
-    let noIdeaList = [];
-    let seenButNoIdeaList = [];
-    let rememberedList = [];
-    let currentSetTitle = 'please choose a kanji set below or add your own to start studying';
-    let savedSets = {};
-    let predefinedSets = {};
-    let currentReviewKanji = null
+    closeLogin.addEventListener('click', () => loginModal.style.display = 'none');
+    closeSignup.addEventListener('click', () => signupModal.style.display = 'none');
+
+    window.addEventListener('click', (event) => {
+        if (event.target === loginModal) loginModal.style.display = 'none';
+        if (event.target === signupModal) signupModal.style.display = 'none';
+    });
+
+    // Login Form Submission
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('Logged in:', userCredential.user);
+            loginModal.style.display = 'none';
+            document.getElementById('login-error').textContent = 'Successfully logged in!';
+            setTimeout(() => document.getElementById('login-error').textContent = '', 3000);
+            updateAuthStatus(userCredential.user);
+            loadUserProgress(userCredential.user.uid);
+        } catch (error) {
+            let errorMessage = 'Login failed. Please try again.';
+            switch (error.code) {
+                case 'auth/invalid-credential':
+                    errorMessage = 'Incorrect password';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'Invalid email format. Please enter a valid email.';
+                    break;
+                case 'auth/user-not-found':
+                    errorMessage = 'No user found with this email. Please sign up or check your email.';
+                    break;
+                case 'auth/wrong-password':
+                    errorMessage = 'Incorrect password. Please try again or reset your password.';
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage = 'Too many attempts. Please wait and try again later.';
+                    break;
+                default:
+                    errorMessage = `Login failed: ${error.message}`;
+            }
+            document.getElementById('login-error').textContent = errorMessage;
+        }
+    });
+
+    // Signup Form Submission
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value.trim();
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('Signed up:', userCredential.user);
+            signupModal.style.display = 'none';
+            document.getElementById('signup-error').textContent = 'Successfully signed up!';
+            setTimeout(() => document.getElementById('signup-error').textContent = '', 3000);
+            updateAuthStatus(userCredential.user);
+            saveUserProgress(userCredential.user.uid, {});
+        } catch (error) {
+            let errorMessage = 'Sign up failed. Please try again.';
+            switch (error.code) {
+                case 'auth/invalid-email':
+                    errorMessage = 'Invalid email format. Please enter a valid email.';
+                    break;
+                case 'auth/email-already-in-use':
+                    errorMessage = 'This email is already in use. Please login or use a different email.';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage = 'Password is too weak. Use at least 6 characters.';
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage = 'Too many attempts. Please wait and try again later.';
+                    break;
+                default:
+                    errorMessage = `Sign up failed: ${error.message}`;
+            }
+            document.getElementById('signup-error').textContent = errorMessage;
+        }
+    });
+
+    // Auth State Listener
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log('User logged in:', user.uid);
+            updateAuthStatus(user);
+            loadUserProgress(user.uid);
+        } else {
+            console.log('No user logged in');
+            updateAuthStatus(null);
+        }
+    });
+
+    // Update Auth Status
+    function updateAuthStatus(user) {
+        console.log('Updating auth status:', user ? user.email : 'No user');
+        if (user) {
+            authTrigger.style.display = 'none';
+            userArea.style.display = 'flex';
+            userArea.style.gap = '10px';
+            userGreeting.textContent = `Hello, ${user.email.split('@')[0]}`; // Show first part of email as username
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signOut(auth).then(() => {
+                    console.log('Logged out');
+                    userArea.style.display = 'none';
+                    authTrigger.style.display = 'inline-block';
+                    // Reset UI or disable features if needed
+                    kanjiList = [];
+                    noIdeaList = [];
+                    seenButNoIdeaList = [];
+                    rememberedList = [];
+                    currentSetTitle = 'please choose a kanji set below or add your own to start studying';
+                    savedSets = {};
+                    updateProgress();
+                    displayKanji();
+                    renderSavedSets();
+                    renderKanjiLists();
+                }).catch((error) => {
+                    console.error('Logout error:', error);
+                });
+            });
+        } else {
+            authTrigger.style.display = 'inline-block';
+            userArea.style.display = 'none';
+            userGreeting.textContent = '';
+            // Remove any existing logout listener to prevent duplicates
+            logoutBtn.replaceWith(logoutBtn.cloneNode(true));
+        }
+    }
+
+    // Load User Progress from Firebase
+    function loadUserProgress(userId) {
+        const userProgressRef = ref(database, `users/${userId}/progress`);
+        onValue(userProgressRef, (snapshot) => {
+            const progress = snapshot.val() || {};
+            kanjiList = progress.kanjiList || [];
+            noIdeaList = progress.noIdeaList || [];
+            seenButNoIdeaList = progress.seenButNoIdeaList || [];
+            rememberedList = progress.rememberedList || [];
+            currentSetTitle = progress.currentSetTitle || 'please choose a kanji set below or add your own to start studying';
+            savedSets = progress.savedSets || {};
+            // Ensure chunkProgress is initialized for each set
+            for (const set of Object.values(savedSets)) {
+                set.chunkProgress = set.chunkProgress || {};
+            }
+            updateProgress();
+            displayKanji();
+            renderSavedSets();
+            renderKanjiLists();
+        });
+    }
+
+    // Save User Progress to Firebase
+    function saveData() {
+        const user = auth.currentUser;
+        if (user) {
+            const userProgressRef = ref(database, `users/${user.uid}/progress`);
+            // Structure savedSets to include chunk-specific progress
+            const updatedSavedSets = {};
+            for (const [title, set] of Object.entries(savedSets)) {
+                updatedSavedSets[title] = {
+                    ...set,
+                    chunks: set.chunks,
+                    currentChunkIndex: set.currentChunkIndex,
+                    chunkProgress: set.chunkProgress || {} // Store progress per chunk
+                };
+                // Save current chunk progress if it matches this set
+                if (currentSetTitle.startsWith(title)) {
+                    const chunkIndex = set.currentChunkIndex;
+                    updatedSavedSets[title].chunkProgress[chunkIndex] = {
+                        noIdeaList: [...noIdeaList],
+                        seenButNoIdeaList: [...seenButNoIdeaList],
+                        rememberedList: [...rememberedList]
+                    };
+                }
+            }
+            const progressData = {
+                kanjiList,
+                noIdeaList,
+                seenButNoIdeaList,
+                rememberedList,
+                currentSetTitle,
+                savedSets: updatedSavedSets
+            };
+            set(userProgressRef, progressData)
+                .then(() => console.log('Progress saved to Firebase'))
+                .catch(error => console.error('Error saving progress:', error));
+        }
+        // Update localStorage as well
+        localStorage.setItem('kanjiList', JSON.stringify(kanjiList));
+        localStorage.setItem('noIdeaList', JSON.stringify(noIdeaList));
+        localStorage.setItem('seenButNoIdeaList', JSON.stringify(seenButNoIdeaList));
+        localStorage.setItem('rememberedList', JSON.stringify(rememberedList));
+        localStorage.setItem('currentSetTitle', currentSetTitle);
+        localStorage.setItem('savedSets', JSON.stringify(savedSets));
+        updateProgress();
+    }
 
     // Event listeners for navigation buttons
     prevChunkButton.addEventListener('click', () => {
@@ -60,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     function updateChunkInfo() {
         const chunkInfo = document.getElementById('chunk-info'); // Ensure this element exists
         if (chunkInfo) {
@@ -72,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('chunkInfo element not found');
         }
     }
+
     // Load Dark Mode Preference on Page Load
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     if (savedDarkMode) {
@@ -84,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('dark-mode');
         localStorage.setItem('darkMode', darkModeToggle.checked);
     });
+
     // Function to disable the buttons
     function disableButtons() {
         noIdeaButton.disabled = true;
@@ -100,12 +343,19 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Buttons enabled');
     }
 
-
     // Hide the reading and meaning
     function hideReadingAndMeaning() {
         kanjiCard.classList.remove('flip');
+        if (currentReviewKanji) {
+            kanjiDisplay.textContent = currentReviewKanji.kanji; // Ensure front shows the same Kanji
+            kanjiBackDisplay.textContent = currentReviewKanji.kanji; // Ensure back matches
+            readingDisplay.textContent = '';
+            meaningDisplay.textContent = '';
+            exampleDisplay.textContent = '';
+            nextButton.style.display = 'none';
+            syncCardHeight(); // Sync height after hiding
+        }
     }
-
 
     // Update Progress Bar
     function updateProgress() {
@@ -139,32 +389,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.querySelector('.kanji-card');
         const front = document.querySelector('.card-front');
         const back = document.querySelector('.card-back');
-        
+
         // Reset height to auto to measure natural height
         card.style.height = 'auto';
         front.style.height = 'auto';
         back.style.height = 'auto';
-        
+
+        // Ensure both front and back are visible temporarily to measure height
+        front.style.display = 'flex';
+        back.style.display = 'flex';
+
         // Get the tallest height
         const frontHeight = front.offsetHeight;
         const backHeight = back.offsetHeight;
         const maxHeight = Math.max(frontHeight, backHeight);
-        
+
         // Set all to the tallest height
         card.style.height = `${maxHeight}px`;
         front.style.height = `${maxHeight}px`;
         back.style.height = `${maxHeight}px`;
-    }
-    
 
-    // Display the next Kanji
-    function displayKanji() {
-        currentKanji = getNextKanji();
-    
-        if (currentKanji) {
+        // Restore display states based on flip state
+        if (!kanjiCard.classList.contains('flip')) {
+            back.style.display = 'none';
+        } else {
+            front.style.display = 'none';
+        }
+    }
+
+    // Display the current or next Kanji
+    function displayKanji(kanji = null) {
+        currentReviewKanji = kanji || getNextKanji(); // Use provided kanji or get the next one
+
+        if (currentReviewKanji) {
             kanjiCard.classList.remove('flip');
-            kanjiDisplay.textContent = currentKanji.kanji;
-            kanjiBackDisplay.textContent = currentKanji.kanji;
+            kanjiDisplay.textContent = currentReviewKanji.kanji; // Show only the Kanji on front without details
+            kanjiBackDisplay.textContent = currentReviewKanji.kanji; // Ensure back matches front (without details initially)
             readingDisplay.textContent = '';
             meaningDisplay.textContent = '';
             exampleDisplay.textContent = '';
@@ -173,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             kanjiCard.classList.remove('flip');
             kanjiDisplay.textContent = 'Nothing to review!';
-            kanjiBackDisplay.textContent = '';
+            kanjiBackDisplay.textContent = 'Nothing to review!'; // Match the front side text
             readingDisplay.textContent = '';
             meaningDisplay.textContent = '';
             exampleDisplay.textContent = '';
@@ -184,45 +444,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the reading and meaning of the current Kanji
     function showReadingAndMeaning() {
-        if (!currentKanji) {
+        if (!currentReviewKanji) {
             console.log('No current kanji to show details for.');
             return;
         }
-        
-        readingDisplay.textContent = currentKanji.reading;
-        meaningDisplay.textContent = currentKanji.meaning;
-        if (currentKanji.examples && currentKanji.examples.length > 0) {
-            exampleDisplay.innerHTML = currentKanji.examples.join('<br>');
+
+        // Ensure both front and back show the same Kanji, then add details to the back
+        kanjiDisplay.textContent = currentReviewKanji.kanji; // Keep the same Kanji on front (without details)
+        kanjiBackDisplay.textContent = currentReviewKanji.kanji; // Ensure back shows the same Kanji
+        readingDisplay.textContent = currentReviewKanji.reading;
+        meaningDisplay.textContent = currentReviewKanji.meaning;
+        if (currentReviewKanji.examples && currentReviewKanji.examples.length > 0) {
+            exampleDisplay.innerHTML = currentReviewKanji.examples.join('<br>');
         } else {
             exampleDisplay.innerHTML = '';
         }
-        
-        kanjiBackDisplay.textContent = currentKanji.kanji;
+
         kanjiCard.classList.add('flip');
         nextButton.style.display = 'block';
         syncCardHeight(); // Sync height after flipping
-    }
-        
-
-    // Save data to local storage
-    function saveData() {
-        localStorage.setItem('kanjiList', JSON.stringify(kanjiList));
-        localStorage.setItem('noIdeaList', JSON.stringify(noIdeaList));
-        localStorage.setItem('seenButNoIdeaList', JSON.stringify(seenButNoIdeaList));
-        localStorage.setItem('rememberedList', JSON.stringify(rememberedList));
-        localStorage.setItem('currentSetTitle', currentSetTitle);
-        localStorage.setItem('savedSets', JSON.stringify(savedSets));
-        updateProgress();
-        const progressData = {
-            kanjiList,
-            noIdeaList,
-            seenButNoIdeaList,
-            rememberedList,
-            currentSetTitle,
-            savedSets
-        };
-        localStorage.setItem('userProgress', JSON.stringify(progressData));
-        console.log('Progress saved to localStorage');
     }
 
     // Load data from local storage
@@ -265,13 +505,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const rememberedListElement = document.getElementById('remembered-list');
         rememberedListElement.innerHTML = rememberedList.map(k => `<li>${k.kanji}</li>`).join('');
     }
+
     // Function to move a kanji to a specific list
     function moveKanjiToList(kanji, targetList) {
-
         console.log('Moving kanji:', kanji.kanji);
         console.log('Target List:', targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList');
 
-        // Step 1: Remove the kanji from all lists except the target list
+        // Remove the kanji from all lists except the target list
         if (targetList !== noIdeaList) {
             noIdeaList = noIdeaList.filter(k => k.kanji !== kanji.kanji);
         }
@@ -282,63 +522,80 @@ document.addEventListener('DOMContentLoaded', () => {
             rememberedList = rememberedList.filter(k => k.kanji !== kanji.kanji);
         }
 
-        // Step 2: Add the kanji to the target list if it doesn't already exist
+        // Add the kanji to the target list if it doesn't already exist
         const isDuplicate = targetList.some(k => k.kanji === kanji.kanji);
         if (!isDuplicate) {
-            targetList.push(kanji); // Add the kanji to the target list
+            targetList.push(kanji);
             console.log(`Added kanji ${kanji.kanji} to ${targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
         } else {
             console.log(`Kanji ${kanji.kanji} is already in the target list.`);
         }
 
-            // Shuffle the target list after adding the kanji
+        // Shuffle the target list after adding the kanji
         if (targetList === noIdeaList || targetList === seenButNoIdeaList) {
             shuffleArray(targetList);
         }
 
-        // Step 3: Render the updated lists
+        // Render the updated lists
         renderKanjiLists();
 
+        // Save progress
+        saveData();
     }
 
     noIdeaButton.addEventListener('click', () => {
-        if (!currentKanji) return;
-        moveKanjiToList(currentKanji, noIdeaList);
-        currentReviewKanji = currentKanji;
+        if (!currentReviewKanji) return;
+        markedKanji = { kanji: currentReviewKanji, targetList: noIdeaList }; // Mark the kanji
         disableButtons();
-        saveData();
         showReadingAndMeaning();
     });
 
     seenButNoIdeaButton.addEventListener('click', () => {
-        if (!currentKanji) return;
-        moveKanjiToList(currentKanji, seenButNoIdeaList);
-        currentReviewKanji = currentKanji;
+        if (!currentReviewKanji) return;
+        markedKanji = { kanji: currentReviewKanji, targetList: seenButNoIdeaList }; // Mark the kanji
         disableButtons();
-        saveData();
         showReadingAndMeaning();
     });
 
     rememberedButton.addEventListener('click', () => {
-        if (!currentKanji) return;
-        moveKanjiToList(currentKanji, rememberedList);
-        currentReviewKanji = currentKanji;
+        if (!currentReviewKanji) return;
+        markedKanji = { kanji: currentReviewKanji, targetList: rememberedList }; // Mark the kanji
         disableButtons();
-        saveData();
         showReadingAndMeaning();
     });
 
-
     // Handle "Next" button click
     nextButton.addEventListener('click', () => {
-        if (currentKanji) {
-            enableButtons();
-            hideReadingAndMeaning();
-            displayKanji();
+        if (markedKanji && markedKanji.kanji) {
+            moveKanjiToList(markedKanji.kanji, markedKanji.targetList);
+            markedKanji = null; // Clear after moving
+        } else {
+            console.warn('No marked kanji to move.');
         }
+        enableButtons();
+        hideReadingAndMeaning();
+        const nextKanji = getNextKanji();
+        if (nextKanji) {
+            displayKanji(nextKanji);
+        } else {
+            displayKanji(); // Show "Nothing to review!" if no kanji left
+        }
+        saveData(); // Save progress after each action
     });
 
-
+    // Hide the reading and meaning
+    function hideReadingAndMeaning() {
+        kanjiCard.classList.remove('flip');
+        if (currentReviewKanji) {
+            kanjiDisplay.textContent = currentReviewKanji.kanji; // Show only the Kanji on front without details
+            kanjiBackDisplay.textContent = currentReviewKanji.kanji; // Ensure back matches front (without details)
+            readingDisplay.textContent = '';
+            meaningDisplay.textContent = '';
+            exampleDisplay.textContent = '';
+            nextButton.style.display = 'none';
+            syncCardHeight(); // Sync height after hiding
+        }
+    }
 
     // Handle custom set submission
     submitCustomButton.addEventListener('click', () => {
@@ -347,7 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please enter a name for your set.');
             return;
         }
-    
+
         const lines = kanjiInput.value.split('\n');
         const newKanjiList = [];
         lines.forEach(line => {
@@ -367,12 +624,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    
+
         if (newKanjiList.length === 0) {
             alert('Please enter valid Kanji data.');
             return;
         }
-    
+
         const newSet = {
             title: setName,
             kanjiList: newKanjiList,
@@ -380,16 +637,13 @@ document.addEventListener('DOMContentLoaded', () => {
             seenButNoIdeaList: [],
             rememberedList: []
         };
-    
+
         savedSets[setName] = newSet;
         loadSet(newSet);
         setTitleInput.value = '';
         kanjiInput.value = '';
         renderSavedSets();
     });
-    
-
-
 
     function toggleNavigationButtons(show) {
         const prevChunkButton = document.getElementById('prev-chunk');
@@ -426,22 +680,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isNaN(newSize) && newSize > 0) {
             localStorage.setItem('chunkSize', newSize);
             chunkSizeModal.style.display = 'none';
-            
+
             // Update current set with new chunk size
             const currentSetTitle = document.getElementById('current-set-title').textContent;
             const baseSetTitle = currentSetTitle.split(' (Part')[0];
             const currentSet = savedSets[baseSetTitle];
-            
+
             if (currentSet) {
                 // Save current progress before re-chunking
                 currentSet.noIdeaList = noIdeaList;
                 currentSet.seenButNoIdeaList = seenButNoIdeaList;
                 currentSet.rememberedList = rememberedList;
-                
+
                 // Re-chunk the set
                 const newChunks = splitIntoChunks(currentSet.kanjiList, newSize);
                 currentSet.chunks = newChunks;
-                
+
                 // Reload current chunk
                 const currentChunkIndex = currentSet.currentChunkIndex;
                 loadChunk(baseSetTitle, currentChunkIndex);
@@ -457,60 +711,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize chunk size input
     chunkSizeInput.value = localStorage.getItem('chunkSize') || 30;
-    
 
     // Load a set into the system
     function loadSet(set) {
         const chunkSize = parseInt(localStorage.getItem('chunkSize')) || 30;
         const chunks = splitIntoChunks(set.kanjiList, chunkSize);
-        
-        // Store all chunks and track the current chunk
+
         savedSets[set.title] = {
             title: set.title,
-            chunks: chunks.map(chunk => shuffleArray(chunk)),
-            currentChunkIndex: 0, // Start with the first chunk
-            noIdeaList: [],
-            seenButNoIdeaList: [],
-            rememberedList: []
+            chunks: chunks.map(chunk => shuffleArray([...chunk])), // Store fresh copies
+            currentChunkIndex: 0,
+            chunkProgress: {}, // Initialize chunk progress object
+            noIdeaList: set.noIdeaList || [],
+            seenButNoIdeaList: set.seenButNoIdeaList || [],
+            rememberedList: set.rememberedList || []
         };
 
-        // Show/hide navigation buttons based on the number of chunks
         toggleNavigationButtons(chunks.length > 1);
-
-        // Load the first chunk
         loadChunk(set.title, 0);
         renderKanjiLists();
-
     }
 
     function loadChunk(setTitle, chunkIndex) {
         const set = savedSets[setTitle];
-        if (!set || chunkIndex >= set.chunks.length) {
+        if (!set || chunkIndex >= set.chunks.length || chunkIndex < 0) {
             console.log('Invalid chunk index or set not found.');
             return;
         }
-    
+
+        // Save progress of the current chunk before switching
+        if (currentSetTitle && savedSets[currentSetTitle.split(' (Part')[0]]) {
+            const currentSet = savedSets[currentSetTitle.split(' (Part')[0]];
+            currentSet.chunkProgress = currentSet.chunkProgress || {};
+            currentSet.chunkProgress[currentSet.currentChunkIndex] = {
+                noIdeaList: [...noIdeaList],
+                seenButNoIdeaList: [...seenButNoIdeaList],
+                rememberedList: [...rememberedList]
+            };
+        }
+
         // Update the current chunk index
         set.currentChunkIndex = chunkIndex;
-    
-        // Load the kanji from the current chunk
-        kanjiList = shuffleArray(set.chunks[chunkIndex]); // Shuffle the kanjis in the chunk
-        noIdeaList = [...kanjiList]; // Reset progress for the new chunk
-        seenButNoIdeaList = [];
-        rememberedList = [];
-        currentSetTitle = `${set.title} (Part ${chunkIndex + 1})`;
-    
-        // Update the UI
+
+        // Load or initialize chunk progress
+        set.chunkProgress = set.chunkProgress || {};
+        const chunkProgress = set.chunkProgress[chunkIndex] || {};
+        kanjiList = shuffleArray([...set.chunks[chunkIndex]]); // Fresh copy of chunk
+        noIdeaList = chunkProgress.noIdeaList ? [...chunkProgress.noIdeaList] : [...kanjiList];
+        seenButNoIdeaList = chunkProgress.seenButNoIdeaList ? [...chunkProgress.seenButNoIdeaList] : [];
+        rememberedList = chunkProgress.rememberedList ? [...chunkProgress.rememberedList] : [];
+        currentSetTitle = `${setTitle} (Part ${chunkIndex + 1})`;
+
+        // Update UI
         setTitleDisplay.textContent = currentSetTitle;
         updateProgress();
         displayKanji();
         updateChunkInfo();
-    
-        // Enable the buttons when loading a new set
-        enableButtons(); // Ensure this is called
-        console.log('New set loaded, buttons should be enabled'); // Debug: Confirm this is being called
+        enableButtons();
+        saveData(); // Save immediately after loading to ensure consistency
     }
-
 
     // Render saved sets
     function renderSavedSets() {
@@ -577,7 +836,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // Function to handle predefined set submission
     function handlePredefinedSetSubmission() {
         const predefinedSetsContainer = document.getElementById('predefined-kanji-sets');
@@ -593,15 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    document.getElementById('predefined-kanji-sets').addEventListener('click', (event) => {
-        if (event.target.classList.contains('submit-predefined')) {
-            const dropdown = event.target.previousElementSibling; // Get the associated dropdown
-            const selectedSet = dropdown.value;
-            if (selectedSet && predefinedSets[selectedSet]) {
-                loadPredefinedSet(selectedSet);
-            }
-        }
-    });
+
     // Function to group sets by prefix
     function groupSetsByPrefix(sets) {
         const groupedSets = {};
@@ -635,8 +885,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('One or more elements not found:', { kanjiSetSelects, submitPredefinedButtons });
         }
     }
-
-    toggleSpoilers();
 
     // Function to generate dropdowns based on grouped sets
     function generateDropdowns(groupedSets) {
@@ -680,10 +928,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add a "Load Selected Set" button for each dropdown
             const loadButton = document.createElement('button');
-            loadButton.className = 'submit-predefined'; // Ensure this class is applied
+            loadButton.className = 'submit-predefined';
             loadButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>
-        `;
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>
+    `;
             dropdownContainer.appendChild(loadButton);
 
             // Add the dropdown container to the set group
@@ -699,7 +947,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reattach spoiler event listeners after updating content
         toggleSpoilers();
     }
-
 
     // Function to load a predefined set
     function loadPredefinedSet(setKey) {
@@ -722,11 +969,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    
+
         if (newKanjiList.length === 0) {
             return;
         }
-    
+
         const newSet = {
             title: ` ${setKey}`,
             kanjiList: newKanjiList,
@@ -734,26 +981,36 @@ document.addEventListener('DOMContentLoaded', () => {
             seenButNoIdeaList: [],
             rememberedList: []
         };
-    
+
         loadSet(newSet);
     }
-    
+
     function splitIntoChunks(kanjiList, maxChunkSize = 50) {
+        if (!kanjiList || !Array.isArray(kanjiList)) {
+            console.error('Invalid kanjiList:', kanjiList);
+            return [];
+        }
+    
         const totalKanji = kanjiList.length;
+        if (totalKanji === 0) {
+            console.warn('Empty kanjiList provided.');
+            return [];
+        }
+    
         const numberOfChunks = Math.ceil(totalKanji / maxChunkSize); // Number of chunks needed
         const baseChunkSize = Math.floor(totalKanji / numberOfChunks); // Base size for each chunk
         const remainder = totalKanji % numberOfChunks; // Extra kanji to distribute
-
+    
         const chunks = [];
         let startIndex = 0;
-
+    
         for (let i = 0; i < numberOfChunks; i++) {
             const chunkSize = baseChunkSize + (i < remainder ? 1 : 0); // Add extra kanji to the first few chunks
             const chunk = kanjiList.slice(startIndex, startIndex + chunkSize);
             chunks.push(chunk);
             startIndex += chunkSize;
         }
-
+    
         return chunks;
     }
 
@@ -765,4 +1022,5 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSavedSets();
     displayKanji();
     handlePredefinedSetSubmission(); // Attach event listeners for predefined set submission
+    toggleSpoilers();
 });

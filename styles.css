@@ -43,6 +43,7 @@ h3 {
     margin-bottom: 10px; /* Reduced margin */
     text-transform: uppercase;
 }
+
 h4 {
     font-family: "MS Mincho", "Yu Mincho", "Hiragino Mincho Pro", serif;
     font-size: clamp(2.3rem, 3.5vw, 4rem);
@@ -54,12 +55,13 @@ h4 {
 }
 
 h5 {
-    font-size:0.8;
+    font-size: 0.8rem;
     font-weight: 400;
     margin-bottom: 10px;
     margin-top: 10px;
 }
 
+/* Chunk Size Modal (existing modal for chunk-size) */
 .modal {
     display: none;
     position: fixed;
@@ -69,10 +71,11 @@ h5 {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    z-index: 1000; /* Ensure it’s above other elements but below auth-modal if needed */
 }
 
 .modal-content {
-    color:black;
+    color: black;
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
@@ -84,9 +87,175 @@ h5 {
     text-align: center;
     animation: popIn 0.3s;
 }
+
 @keyframes popIn {
     from { transform: scale(0); }
     to { transform: scale(1); }
+}
+
+/* Auth Modal (for login/signup) */
+.auth-modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 1100; /* Higher z-index to ensure it stays above chunk-size modal */
+}
+
+.auth-modal .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* Slightly adjust vertical positioning */
+    padding: 25px; /* Increased padding for better spacing */
+    border: 2px solid #000000; /* Match app’s border style */
+    width: 90%;
+    max-width: 350px; /* Slightly wider for better readability */
+    position: relative;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    font-family: 'Montserrat', sans-serif;
+    text-transform: lowercase;
+}
+
+.auth-modal h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.auth-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between inputs and button */
+}
+
+.auth-modal input[type="email"],
+.auth-modal input[type="password"] {
+    font-family: 'Montserrat', sans-serif;
+    padding: 10px;
+    border: 2px solid #000000; /* Default black border in light mode */
+    border-radius: 8px;
+    background-color: transparent; /* Remove any background color */
+    color: #000000;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    text-transform: lowercase;
+    box-sizing: border-box; /* Ensure padding doesn’t affect width */
+}
+
+.auth-modal input[type="email"]:focus,
+.auth-modal input[type="password"]:focus {
+    outline: none;
+    border-color: #000000; /* Keep black border on focus in light mode */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.auth-modal button[type="submit"] {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-transform: lowercase;
+    width: 100%;
+}
+
+.auth-modal button[type="submit"]:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.auth-modal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.auth-modal .close:hover, .auth-modal .close:focus {
+    color: #000000;
+    text-decoration: none;
+}
+
+.auth-modal a {
+    color: #000000;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.auth-modal a:hover {
+    color: #333333;
+}
+
+.auth-modal p {
+    margin: 10px 0;
+    font-size: 0.9rem;
+}
+
+/* Dark Mode for Auth Modal */
+body.dark-mode .auth-modal .modal-content {
+    background-color: #272727;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+body.dark-mode .auth-modal h2 {
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+body.dark-mode .auth-modal input[type="email"],
+body.dark-mode .auth-modal input[type="password"] {
+    border-color: #ffffff; /* White border in dark mode */
+    color: #ffffff;
+    background-color: transparent; /* Ensure no background color */
+}
+
+body.dark-mode .auth-modal input[type="email"]:focus,
+body.dark-mode .auth-modal input[type="password"]:focus {
+    border-color: #ffffff; /* Keep white border on focus in dark mode */
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .auth-modal button[type="submit"] {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+body.dark-mode .auth-modal button[type="submit"]:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode .auth-modal .close {
+    color: #ffffff;
+}
+
+body.dark-mode .auth-modal .close:hover, body.dark-mode .auth-modal .close:focus {
+    color: #cccccc;
+}
+
+body.dark-mode .auth-modal a {
+    color: #ffffff;
+}
+
+body.dark-mode .auth-modal a:hover {
+    color: #cccccc;
 }
 
 #kanji-display {
@@ -141,7 +310,6 @@ h5 {
     box-sizing: border-box;
     backface-visibility: hidden;
     transform-origin: center;
-
 }
 
 .card-front {
@@ -163,8 +331,6 @@ h5 {
     /* Removed */
 }
 
-
-
 /* Container for the buttons */
 #options {
     display: flex;
@@ -174,7 +340,6 @@ h5 {
     margin-top: 15px;
     padding-inline: 10%;
     width: 100%;
-
 }
 
 #options button {
@@ -195,18 +360,17 @@ h5 {
     height: 50px; /* Consistent height */
     width: 50px; /* Fixed width for square ratio */
     padding: 0; /* Remove padding to fit icons */
+}
 
+#options button svg {
+    width: 16px;
+    height: 16px;
 }
-#options button svg{
-    width:16px;
-    height:16px;
-}
+
 #options button:active {
     transform: scale(0.95);
     transition: transform 0.1s ease;
 }
-
-
 
 /* Hover effect for "No Idea" button */
 #no-idea:hover {
@@ -226,7 +390,7 @@ h5 {
 
 /* Hover effect for "Remembered" button */
 #remembered:hover {
-    border-color:#4caf50;
+    border-color: #4caf50;
     background-color: #4caf50; 
     color: #ffffff; 
     transform: translateY(-2px);
@@ -256,6 +420,7 @@ h5 {
     word-break: break-word;
     max-width: 100%;  /* Reduced margin */
 }
+
 #example {
     font-size: 0.9rem; 
     margin: 100px 0;
@@ -331,7 +496,7 @@ h5 {
 
 #custom-kanji-set, #predefined-kanji-sets, #saved-sets {
     margin-top: 10px; /* Reduced margin */
-    padding:30px;
+    padding: 30px;
 }
 
 /* Fix for input and textarea width */
@@ -420,7 +585,7 @@ h5 {
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Vertically center the icon */
     justify-content: center; /* Horizontally center the icon */
-    width: 15%;
+    width: 20%;
     font-size: clamp(0.2rem, 2.5vw, 1rem);
 }
 
@@ -432,16 +597,15 @@ h5 {
 
 .submit-predefined:hover {
     background-color: #000000; /* Darker green on hover */
-    color:#ffffff;
+    color: #ffffff;
 }
-
 
 /* Progress Section */
 #progress {
     width: 80%;
     max-width: 700px;
-    margin-top:0px;
-    margin-bottom: 0px; /* Reduced margin */
+    margin-top: 0;
+    margin-bottom: 0; /* Reduced margin */
     display: flex;
     align-items: center; /* Vertically center align items */
     gap: 10px; /* Add some space between the text and the progress bar */
@@ -522,6 +686,7 @@ h5 {
     margin-top: 5px;
     font-size: 1rem;
 }
+
 /* Light Mode Styles (Default) */
 #chunk-size-btn,
 #prev-chunk,
@@ -538,19 +703,20 @@ h5 {
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     text-transform: lowercase;
 }
+
 #prev-chunk svg,
 #next-chunk svg {
     width: 16px; /* Match the size of the original ◄ character */
     height: 16px;
-    
 }
+
 #chunk-size-btn:hover,
 #prev-chunk:hover,
 #next-chunk:hover {
     background-color: #000000;
     color: #ffffff;
     transform: translateY(-2px);
-    fill:white;
+    fill: white;
 }
 
 /* Dark Mode */
@@ -559,9 +725,10 @@ body.dark-mode {
     color: #ffffff;
 }
 
-body.dark-mode #save-chunk-size{
+body.dark-mode #save-chunk-size {
     color: black;
 }
+
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
@@ -572,10 +739,12 @@ body.dark-mode #saved-sets-list li {
     color: #ffffff;
     text-transform: uppercase;
 }
+
 body.dark-mode h4 {
     color: #ffffff;
     text-transform: lowercase; 
 }
+
 body.dark-mode h2 {
     color: #ffffff;
     text-transform: lowercase; 
@@ -593,15 +762,16 @@ body.dark-mode select {
     text-transform: lowercase;
 }
 
-
-body.dark-mode #next:hover{
+body.dark-mode #next:hover {
     background-color: #ffffff;
-    color:#000000;
+    color: #000000;
 }
+
 body.dark-mode .spoiler-button:hover,
 body.dark-mode #options button {
     border-color: #ffffff;
 }
+
 body.dark-mode #no-idea:hover {
     background-color: #e25f5f; 
     border-color: #e25f5f; 
@@ -609,7 +779,7 @@ body.dark-mode #no-idea:hover {
 }
 
 body.dark-mode #seen-but-no-idea:hover {
-    border-color:#eed859;
+    border-color: #eed859;
     background-color: #eed859; /* Yellow background */
     fill: #000000; /* Black text */
 }
@@ -619,6 +789,7 @@ body.dark-mode #remembered:hover {
     background-color: #42c574; /* Green background */
     fill: #000000; /* White text */
 }
+
 body.dark-mode textarea:focus,
 body.dark-mode input[type="text"]:focus,
 body.dark-mode select:focus {
@@ -630,11 +801,13 @@ body.dark-mode .kanji-card {
     text-transform: lowercase;
     align-items: center; 
 }
+
 body.dark-mode .kanji-card #reading,
 body.dark-mode .kanji-card #example,
 body.dark-mode .kanji-card #meaning {
     text-transform: lowercase; /* Ensure text is lowercase */
 }
+
 body.dark-mode .spoiler-content {
     background-color: #272727;
     border-color: #272727;
@@ -683,6 +856,7 @@ body.dark-mode .progress-stats p {
 body.dark-mode .progress-stats span {
     color: #ffffff;
 }
+
 body.dark-mode #predefined-kanji-sets select {
     width: 100%;
     color: rgb(151, 151, 151);
@@ -690,20 +864,23 @@ body.dark-mode #predefined-kanji-sets select {
     appearance: none; /* Remove default arrow */
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
 }
+
 body.dark-mode #chunk-size-btn,
 body.dark-mode #prev-chunk,
 body.dark-mode #next-chunk {
-    fill:white;
+    fill: white;
     border-color: #ffffff;
     color: #ffffff;
 }
+
 body.dark-mode #chunk-size-btn:hover,
 body.dark-mode #prev-chunk:hover,
 body.dark-mode #next-chunk:hover {
-    fill:black;
+    fill: black;
     background-color: #ffffff;
     color: #000000;
 }
+
 /* Hide navigation buttons */
 .hidden {
     display: none !important;
@@ -715,7 +892,6 @@ body.dark-mode #next-chunk:hover {
     align-items: top; /* Vertically center align items */
     gap: 10px; /* Add some space between the dropdown and the button */
     margin-bottom: 10px; /* Add margin below each dropdown-container */
-
 }
 
 /* Style for the dropdowns */
@@ -759,7 +935,6 @@ body.dark-mode .submit-predefined:hover {
     color: #000000; /* Black text on hover */
 }
 
-
 .kanji-lists {
     display: none;
     justify-content: space-around;
@@ -793,6 +968,7 @@ body.dark-mode .submit-predefined:hover {
 .kanji-list ul li:last-child {
     border-bottom: none;
 }
+
 #reset-progress {
     font-family: 'Montserrat', sans-serif;
     background-color: transparent;
@@ -827,3 +1003,60 @@ body.dark-mode #options button svg {
     fill: white;
 }
 
+/* Dark Mode for Auth Modal */
+body.dark-mode .auth-modal .modal-content {
+    background-color: #272727;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+body.dark-mode .auth-modal .close {
+    color: #ffffff;
+}
+
+body.dark-mode .auth-modal .close:hover, body.dark-mode .auth-modal .close:focus {
+    color: #cccccc;
+}
+
+/* Auth Status Styles */
+.auth-status {
+    margin: 10px 0;
+    text-align: center;
+}
+
+#auth-trigger, #user-greeting, #logout-btn {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    text-transform: lowercase;
+    margin: 0 5px;
+}
+
+#auth-trigger:hover, #user-greeting:hover, #logout-btn:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+#user-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+body.dark-mode #auth-trigger, body.dark-mode #user-greeting, body.dark-mode #logout-btn {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+body.dark-mode #auth-trigger:hover, body.dark-mode #user-greeting:hover, body.dark-mode #logout-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
