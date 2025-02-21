@@ -633,6 +633,8 @@ body.dark-mode .auth-modal a:hover {
     height: 100%;
     border-radius: 8px;
     appearance: none;
+    transition: value 0.5s ease-in-out; /* Smoothly animate the value change */
+    -webkit-transition: value 0.5s ease-in-out; /* For Safari */
 }
 
 #progress-bar::-webkit-progress-bar {
@@ -643,6 +645,7 @@ body.dark-mode .auth-modal a:hover {
 #progress-bar::-webkit-progress-value {
     background-color: #4caf50;
     border-radius: 8px;
+    transition: width 0.5s ease-in-out; 
 }
 
 #progress-bar::-moz-progress-bar {
