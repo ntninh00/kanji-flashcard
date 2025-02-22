@@ -411,11 +411,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Trigger confetti when progress reaches 100%
         if (progress === 100) {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 } // Center vertically on the page
-            });
+            var scalar = 2;
+            var unicorn = confetti.shapeFromText({ text: '🐟', scalar });
+            var defaults = {
+                spread: 360,
+                ticks: 60,
+                gravity: 0,
+                decay: 0.96,
+                startVelocity: 20,
+                shapes: [unicorn],
+                scalar
+            };
+
+            function shoot() {
+
+                confetti({
+                    ...defaults,
+                    particleCount: 5,
+                    flat: true
+                });
+
+                confetti({
+                    ...defaults,
+                    particleCount: 15,
+                    scalar: scalar / 2,
+                    shapes: ['circle']
+                });
+            }
+
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
         }
     }
 
@@ -990,21 +1016,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const loadButton = document.createElement('button');
             loadButton.className = 'submit-predefined';
             loadButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M246.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 109.3 192 320c0 17.7 14.3 32 32 32s32-14.3 32-32l0-210.7 73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-64z"/></svg>
     `;
             dropdownContainer.appendChild(loadButton);
 
-            // Add the dropdown container to the set group
             setGroup.appendChild(dropdownContainer);
 
-            // Add the set group to the predefined sets container
             predefinedSetsContainer.appendChild(setGroup);
         });
 
-        // Call this function after dynamically adding the elements
         addEventListenersToButtons();
 
-        // Reattach spoiler event listeners after updating content
         toggleSpoilers();
     }
 
