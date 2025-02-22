@@ -3,13 +3,13 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, on
 import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyAotuyVf5GV2f-w2_9nR3VsJ_LHbtX4xsM",
-    authDomain: "kanji-flashcard.firebaseapp.com",
-    projectId: "kanji-flashcard",
-    storageBucket: "kanji-flashcard.firebasestorage.app",
-    messagingSenderId: "158390700713",
-    appId: "1:158390700713:web:e255acedd26a26d3c177b8",
-    measurementId: "G-MRE2WC4Y7Q",
+    apiKey: "'AIzaSyAotuyVf5GV2f-w2_9nR3VsJ_LHbtX4xsM',",
+    authDomain: "'kanji-flashcard.firebaseapp.com',",
+    projectId: "'kanji-flashcard',",
+    storageBucket: "'kanji-flashcard.firebasestorage.app',",
+    messagingSenderId: "'158390700713',",
+    appId: "'1:158390700713:web:e255acedd26a26d3c177b8',",
+    measurementId: "'G-MRE2WC4Y7Q',",
     databaseURL: "https://kanji-flashcard-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 // Initialize Firebase
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorMessage = 'Too many attempts. Please wait and try again later.';
                     break;
                 default:
-                    errorMessage = `Login failed: ${error.message}`;
+                    errorMessage = `Login failed: `;
             }
             document.getElementById('login-error').textContent = errorMessage;
         }
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorMessage = 'Too many requests. Please try again later.';
                     break;
                 default:
-                    errorMessage = `Error: ${error.message}`;
+                    errorMessage = `Error: `;
             }
             document.getElementById('login-error').textContent = errorMessage;
         }
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorMessage = 'Too many attempts. Please wait and try again later.';
                     break;
                 default:
-                    errorMessage = `Sign up failed: ${error.message}`;
+                    errorMessage = `Sign up failed: `;
             }
             document.getElementById('signup-error').textContent = errorMessage;
         }
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             authTrigger.style.display = 'none';
             userArea.style.display = 'flex';
             userArea.style.gap = '10px';
-            userGreeting.textContent = `Hello, ${user.email.split('@')[0]}`; // Show first part of email as username
+            userGreeting.textContent = `Hello, `; // Show first part of email as username
             logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 signOut(auth).then(() => {
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load User Progress from Firebase
     function loadUserProgress(userId) {
-        const userProgressRef = ref(database, `users/${userId}/progress`);
+        const userProgressRef = ref(database, `users//progress`);
         onValue(userProgressRef, (snapshot) => {
             const progress = snapshot.val() || {};
             kanjiList = progress.kanjiList || [];
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveData() {
         const user = auth.currentUser;
         if (user) {
-            const userProgressRef = ref(database, `users/${user.uid}/progress`);
+            const userProgressRef = ref(database, `users//progress`);
             // Structure savedSets to include chunk-specific progress
             const updatedSavedSets = {};
             for (const [title, set] of Object.entries(savedSets)) {
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chunkInfo) {
             const set = savedSets[currentSetTitle.split(' (Part')[0]];
             if (set) {
-                chunkInfo.textContent = `Part ${set.currentChunkIndex + 1} of ${set.chunks.length}`;
+                chunkInfo.textContent = `Part  of `;
             }
         } else {
             console.error('chunkInfo element not found');
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const remembered = rememberedList.length;
         const progress = Math.round((remembered / total) * 100);
         progressBar.value = progress;
-        progressText.textContent = `${progress}%`;
+        progressText.textContent = `%`;
         noIdeaCountDisplay.textContent = noIdeaList.length;
         seenButNoIdeaCountDisplay.textContent = seenButNoIdeaList.length;
         rememberedCountDisplay.textContent = rememberedList.length;
@@ -486,9 +486,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxHeight = Math.max(frontHeight, backHeight);
 
         // Set all to the tallest height
-        card.style.height = `${maxHeight}px`;
-        front.style.height = `${maxHeight}px`;
-        back.style.height = `${maxHeight}px`;
+        card.style.height = `px`;
+        front.style.height = `px`;
+        back.style.height = `px`;
 
         // Restore display states based on flip state
         if (!kanjiCard.classList.contains('flip')) {
@@ -576,15 +576,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render noIdeaList
         const noIdeaListElement = document.getElementById('no-idea-list');
-        noIdeaListElement.innerHTML = noIdeaList.map(k => `<li>${k.kanji}</li>`).join('');
+        noIdeaListElement.innerHTML = noIdeaList.map(k => `<li></li>`).join('');
 
         // Render seenButNoIdeaList
         const seenButNoIdeaListElement = document.getElementById('seen-but-no-idea-list');
-        seenButNoIdeaListElement.innerHTML = seenButNoIdeaList.map(k => `<li>${k.kanji}</li>`).join('');
+        seenButNoIdeaListElement.innerHTML = seenButNoIdeaList.map(k => `<li></li>`).join('');
 
         // Render rememberedList
         const rememberedListElement = document.getElementById('remembered-list');
-        rememberedListElement.innerHTML = rememberedList.map(k => `<li>${k.kanji}</li>`).join('');
+        rememberedListElement.innerHTML = rememberedList.map(k => `<li></li>`).join('');
     }
 
     // Function to move a kanji to a specific list
@@ -607,9 +607,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDuplicate = targetList.some(k => k.kanji === kanji.kanji);
         if (!isDuplicate) {
             targetList.push(kanji);
-            console.log(`Added kanji ${kanji.kanji} to ${targetList === noIdeaList ? 'noIdeaList' : targetList === seenButNoIdeaList ? 'seenButNoIdeaList' : 'rememberedList'}`);
+            console.log(`Added kanji  to `);
         } else {
-            console.log(`Kanji ${kanji.kanji} is already in the target list.`);
+            console.log(`Kanji  is already in the target list.`);
         }
 
         // Shuffle the target list after adding the kanji
@@ -855,7 +855,7 @@ document.addEventListener('DOMContentLoaded', () => {
         noIdeaList = chunkProgress.noIdeaList ? [...chunkProgress.noIdeaList] : [...kanjiList];
         seenButNoIdeaList = chunkProgress.seenButNoIdeaList ? [...chunkProgress.seenButNoIdeaList] : [];
         rememberedList = chunkProgress.rememberedList ? [...chunkProgress.rememberedList] : [];
-        currentSetTitle = `${setTitle} (Part ${chunkIndex + 1})`;
+        currentSetTitle = ` (Part )`;
 
         // Update UI
         setTitleDisplay.textContent = currentSetTitle;
@@ -1066,7 +1066,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const newSet = {
-            title: ` ${setKey}`,
+            title: ` `,
             kanjiList: newKanjiList,
             noIdeaList: [...newKanjiList],
             seenButNoIdeaList: [],

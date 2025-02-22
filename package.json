@@ -4,7 +4,7 @@
   "description": "the site is live on [kanji-flashcard.netlify.app/](https://kanji-flashcard.netlify.app/)",
   "main": "build.js",
   "scripts": {
-    "build": "node build.js && cp script.js dist/ && cp index.html dist/ && cp styles.css dist/ && cp predefined-kanji-sets.json dist/"
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
