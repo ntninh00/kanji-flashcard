@@ -24,7 +24,7 @@ const env = {
     FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL || 'https://kanji-flashcard-default-rtdb.asia-southeast1.firebasedatabase.app/'
 };
 
-const output = template.replace(/\${([^}]+)}/g, (match, key) => env[key] || '');
+const output = template.replace(/%%([^%]+)%%/g, (match, key) => env[key] || '');
 
 fs.writeFileSync(outputPath, output, 'utf8');
 console.log('Built script.js with environment variables');
