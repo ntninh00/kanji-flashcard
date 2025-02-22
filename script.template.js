@@ -3,14 +3,14 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, on
 import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyAotuyVf5GV2f-w2_9nR3VsJ_LHbtX4xsM",
-    authDomain: "kanji-flashcard.firebaseapp.com",
-    projectId: "kanji-flashcard",
-    storageBucket: "kanji-flashcard.firebasestorage.app",
-    messagingSenderId: "158390700713",
-    appId: "1:158390700713:web:e255acedd26a26d3c177b8",
-    measurementId: "G-MRE2WC4Y7Q",
-    databaseURL: "https://kanji-flashcard-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    apiKey: "${FIREBASE_API_KEY}",
+    authDomain: "${FIREBASE_AUTH_DOMAIN}",
+    projectId: "${FIREBASE_PROJECT_ID}",
+    storageBucket: "${FIREBASE_STORAGE_BUCKET}",
+    messagingSenderId: "${FIREBASE_MESSAGING_SENDER_ID}",
+    appId: "${FIREBASE_APP_ID}",
+    measurementId: "${FIREBASE_MEASUREMENT_ID}",
+    databaseURL: "${FIREBASE_DATABASE_URL}"
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
