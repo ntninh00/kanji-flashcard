@@ -1,1 +1,1 @@
-the site is live on ntninh00.github.io/kanji-flashcard
+the site is live on [https://kanji-flashcard.netlify.app/](https://kanji-flashcard.netlify.app/)
