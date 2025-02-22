@@ -3,6 +3,18 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, on
 import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
 //import { firebaseConfig } from './firebase-config.js';
 
+
+const firebaseConfig = {
+    apiKey,
+    authDomain,
+    projectId,
+    storageBucket,
+    messagingSenderId,
+    appId,
+    measurementId,
+    databaseURL
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
