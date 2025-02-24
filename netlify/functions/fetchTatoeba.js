@@ -2,7 +2,7 @@ const axios = require('axios');
 
 exports.handler = async (event) => {
     const kanji = event.queryStringParameters.kanji;
-    const url = `https://tatoeba.org/en/api_v0/search?from=jpn&orphans=no&query=${encodeURIComponent(`"${kanji}"`)}&sort=random&to=eng&trans_filter=limit&unapproved=no&word_count_min=1&rand_seed=XwFw`;
+    const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(`"${kanji}"`)}&from=jpn&orphans=&unapproved=&to=eng&sort=random`;
 
     try {
         const response = await axios.get(url);
@@ -31,4 +31,4 @@ exports.handler = async (event) => {
             body: JSON.stringify({ error: 'Failed to fetch sentences' }),
         };
     }
-};
+}
