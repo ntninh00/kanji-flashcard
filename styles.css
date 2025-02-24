@@ -441,10 +441,9 @@ body.dark-mode .auth-modal a:hover {
 }
 
 #example {
-    font-size: 0.9rem; 
-    margin: 100px 0;
-    padding: 5px 15; 
-    max-width: 50%;
+    text-align: left;
+    font-size: 0.9em;
+    line-height: 1.5;
 }
 
 #next {
@@ -1083,3 +1082,43 @@ body.dark-mode #auth-trigger:hover, body.dark-mode #user-greeting:hover, body.da
     color: #000000;
 }
 
+#sample-sentences {
+    display: none;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.sentence {
+    text-align: left;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+    border-bottom: #000000;
+}
+
+#show-more-sentences {
+    font-size: 0.9em;
+    display: block; /* Ensures the button takes full width and aligns content */
+    text-align: left; /* Aligns the button's content (text) to the left */
+}
+
+#button-text {
+    display: inline-block; /* Ensures text stays inline with spinner */
+    text-align: left; /* Explicitly aligns the text to the left */
+}
+
+#loading-spinner {
+    display: none;
+}
+
+#show-more-sentences:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.highlight-kanji {
+    background-color: rgb(228, 228, 148); 
+    padding: 2px 4px; 
+    border-radius: 3px;
+}
+body.dark-mode .highlight-kanji {
+    background-color: rgb(83, 83, 59);
+}

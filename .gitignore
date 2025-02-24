@@ -2,3 +2,4 @@ script.js
 dist/
 .env
 node_modules/
+.netlify/
