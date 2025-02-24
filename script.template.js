@@ -781,7 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch sentences from Tatoeba API
     async function fetchTatoebaSentences(kanji) {
         const isLocal = window.location.hostname === 'localhost';
-        const baseUrl = isLocal ? 'http://localhost:8888' : 'https://your-site.netlify.app';
+        const baseUrl = isLocal ? 'http://localhost:8888' : 'https://kanji-flashcard.netlify.app';
         const url = `${baseUrl}/.netlify/functions/fetchTatoeba?kanji=${encodeURIComponent(kanji)}`;
     
         try {
