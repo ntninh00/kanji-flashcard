@@ -502,9 +502,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayKanji(kanji = null) {
         currentReviewKanji = kanji || getNextKanji(); // Use provided kanji or get the next one
     
-        // Hide the sample sentences container
-        const sampleSentencesDiv = document.getElementById('sample-sentences');
-        sampleSentencesDiv.style.display = 'none';
+        // Hide both sample sentences containers
+        const tatoebaSentencesDiv = document.getElementById('sample-sentences');
+        const lingueeSentencesDiv = document.getElementById('linguee-sample-sentences');
+        tatoebaSentencesDiv.style.display = 'none';
+        lingueeSentencesDiv.style.display = 'none';
     
         if (currentReviewKanji) {
             kanjiCard.classList.remove('flip');
@@ -529,28 +531,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the reading and meaning of the current Kanji
     function showReadingAndMeaning() {
-    if (!currentReviewKanji) {
-        console.log('No current kanji to show details for.');
-        return;
-    }
+        if (!currentReviewKanji) {
+            console.log('No current kanji to show details for.');
+            return;
+        }
 
-    // Ensure both front and back show the same Kanji, then add details to the back
-    kanjiDisplay.textContent = currentReviewKanji.kanji; // Keep the same Kanji on front (without details)
-    kanjiBackDisplay.textContent = currentReviewKanji.kanji; // Ensure back shows the same Kanji
-    readingDisplay.textContent = currentReviewKanji.reading;
-    meaningDisplay.textContent = currentReviewKanji.meaning;
+        // Ensure both front and back show the same Kanji, then add details to the back
+        kanjiDisplay.textContent = currentReviewKanji.kanji; // Keep the same Kanji on front (without details)
+        kanjiBackDisplay.textContent = currentReviewKanji.kanji; // Ensure back shows the same Kanji
+        readingDisplay.textContent = currentReviewKanji.reading;
+        meaningDisplay.textContent = currentReviewKanji.meaning;
 
-    // Highlight the target kanji in the predefined examples
-    if (currentReviewKanji.examples && currentReviewKanji.examples.length > 0) {
-        const highlightedExamples = currentReviewKanji.examples.map(example => {
-            return example.replace(
-                new RegExp(currentReviewKanji.kanji, 'g'),
-                `<span class="highlight-kanji">${currentReviewKanji.kanji}</span>`
-            );
-        });
-        exampleDisplay.innerHTML = highlightedExamples.join('<br>'); // Use innerHTML to render the highlighted kanji
-    } else {
-        exampleDisplay.innerHTML = '';
+        // Highlight the target kanji in the predefined examples
+        if (currentReviewKanji.examples && currentReviewKanji.examples.length > 0) {
+            const highlightedExamples = currentReviewKanji.examples.map(example => {
+                return example.replace(
+                    new RegExp(currentReviewKanji.kanji, 'g'),
+                    `<span class="highlight-kanji">${currentReviewKanji.kanji}</span>`
+                );
+            });
+            exampleDisplay.innerHTML = highlightedExamples.join('<br>'); // Use innerHTML to render the highlighted kanji
+        } else {
+            exampleDisplay.innerHTML = '';
     }
 
     // Hide the sample sentences container
@@ -777,8 +779,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return array;
     }
+    
+    // Function to fetch sentences from Linguee
+    async function fetchLingueeSentences(kanji) {
+        const isLocal = window.location.hostname === 'localhost';
+        const baseUrl = isLocal ? 'http://localhost:8888' : 'https://kanji-flashcard.netlify.app';
+        const url = `${baseUrl}/.netlify/functions/linguee?kanji=${encodeURIComponent(kanji)}`;
+        
+        try {
+            console.log('Fetching from:', url);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            const data = await response.json();
+            console.log('Linguee response:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching Linguee sentences:', error);
+            return [];
+        }
+    }
 
-    // Function to fetch sentences from Tatoeba API
+    // Function to fetch sentences from Tatoeba and Linguee
     async function fetchTatoebaSentences(kanji) {
         const isLocal = window.location.hostname === 'localhost';
         const baseUrl = isLocal ? 'http://localhost:8888' : 'https://kanji-flashcard.netlify.app';
@@ -796,51 +819,97 @@ document.addEventListener('DOMContentLoaded', () => {
             return [];
         }
     }
+    async function fetchLingueeSentences(kanji) {
+        const isLocal = window.location.hostname === 'localhost';
+        const baseUrl = isLocal ? 'http://localhost:8888' : 'https://kanji-flashcard.netlify.app';
+        const url = `${baseUrl}/.netlify/functions/linguee?kanji=${encodeURIComponent(kanji)}`;
+        
+        try {
+            console.log('Fetching from:', url);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            const data = await response.json();
+            console.log('Linguee response:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching Linguee sentences:', error);
+            return [];
+        }
+    }
     
-    function displaySampleSentences(sentences) {
+    function displayTatoebaSentences(sentences) {
         const sampleSentencesDiv = document.getElementById('sample-sentences');
-        const showMoreButton = document.getElementById('show-more-sentences');
-        sampleSentencesDiv.innerHTML = ''; // Clear previous sentences
+        sampleSentencesDiv.innerHTML = ''; // Clear previous Tatoeba sentences
     
-        if (sentences.length === 0) {
-            sampleSentencesDiv.textContent = 'No sample sentences found.';
-            sampleSentencesDiv.style.display = 'block'; // Show the container even if no sentences are found
+        if (!sentences || sentences.length === 0) {
+            sampleSentencesDiv.textContent = 'No sample sentences found on Tatoeba.';
+            sampleSentencesDiv.style.display = 'block';
             return;
         }
     
-        // Display up to 3 sentences
         sentences.slice(0, 3).forEach(sentence => {
             const sentenceDiv = document.createElement('div');
             sentenceDiv.className = 'sentence';
     
-            // Highlight the target kanji in the Japanese sentence
             const highlightedJapanese = sentence.japanese.replace(
                 new RegExp(currentReviewKanji.kanji, 'g'),
                 `<span class="highlight-kanji">${currentReviewKanji.kanji}</span>`
             );
     
-            // Format the sentence: Japanese (English) or just Japanese
             const formattedSentence = sentence.english
                 ? `${highlightedJapanese} (${sentence.english})`
                 : highlightedJapanese;
     
-            sentenceDiv.innerHTML = formattedSentence; // Use innerHTML to render the highlighted kanji
+            sentenceDiv.innerHTML = formattedSentence;
             sampleSentencesDiv.appendChild(sentenceDiv);
         });
     
-        // Show the sample sentences container
         sampleSentencesDiv.style.display = 'block';
-    
-    
-        // Update the card height
         syncCardHeight();
     }
+    
+    function displayLingueeSentences(sentences) {
+        const sampleSentencesDiv = document.getElementById('linguee-sample-sentences');
+        sampleSentencesDiv.innerHTML = ''; // Clear previous Linguee sentences
+    
+        if (!sentences || sentences.length === 0) {
+            sampleSentencesDiv.textContent = 'No sample sentences found on Linguee.';
+            sampleSentencesDiv.style.display = 'block';
+            return;
+        }
+    
+        // Shuffle the sentences before slicing
+        const shuffledSentences = shuffleArray([...sentences]); // Create a copy and shuffle
+        shuffledSentences.slice(0, 3).forEach(sentence => {
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence';
+    
+            const highlightedJapanese = sentence.japanese.replace(
+                new RegExp(currentReviewKanji.kanji, 'g'),
+                `<span class="highlight-kanji">${currentReviewKanji.kanji}</span>`
+            );
+    
+            const formattedSentence = sentence.english
+                ? `${highlightedJapanese} (${sentence.english})`
+                : highlightedJapanese;
+    
+            sentenceDiv.innerHTML = formattedSentence;
+            sampleSentencesDiv.appendChild(sentenceDiv);
+        });
+    
+        sampleSentencesDiv.style.display = 'block';
+        syncCardHeight();
+    }
+    
+    
+    
     
     // Event listener for the "Show more sample sentences" button
     document.getElementById('show-more-sentences').addEventListener('click', async () => {
         if (!currentReviewKanji) return;
     
-        // Disable the button and show the loading spinner
         const button = document.getElementById('show-more-sentences');
         const buttonText = document.getElementById('button-text');
         const loadingSpinner = document.getElementById('loading-spinner');
@@ -848,15 +917,33 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonText.style.display = 'none';
         loadingSpinner.style.display = 'inline-block';
     
-        // Fetch and display new sentences
-        const sentences = await fetchTatoebaSentences(currentReviewKanji.kanji);
-        displaySampleSentences(sentences);
+        const tatoebaSentences = await fetchTatoebaSentences(currentReviewKanji.kanji);
+        displayTatoebaSentences(tatoebaSentences);
     
-        // Re-enable the button and hide the loading spinner
         button.disabled = false;
         buttonText.style.display = 'inline-block';
         loadingSpinner.style.display = 'none';
     });
+    
+    document.getElementById('show-linguee-sentences').addEventListener('click', async () => {
+        if (!currentReviewKanji) return;
+    
+        const button = document.getElementById('show-linguee-sentences');
+        const buttonText = document.getElementById('linguee-button-text');
+        const loadingSpinner = document.getElementById('linguee-loading-spinner');
+        button.disabled = true;
+        buttonText.style.display = 'none';
+        loadingSpinner.style.display = 'inline-block';
+    
+        const lingueeSentences = await fetchLingueeSentences(currentReviewKanji.kanji);
+        displayLingueeSentences(lingueeSentences);
+    
+        button.disabled = false;
+        buttonText.style.display = 'inline-block';
+        loadingSpinner.style.display = 'none';
+    });
+    
+    
 
     // Chunk Size Adjustment
     chunkSizeBtn.addEventListener('click', () => {
