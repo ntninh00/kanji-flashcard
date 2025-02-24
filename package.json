@@ -1,5 +1,28 @@
 {
+  "name": "kanji-flashcard",
+  "version": "1.0.0",
+  "description": "the site is live on [kanji-flashcard.netlify.app/](https://kanji-flashcard.netlify.app/)",
+  "scripts": {
+    "build": "node build.js",
+    "start": "netlify dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntninh00/kanji-flashcard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ntninh00/kanji-flashcard/issues"
+  },
+  "homepage": "https://github.com/ntninh00/kanji-flashcard#readme",
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
   }
 }
