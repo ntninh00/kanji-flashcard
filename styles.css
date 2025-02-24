@@ -1082,7 +1082,7 @@ body.dark-mode #auth-trigger:hover, body.dark-mode #user-greeting:hover, body.da
     color: #000000;
 }
 
-#sample-sentences {
+#sample-sentences, #linguee-sample-sentences {
     display: none;
     text-align: left;
     font-size: 0.9em;
@@ -1095,25 +1095,23 @@ body.dark-mode #auth-trigger:hover, body.dark-mode #user-greeting:hover, body.da
     border-bottom: #000000;
 }
 
-#show-more-sentences {
+#show-more-sentences, 
+#show-linguee-sentences {
     font-size: 0.9em;
     display: block; /* Ensures the button takes full width and aligns content */
     text-align: left; /* Aligns the button's content (text) to the left */
 }
 
-#button-text {
+#button-text, #linguee-button-text {
     display: inline-block; /* Ensures text stays inline with spinner */
     text-align: left; /* Explicitly aligns the text to the left */
 }
 
-#loading-spinner {
+#loading-spinner, #linguee-loading-spinner {
     display: none;
 }
 
-#show-more-sentences:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
+
 .highlight-kanji {
     background-color: rgb(228, 228, 148); 
     padding: 2px 4px; 
