@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
-import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
+import { getDatabase, ref, set, onValue, get, update, off } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js';
 
 export const firebaseConfig = {
     apiKey: "%%FIREBASE_API_KEY%%",
@@ -12,6 +12,7 @@ export const firebaseConfig = {
     measurementId: "%%FIREBASE_MEASUREMENT_ID%%",
     databaseURL: "%%FIREBASE_DATABASE_URL%%"
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -26,8 +27,7 @@ let savedSets = {};
 let predefinedSets = {};
 let currentReviewKanji = null; // Track the Kanji being reviewed
 let markedKanji = null;
-const loginForm = document.getElementById('login-form');
-const signupForm = document.getElementById('signup-form');
+
 const loginModal = document.getElementById('login-modal');
 const signupModal = document.getElementById('signup-modal');
 const closeLogin = document.getElementById('close-login');
@@ -72,6 +72,9 @@ const chunkSizeInput = document.getElementById('chunk-size-input');
 const closeChunkSizeModal = document.querySelector('.close-chunk-size');
 const kanjiBackDisplay = document.getElementById('kanji-back');
 const kanjiCard = document.querySelector('.kanji-card');
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+
 // Show/Hide Modals
 function showLoginModal() {
     loginModal.style.display = 'block';
@@ -81,7 +84,7 @@ function showSignupModal() {
     signupModal.style.display = 'block';
     loginModal.style.display = 'none';
 }
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Modal Triggers
     authTrigger.addEventListener('click', (e) => {
         e.preventDefault();
@@ -265,9 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Load User Progress from Firebase
-    function loadUserProgress(userId) {
-        const userProgressRef = ref(database, `users/${userId}/progress`);
-        onValue(userProgressRef, (snapshot) => {
+    async function loadUserProgress(userId) {
+        try {
+            const userProgressRef = ref(database, `users/${userId}/progress`);
+            const snapshot = await get(userProgressRef);
             const progress = snapshot.val() || {};
             kanjiList = progress.kanjiList || [];
             noIdeaList = progress.noIdeaList || [];
@@ -275,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rememberedList = progress.rememberedList || [];
             currentSetTitle = progress.currentSetTitle || 'please choose a kanji set below or add your own to start studying';
             savedSets = progress.savedSets || {};
-            // Ensure chunkProgress is initialized for each set
             for (const set of Object.values(savedSets)) {
                 set.chunkProgress = set.chunkProgress || {};
             }
@@ -283,46 +286,55 @@ document.addEventListener('DOMContentLoaded', () => {
             displayKanji();
             renderSavedSets();
             renderKanjiLists();
-        });
+        } catch (error) {
+            console.error('Error loading user progress:', error);
+            loadData(); // Fallback to local storage
+        }
     }
+    
 
     // Save User Progress to Firebase
     function saveData() {
         const user = auth.currentUser;
         if (user) {
             const userProgressRef = ref(database, `users/${user.uid}/progress`);
-            // Structure savedSets to include chunk-specific progress
-            const updatedSavedSets = {};
-            for (const [title, set] of Object.entries(savedSets)) {
-                updatedSavedSets[title] = {
-                    ...set,
-                    chunks: set.chunks,
-                    currentChunkIndex: set.currentChunkIndex,
-                    chunkProgress: set.chunkProgress || {} // Store progress per chunk
-                };
-                // Save current chunk progress if it matches this set
-                if (currentSetTitle.startsWith(title)) {
-                    const chunkIndex = set.currentChunkIndex;
-                    updatedSavedSets[title].chunkProgress[chunkIndex] = {
-                        noIdeaList: [...noIdeaList],
-                        seenButNoIdeaList: [...seenButNoIdeaList],
-                        rememberedList: [...rememberedList]
+            const updates = {};
+    
+            // Only update changed fields or minimal data
+            if (kanjiList.length > 0) updates.kanjiList = kanjiList;
+            if (noIdeaList.length > 0) updates.noIdeaList = noIdeaList;
+            if (seenButNoIdeaList.length > 0) updates.seenButNoIdeaList = seenButNoIdeaList;
+            if (rememberedList.length > 0) updates.rememberedList = rememberedList;
+            if (currentSetTitle) updates.currentSetTitle = currentSetTitle;
+    
+            // Update savedSets only if changed
+            if (Object.keys(savedSets).length > 0) {
+                const updatedSavedSets = {};
+                for (const [title, set] of Object.entries(savedSets)) {
+                    updatedSavedSets[title] = {
+                        chunks: set.chunks,
+                        currentChunkIndex: set.currentChunkIndex,
+                        chunkProgress: set.chunkProgress || {}
                     };
+                    if (currentSetTitle.startsWith(title)) {
+                        const chunkIndex = set.currentChunkIndex;
+                        updatedSavedSets[title].chunkProgress[chunkIndex] = {
+                            noIdeaList: [...noIdeaList],
+                            seenButNoIdeaList: [...seenButNoIdeaList],
+                            rememberedList: [...rememberedList]
+                        };
+                    }
                 }
+                updates.savedSets = updatedSavedSets;
             }
-            const progressData = {
-                kanjiList,
-                noIdeaList,
-                seenButNoIdeaList,
-                rememberedList,
-                currentSetTitle,
-                savedSets: updatedSavedSets
-            };
-            set(userProgressRef, progressData)
-                .then(() => console.log('Progress saved to Firebase'))
-                .catch(error => console.error('Error saving progress:', error));
+    
+            if (Object.keys(updates).length > 0) {
+                update(userProgressRef, updates)
+                    .then(() => console.log('Progress partially updated to Firebase'))
+                    .catch(error => console.error('Error updating progress:', error));
+            }
         }
-        // Update localStorage as well
+        // Update localStorage as well (keep existing logic)
         localStorage.setItem('kanjiList', JSON.stringify(kanjiList));
         localStorage.setItem('noIdeaList', JSON.stringify(noIdeaList));
         localStorage.setItem('seenButNoIdeaList', JSON.stringify(seenButNoIdeaList));
@@ -570,20 +582,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedProgress = localStorage.getItem('userProgress');
         if (savedProgress) {
             const progressData = JSON.parse(savedProgress);
+            // Use as fallback only if Firebase data isn’t available
             kanjiList = progressData.kanjiList || [];
             noIdeaList = progressData.noIdeaList || [];
             seenButNoIdeaList = progressData.seenButNoIdeaList || [];
             rememberedList = progressData.rememberedList || [];
             currentSetTitle = progressData.currentSetTitle || 'please choose a kanji set below or add your own to start studying';
             savedSets = progressData.savedSets || {};
-
-            console.log('Progress loaded from localStorage');
-            updateProgress(); // Update the progress bar and stats
-            displayKanji(); // Display the next kanji
-            renderSavedSets(); // Render the saved sets list
+            console.log('Progress loaded from localStorage as fallback');
+            updateProgress();
+            displayKanji();
+            renderSavedSets();
             renderKanjiLists();
         } else {
-            console.log('No saved progress found');
+            console.log('No saved progress found in localStorage');
         }
     }
 
@@ -664,8 +676,20 @@ document.addEventListener('DOMContentLoaded', () => {
         showReadingAndMeaning();
     });
 
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
     // Handle "Next" button click
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', debounce(() => {
         
         if (markedKanji && markedKanji.kanji) {
             moveKanjiToList(markedKanji.kanji, markedKanji.targetList);
@@ -694,7 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             saveData();
         }, 100); // Match CSS transition duration
-    });
+    },50));
     
 
     // Hide the reading and meaning
@@ -718,27 +742,31 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please enter a name for your set.');
             return;
         }
-
+        if (!/^[a-zA-Z0-9\s-]+$/.test(setName)) {
+            alert('Set name can only contain letters, numbers, spaces, and hyphens.');
+            return;
+        }
+    
         const lines = kanjiInput.value.split('\n');
         const newKanjiList = [];
         lines.forEach(line => {
-            const [kanjiData, examples] = line.split('#'); // Split into kanji data and examples
-            const parts = kanjiData.split(','); // Split kanji data by commas
+            const [kanjiData, examples] = line.split('#');
+            const parts = kanjiData.split(',');
             if (parts.length >= 3) {
                 const kanji = parts[0].trim();
                 const reading = parts[1].trim();
-                const meaning = parts.slice(2).join(',').trim(); // Capture everything after the second comma
-                if (kanji && reading && meaning) {
+                const meaning = parts.slice(2).join(',').trim();
+                if (kanji && reading && meaning && /^[一-龯]+$/.test(kanji)) { // Basic kanji validation
                     newKanjiList.push({
                         kanji,
                         reading,
                         meaning,
-                        examples: examples ? examples.split('\n') : [] // Split examples into an array
+                        examples: examples ? examples.split('\n').map(ex => ex.trim()).filter(ex => ex) : []
                     });
                 }
             }
         });
-
+    
         if (newKanjiList.length === 0) {
             alert('Please enter valid Kanji data.');
             return;
@@ -778,27 +806,6 @@ document.addEventListener('DOMContentLoaded', () => {
             [array[i], array[j]] = [array[j], array[i]]; // Swap elements
         }
         return array;
-    }
-    
-    // Function to fetch sentences from Linguee
-    async function fetchLingueeSentences(kanji) {
-        const isLocal = window.location.hostname === 'localhost';
-        const baseUrl = isLocal ? 'http://localhost:8888' : 'https://kanji-flashcard.netlify.app';
-        const url = `${baseUrl}/.netlify/functions/linguee?kanji=${encodeURIComponent(kanji)}`;
-        
-        try {
-            console.log('Fetching from:', url);
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            const data = await response.json();
-            console.log('Linguee response:', data);
-            return data;
-        } catch (error) {
-            console.error('Error fetching Linguee sentences:', error);
-            return [];
-        }
     }
 
     // Function to fetch sentences from Tatoeba and Linguee
@@ -1298,4 +1305,10 @@ document.addEventListener('DOMContentLoaded', () => {
     displayKanji();
     handlePredefinedSetSubmission(); // Attach event listeners for predefined set submission
     toggleSpoilers();
+
+    // Load Firebase progress if user is logged in
+    const user = auth.currentUser;
+    if (user) {
+        await loadUserProgress(user.uid);
+    }
 });
